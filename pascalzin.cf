@@ -1,0 +1,12 @@
+
+Entry. Entry ::= "programa" Id ":" RegraBloco BlocoComando".";
+rules RegraBloco ::=  BlocoConstate | BlocoTipo | BlocoVar | RegraBloco;
+BlocoConstate. BlocoConstate ::= "const" RegraBlocoConstante;
+rules RegraBlocoConstante ::= Id "=" Valor ";" | RegraBlocoConstante;
+BlocoTipo. BlocoTipo ::= "type" RegraBlocoTipo;
+rules RegraBlocoTipo ::= Id "=" Tipo ";" | RegraBlocoTipo;
+BlocoVar. BlocoVar ::= "var" RegraBlocoVar;
+rules RegraBlocoVar ::= Id ":" Tipo ";" | ListaVar ":" Tipo | RegraBlocoVar;
+rules ListaVar ::= Id | Id "," | ListaVar;
+Id. Id ::= Letra RegraAlfaNumerico;
+rules RegraAlfaNumerico ::= Char | Inteiro | RegraAlfaNumerico;
