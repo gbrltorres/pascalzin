@@ -1,6 +1,6 @@
 Entry. Entry ::= "programa" Ident ":" RegraBloco BlocoComando"." ;
-rules RegraBloco ::=  BlocoConstate | BlocoTipo | BlocoVar | RegraBloco;
-BlocoConstate. BlocoConstate ::= "const" RegraBlocoConstante;
+rules RegraBloco ::=  BlocoConstante | BlocoTipo | BlocoVar | RegraBloco;
+BlocoConstante. BlocoConstante ::= "const" RegraBlocoConstante;
 rules RegraBlocoConstante ::= Ident "=" Valor ";" | RegraBlocoConstante;
 BlocoTipo. BlocoTipo ::= "tipo" RegraBlocoTipo;
 rules RegraBlocoTipo ::= Ident "=" RegraTipo ";" | RegraBlocoTipo;
@@ -17,7 +17,7 @@ rules Valor ::= Integer | Double | Char | String ;
 rules TipoDerivado ::= Ponteiro | Vetor | Struct ;
 rules Ponteiro ::= "^"TipoPrimitivo | "^"TipoDerivado ;
 Vetor. Vetor ::= "vetor" "[" Integer ".." Integer "]" "de" TipoPrimitivo ;
-rules If ::= "se" ExpressaoLogica "entao" Comando | "senao" Comando | "se" ExpressaoLogica "entao" BlocoComando | "senao" BlocoComando | If ;
+rules If ::= "se" ExpressaoLogica "entao" RegraComando | "senao" RegraComando | "se" ExpressaoLogica "entao" BlocoComando | "senao" BlocoComando | If ;
 While. While ::= "enquanto" ExpressaoLogica "faca" BlocoComando ;
 rules For ::= Atribuicao "para" Integer "faca" BlocoComando | Atribuicao "para" Ident "faca" BlocoComando ;
 Goto. Goto ::= "sovai" Rotulo ;
@@ -26,3 +26,13 @@ DefinicaoStruct. Struct ::= "registro" DefinicaoCampoStruct "fim" ;
 DefinicaoCampoStruct. DefinicaoCampoStruct ::= Ident ":" RegraTipo ;
 rules AtribuicaoStruct ::= Ident "=" AtribuicaoCampoStruct ";" | Ident"."Ident ":=" Valor ; 
 AtribuicaoCampoStruct. AtribuicaoCampoStruct ::= Ident ":" Valor ;
+rules OperadorRelacional ::= ">" | "<" | "<>" | ">=" | "<=" | "=" ;
+rules OperadorLogico ::= "NOT" | "AND" | "OR" | "XOR" ;
+rules OperadorAritmetico ::= "+" | "-" | "*" | "/" ;
+Case. Case ::= "Caso" Seletor "De" RegraSeletor ;
+rules RegraSeletor ::= Seletor ":" RegraComando | Seletor ":" BlocoComando | RegraSeletor ;
+rules Seletor ::= Integer | Char | Ident ;
+Funcao. Funcao ::= "funcao" Ident "("RegraBlocoVar")" ":" RegraTipo ;
+Procedimento. Procedimento ::= "procedimento" Ident RegraBlocoVar ;
+
+-- TODO: <expressao aritmetica>, <expressao logica>, <sinal>
