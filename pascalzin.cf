@@ -24,21 +24,17 @@ L9. Goto ::= "sovai" Rotulo ;
 L10. Rotulo ::= Ident":" RegraComando ;
 L11. Struct ::= "registro" DefinicaoCampoStruct "fim" ;
 L12. DefinicaoCampoStruct ::= Ident ":" RegraTipo ;
-rules AtribuicaoStruct ::= Ident "=" AtribuicaoCampoStruct ";" | Ident"."Ident ":=" Valor ; 
+rules AtribuicaoStruct ::= Ident "=" AtribuicaoCampoStruct ";" | Ident "." Ident ":=" Valor ; 
 L13. AtribuicaoCampoStruct ::= Ident ":" Valor ;
 rules OperadorRelacional ::= ">" | "<" | "<>" | ">=" | "<=" | "=" ;
-rules OperadorLogico ::= "NOT" | "AND" | "OR" | "XOR" ;
+rules OperadorLogico ::= "NAO" | "E" | "OU" | "EOU" ;
 rules OperadorAritmetico ::= "+" | "-" | "*" | "/" ;
 L14. Case ::= "Caso" Seletor "De" RegraSeletor ;
 rules RegraSeletor ::= Seletor ":" RegraComando | Seletor ":" BlocoComando | RegraSeletor ;
 rules Seletor ::= Integer | Char | Ident ;
 L15. Funcao ::= "funcao" Ident "("RegraBlocoVar")" ":" RegraTipo ;
 L16. Procedimento ::= "procedimento" Ident RegraBlocoVar ;
-rules ExpressaoLogica ::= "false" | "true" | RegraNot ExpressaoLogica | RegraExpressaoAritmetica | ExpressaoLogica;
-rules RegraNot ::= "NOT" | RegraNot;
-rules RegraExpressaoAritmetica ::= AritmeticaConstante | AritmeticaVariavel | RegraExpressaoAritmetica;
-rules AritmeticaConstante ::= Integer OperadorRelacional Integer | OperadorRelacional ExpressaoLogica | AritmeticaConstante;
-rules AritmeticaVariavel ::=  Ident OperadorRelacional Ident | OperadorRelacional ExpressaoLogica | AritmeticaVariavel;
-
-
--- TODO: <expressao aritmetica>, <expressao logica>, <sinal>
+rules ExpressaoAritmetica ::= Integer OperadorAritmetico Integer | Ident RegraOpAritmExp Ident | Integer RegraOpAritmExp | Ident RegraOpAritmExp |ExpressaoAritmetica;
+rules RegraOpAritmExp ::= OperadorLogico Integer | OperadorLogico Ident | RegraOpAritmExp;
+rules ExpressaoLogica ::= "falso" | "verdadeiro" | "NAO" ExpressaoLogica | ExpressaoAritmetica RegraOpLogicoExp | ExpressaoLogica;
+rules RegraOpLogicoExp ::=  OperadorLogico ExpressaoLogica | RegraOpLogicoExp;
