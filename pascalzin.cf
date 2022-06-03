@@ -1,10 +1,9 @@
-L1. Entry ::= "programa" Ident ":" RegraBloco BlocoComando"." ;
-rules RegraBloco ::=  BlocoConstante | BlocoTipo | BlocoVar |  BlocoConstante RegraBloco | BlocoTipo RegraBloco | BlocoVar RegraBloco ;
-L2. BlocoConstante ::= "const" RegraBlocoConstante;
-rules RegraBlocoConstante ::= Ident "=" Valor ";" | Ident "=" Valor ";" RegraBlocoConstante;
-L3. BlocoTipo ::= "tipo" RegraBlocoTipo;
+L1. Entry ::= "programa" Ident ":" BlocoConstante BlocoTipo BlocoVar BlocoComando "." ;
+rules BlocoConstante ::= "const" RegraBlocoConstante | "const" ";" ;
+rules RegraBlocoConstante ::= Ident "=" Valor ";" | Ident "=" Valor ";" RegraBlocoConstante ;
+rules BlocoTipo ::= "tipo" RegraBlocoTipo | "tipo" ";";
 rules RegraBlocoTipo ::= Ident "=" RegraTipo ";" | Ident "=" RegraTipo ";" RegraBlocoTipo;
-L4. BlocoVar ::= "var" RegraBlocoVar ;
+rules BlocoVar ::= "var" RegraBlocoVar | "var" ";" ;
 rules RegraBlocoVar ::= Ident ":" RegraTipo ";" | Ident ":" RegraTipo ";" RegraBlocoVar ;
 L5. BlocoComando ::= "inicio" RegraComando "fim" ;
 rules RegraComando ::= Comando ";" | Comando ";" RegraComando ;
