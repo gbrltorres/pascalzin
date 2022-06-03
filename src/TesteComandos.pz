@@ -1,0 +1,29 @@
+programa L1:
+const;
+tipo;
+var;
+inicio
+    	A := 10;
+    	
+    	se verdadeiro entao
+    	inicio
+    		B := 1;
+    	fim;
+    	
+    	se falso entao
+    	inicio
+    		C := 2;
+    	fim 
+    	senao
+    	inicio
+    		D := 3;
+    	fim;
+    	
+    	se verdadeiro entao
+    	inicio
+    		se verdadeiro entao
+    		inicio
+    			B := 1;
+    		fim;
+    	fim;
+fim.
