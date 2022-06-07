@@ -213,16 +213,17 @@ enum yysymbol_kind_t
   YYSYMBOL_Goto = 80,                      /* Goto  */
   YYSYMBOL_Struct = 81,                    /* Struct  */
   YYSYMBOL_DefinicaoCampoStruct = 82,      /* DefinicaoCampoStruct  */
-  YYSYMBOL_OperadorRelacional = 83,        /* OperadorRelacional  */
-  YYSYMBOL_OperadorLogico = 84,            /* OperadorLogico  */
-  YYSYMBOL_OperadorAritmetico = 85,        /* OperadorAritmetico  */
-  YYSYMBOL_ExpressaoAritmetica = 86,       /* ExpressaoAritmetica  */
-  YYSYMBOL_Operando = 87,                  /* Operando  */
-  YYSYMBOL_RegraAritmetica = 88,           /* RegraAritmetica  */
-  YYSYMBOL_ExpressaoRelacional = 89,       /* ExpressaoRelacional  */
-  YYSYMBOL_RegraRelacional = 90,           /* RegraRelacional  */
-  YYSYMBOL_ExpressaoLogica = 91,           /* ExpressaoLogica  */
-  YYSYMBOL_RegraLogico = 92                /* RegraLogico  */
+  YYSYMBOL_AtribuicaoStruct = 83,          /* AtribuicaoStruct  */
+  YYSYMBOL_OperadorRelacional = 84,        /* OperadorRelacional  */
+  YYSYMBOL_OperadorLogico = 85,            /* OperadorLogico  */
+  YYSYMBOL_OperadorAritmetico = 86,        /* OperadorAritmetico  */
+  YYSYMBOL_ExpressaoAritmetica = 87,       /* ExpressaoAritmetica  */
+  YYSYMBOL_Operando = 88,                  /* Operando  */
+  YYSYMBOL_RegraAritmetica = 89,           /* RegraAritmetica  */
+  YYSYMBOL_ExpressaoRelacional = 90,       /* ExpressaoRelacional  */
+  YYSYMBOL_RegraRelacional = 91,           /* RegraRelacional  */
+  YYSYMBOL_ExpressaoLogica = 92,           /* ExpressaoLogica  */
+  YYSYMBOL_RegraLogico = 93                /* RegraLogico  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -240,7 +241,7 @@ int yyparse(yyscan_t scanner, YYSTYPE *result);
 
 extern int yylex(YYSTYPE *lvalp, YYLTYPE *llocp, yyscan_t scanner);
 
-#line 244 "Parser.c"
+#line 245 "Parser.c"
 
 
 #ifdef short
@@ -561,16 +562,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  4
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   152
+#define YYLAST   177
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  58
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  35
+#define YYNNTS  36
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  85
+#define YYNRULES  91
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  152
+#define YYNSTATES  162
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   312
@@ -626,14 +627,15 @@ static const yytype_int8 yytranslate[] =
 static const yytype_int16 yyrline[] =
 {
        0,   213,   213,   215,   216,   218,   219,   221,   222,   224,
-     225,   227,   228,   230,   231,   233,   235,   236,   238,   239,
-     240,   241,   242,   244,   245,   247,   248,   250,   251,   253,
-     254,   255,   257,   258,   259,   260,   261,   263,   264,   265,
-     267,   268,   270,   272,   273,   275,   277,   278,   280,   284,
-     286,   287,   292,   293,   294,   295,   296,   297,   299,   300,
-     301,   302,   304,   305,   306,   307,   323,   325,   326,   327,
-     329,   330,   332,   333,   335,   336,   338,   339,   340,   341,
-     342,   343,   344,   345,   347,   348
+     225,   227,   228,   230,   231,   233,   234,   236,   237,   239,
+     240,   241,   242,   243,   245,   246,   247,   248,   250,   251,
+     253,   254,   255,   257,   258,   259,   261,   262,   263,   264,
+     265,   267,   268,   269,   271,   272,   274,   276,   277,   279,
+     281,   282,   284,   288,   290,   291,   293,   294,   296,   297,
+     298,   299,   300,   301,   303,   304,   305,   306,   308,   309,
+     310,   311,   327,   329,   330,   331,   333,   334,   336,   337,
+     339,   340,   342,   343,   344,   345,   346,   347,   348,   349,
+     351,   352
 };
 #endif
 
@@ -664,10 +666,10 @@ static const char *const yytname[] =
   "RegraComando", "Comando", "Atribuicao", "SubEscrito", "RegraTipo",
   "TipoPrimitivo", "Valor", "TipoDerivado", "Ponteiro", "Vetor", "If",
   "While", "For", "Goto", "Struct", "DefinicaoCampoStruct",
-  "OperadorRelacional", "OperadorLogico", "OperadorAritmetico",
-  "ExpressaoAritmetica", "Operando", "RegraAritmetica",
-  "ExpressaoRelacional", "RegraRelacional", "ExpressaoLogica",
-  "RegraLogico", YY_NULLPTR
+  "AtribuicaoStruct", "OperadorRelacional", "OperadorLogico",
+  "OperadorAritmetico", "ExpressaoAritmetica", "Operando",
+  "RegraAritmetica", "ExpressaoRelacional", "RegraRelacional",
+  "ExpressaoLogica", "RegraLogico", YY_NULLPTR
 };
 
 static const char *
@@ -691,36 +693,37 @@ static const yytype_int16 yytoknum[] =
 };
 #endif
 
-#define YYPACT_NINF (-97)
+#define YYPACT_NINF (-92)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
 
-#define YYTABLE_NINF (-34)
+#define YYTABLE_NINF (-38)
 
 #define yytable_value_is_error(Yyn) \
   0
 
   /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
      STATE-NUM.  */
-static const yytype_int8 yypact[] =
+static const yytype_int16 yypact[] =
 {
-     -15,   -24,    48,    34,   -97,    37,     3,    21,   -97,    55,
-     -97,     5,    44,    58,   -97,    73,   -97,     6,    60,   -97,
-     -97,    -3,    47,   -97,    86,   -97,    91,   -11,   -97,    89,
-     -97,    -6,    94,    50,   -97,   -97,   -97,   -97,   -26,   -97,
-     -11,   -97,   -97,   -97,    84,    88,    99,   -97,   -97,   -97,
-     -97,   -97,   -11,     0,    62,     0,    63,    49,    81,   101,
-     -97,   -97,   -97,   -97,   -97,   -97,   -97,   -97,   -97,    91,
-     -97,   -97,    66,    78,    67,   106,   -97,   -97,   -97,     7,
-       7,   -97,     0,    69,    61,     7,    92,    98,    97,   -97,
-      58,   -10,   -97,    -6,   -97,   114,    74,   -97,    75,     0,
-     -97,   -97,     7,   -97,   -97,   -97,   -97,   -97,   -97,   -26,
-     -97,   -97,   -97,    60,    11,    60,   -97,   -97,   -97,   108,
-     -97,    79,   120,   100,   -97,     7,   -97,   -97,    91,   -97,
-     103,   104,    93,   124,   116,   -11,   -97,   -97,    60,    60,
-      60,    58,   111,   126,   -97,   -97,   -97,   -97,    56,    74,
-     -97,   -97
+     -33,   -43,    15,    24,   -92,    -9,   -10,   -23,   -92,     5,
+     -92,    10,   -19,    87,   -92,    22,   -92,    14,    45,   -92,
+     -92,     2,    11,   -92,    31,   -92,   125,    46,   -92,    69,
+     -92,    41,    81,    42,   -92,   -92,   -92,   -92,    -4,   -92,
+      65,   -92,   -92,   -92,    44,    86,   -92,    94,   -92,   -92,
+     -92,   -92,   -92,    46,     6,   -92,    60,     6,    62,    20,
+      85,   120,   -92,   -92,   -92,   -92,   -92,   -92,   -92,   -92,
+     -92,   -92,   125,   -92,   -92,   123,   109,    91,    90,   131,
+     -92,   -92,   -92,    18,    18,   -92,     6,   110,   104,    18,
+     115,   124,   117,   -92,    95,    87,   -15,   137,   -92,    55,
+     -92,    46,   -92,   141,   -92,    98,     6,   -92,   -92,    18,
+     -92,   -92,   -92,   -92,   -92,   -92,    -4,   -92,   -92,   -92,
+      45,    19,    45,   140,   -92,   -92,   -92,   132,    87,   -92,
+     142,   103,   -92,    18,   -92,   -92,   125,   -92,   126,   127,
+     116,    87,   147,   -92,    44,   139,   -92,    45,    45,    45,
+     108,    87,   -92,   135,   -92,   -92,   -92,   155,   -92,   -92,
+      53,   -92
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -729,39 +732,40 @@ static const yytype_int8 yypact[] =
 static const yytype_int8 yydefact[] =
 {
        0,     0,     0,     0,     1,     0,     0,     0,     4,     0,
-       3,     0,     0,     0,     8,     0,     7,     0,     0,    35,
-      34,    67,    68,    69,     0,    36,     0,     0,    12,     0,
-      11,     0,     0,     5,    64,    62,    63,    65,     0,    66,
-       0,    31,    29,    30,     0,     0,     0,    27,    28,    37,
-      38,    39,     0,     0,     0,     0,     0,     0,     0,     0,
-      18,    19,    20,    21,    22,     2,     6,    67,    68,    70,
-      40,    41,     0,     0,     9,     0,    58,    59,    61,    76,
-      77,    60,     0,     0,     0,    78,     0,     0,     0,    48,
-       0,     0,    15,    16,    71,     0,     0,    10,    13,     0,
-      79,    80,    82,    53,    56,    54,    57,    52,    55,     0,
-      73,    72,    81,     0,     0,     0,    23,    26,    25,     0,
-      17,     0,     0,     0,    14,    84,    83,    75,    74,    45,
-       0,     0,    43,     0,     0,     0,    49,    85,     0,     0,
-       0,     0,     0,     0,    46,    47,    44,    24,     0,    50,
-      42,    51
+       3,     0,     0,     0,     8,     0,     7,     0,     0,    39,
+      38,    73,    74,    75,     0,    40,     0,     0,    12,     0,
+      11,     0,     0,     5,    70,    68,    69,    71,     0,    72,
+       0,    35,    33,    34,     0,     0,    32,     0,    30,    31,
+      41,    42,    43,     0,     0,    16,     0,     0,     0,     0,
+       0,     0,    19,    20,    21,    22,    23,    27,     2,     6,
+      73,    74,    76,    44,    45,     0,     0,     0,     9,     0,
+      64,    65,    67,    82,    83,    66,     0,     0,     0,    84,
+       0,     0,     0,    52,     0,     0,     0,     0,    15,    17,
+      77,     0,    53,     0,    10,    13,     0,    85,    86,    88,
+      59,    62,    60,    63,    58,    61,     0,    79,    78,    87,
+       0,     0,     0,     0,    24,    29,    28,     0,     0,    18,
+       0,     0,    14,    90,    89,    81,    80,    49,     0,     0,
+      47,     0,     0,    26,    54,     0,    91,     0,     0,     0,
+      56,     0,    55,     0,    50,    51,    48,     0,    57,    25,
+       0,    46
 };
 
   /* YYPGOTO[NTERM-NUM].  */
-static const yytype_int8 yypgoto[] =
+static const yytype_int16 yypgoto[] =
 {
-     -97,   -97,   -97,   112,   -97,    70,   -97,    51,   -96,    53,
-     -97,    96,   -97,   -49,   -38,   -83,   107,   -97,   -97,   -97,
-     -97,   -97,   -97,   -97,    -1,   -97,   -45,   -97,   -12,   -13,
-      82,   -97,    68,   -46,   -64
+     -92,   -92,   -92,   136,   -92,    92,   -92,    63,   -42,    72,
+     -92,   118,   -92,   -35,   -40,   -91,   133,   -92,   -92,   -92,
+     -92,   -92,   -92,   -92,    28,    25,   -92,   -51,   -92,   -52,
+     -37,   105,   -92,    88,   -41,   -76
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     2,     7,    10,    12,    16,    18,    30,    32,    58,
-      59,    60,   119,    46,    47,    24,    48,    49,    50,    61,
-      62,    63,    64,    51,   123,   109,    99,    38,    83,    84,
-      39,    85,   110,    86,   100
+       0,     2,     7,    10,    12,    16,    18,    30,    32,    60,
+      61,    62,   127,    47,    48,    24,    49,    50,    51,    63,
+      64,    65,    66,    52,    76,    67,   116,   106,    38,    25,
+      26,    39,    89,   117,    90,   107
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -769,42 +773,46 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int16 yytable[] =
 {
-      26,    25,    70,    75,    76,    77,    78,   116,    82,    88,
-      82,    76,    77,    78,   -32,    40,   101,   129,    41,   132,
-       8,   112,    14,    28,   -32,    69,    53,     1,    42,    67,
-      68,    23,    43,     3,    54,    79,   102,    82,   126,    55,
-      44,    56,   144,   145,   146,   117,    45,   118,     4,     5,
-      80,    57,    81,   125,    82,    67,    68,    23,   147,    81,
-       9,   137,    15,    29,   -33,    90,   130,     6,   131,    11,
-      34,    35,    36,    91,   -33,    37,    13,    26,    25,   103,
-     104,   105,   106,   107,   108,    41,   143,   103,   104,   105,
-     106,   107,   108,    17,    27,    42,   128,   127,    31,    43,
-      34,    35,    36,    33,    52,    37,    65,     9,    72,    73,
-     150,    19,    20,    21,    22,    23,    74,    92,    93,    57,
-      89,    95,    96,    98,    15,   114,   113,   121,    26,    25,
-     115,   122,    29,   133,   134,   135,   136,   138,   139,   140,
-     141,   142,   148,   149,    97,    66,   120,    71,   151,   124,
-      87,    94,   111
+      73,    72,    87,    86,   124,    87,    86,     8,   108,     1,
+      80,    81,    82,   119,     3,     4,    92,    88,    79,   -36,
+      88,     6,    80,    81,    82,    11,    13,    14,   -37,   -36,
+      17,    28,    94,   134,    87,    86,    95,   143,   -37,     5,
+     125,    83,   126,    27,    96,   109,    97,     9,    33,    88,
+     150,    70,    71,    23,    87,    86,    84,   146,    85,   -36,
+     159,    70,    71,    23,   135,   133,   130,    15,   -37,    88,
+      85,    29,    40,    54,   138,    41,   139,    55,   137,   136,
+     140,    56,    41,    31,    53,    42,    57,    54,    58,    43,
+      44,    40,    42,    68,    41,    56,    43,    45,    59,     9,
+      57,    75,    58,    46,    42,   154,   155,   156,    43,    44,
+      77,    78,    59,    34,    35,    36,    45,    59,    37,    93,
+     161,    98,   110,   111,   112,   113,   114,   115,   110,   111,
+     112,   113,   114,   115,    34,    35,    36,    99,   101,    37,
+      19,    20,    21,    22,    23,   102,   103,    15,   105,   120,
+     122,   121,   123,   128,   131,    29,   141,   142,   145,   144,
+     147,   148,   149,   151,   153,   157,   160,    94,   132,    69,
+     104,   129,   152,    74,    91,   158,   118,   100
 };
 
 static const yytype_uint8 yycheck[] =
 {
-      13,    13,    40,    52,     4,     5,     6,    90,    53,    55,
-      55,     4,     5,     6,    17,    26,    80,   113,    29,   115,
-      17,    85,    17,    17,    27,    38,    32,    42,    39,    55,
-      56,    57,    43,    57,    40,    35,    82,    82,   102,    45,
-      51,    47,   138,   139,   140,    55,    57,    57,     0,    15,
-      50,    57,    52,    99,    99,    55,    56,    57,   141,    52,
-      57,   125,    57,    57,    17,    16,    55,    30,    57,    48,
-       9,    10,    11,    24,    27,    14,    21,    90,    90,    18,
-      19,    20,    21,    22,    23,    29,   135,    18,    19,    20,
-      21,    22,    23,    49,    21,    39,   109,   109,    38,    43,
-       9,    10,    11,    17,    15,    14,    12,    57,    24,    21,
-     148,    53,    54,    55,    56,    57,    17,    36,    17,    57,
-      57,    55,    44,    17,    57,    27,    34,    13,   141,   141,
-      33,    57,    57,    25,    55,    15,    36,    34,    34,    46,
-      16,    25,    31,    17,    74,    33,    93,    40,   149,    98,
-      54,    69,    84
+      40,    38,    54,    54,    95,    57,    57,    17,    84,    42,
+       4,     5,     6,    89,    57,     0,    57,    54,    53,    17,
+      57,    30,     4,     5,     6,    48,    21,    17,    17,    27,
+      49,    17,    12,   109,    86,    86,    16,   128,    27,    15,
+      55,    35,    57,    21,    24,    86,    26,    57,    17,    86,
+     141,    55,    56,    57,   106,   106,    50,   133,    52,    57,
+     151,    55,    56,    57,   116,   106,   101,    57,    57,   106,
+      52,    57,    26,    32,    55,    29,    57,    36,   120,   116,
+     122,    40,    29,    38,    15,    39,    45,    32,    47,    43,
+      44,    26,    39,    12,    29,    40,    43,    51,    57,    57,
+      45,    57,    47,    57,    39,   147,   148,   149,    43,    44,
+      24,    17,    57,     9,    10,    11,    51,    57,    14,    57,
+     160,    36,    18,    19,    20,    21,    22,    23,    18,    19,
+      20,    21,    22,    23,     9,    10,    11,    17,    15,    14,
+      53,    54,    55,    56,    57,    36,    55,    57,    17,    34,
+      33,    27,    57,    16,    13,    57,    16,    25,    55,    17,
+      34,    34,    46,    16,    25,    57,    31,    12,   105,    33,
+      78,    99,   144,    40,    56,   150,    88,    72
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -813,48 +821,51 @@ static const yytype_int8 yystos[] =
 {
        0,    42,    59,    57,     0,    15,    30,    60,    17,    57,
       61,    48,    62,    21,    17,    57,    63,    49,    64,    53,
-      54,    55,    56,    57,    73,    86,    87,    21,    17,    57,
-      65,    38,    66,    17,     9,    10,    11,    14,    85,    88,
-      26,    29,    39,    43,    51,    57,    71,    72,    74,    75,
-      76,    81,    15,    32,    40,    45,    47,    57,    67,    68,
-      69,    77,    78,    79,    80,    12,    61,    55,    56,    87,
-      72,    74,    24,    21,    17,    71,     4,     5,     6,    35,
-      50,    52,    84,    86,    87,    89,    91,    69,    91,    57,
-      16,    24,    36,    17,    88,    55,    44,    63,    17,    84,
-      92,    92,    91,    18,    19,    20,    21,    22,    23,    83,
-      90,    90,    92,    34,    27,    33,    73,    55,    57,    70,
-      67,    13,    57,    82,    65,    91,    92,    86,    87,    66,
-      55,    57,    66,    25,    55,    15,    36,    92,    34,    34,
-      46,    16,    25,    71,    66,    66,    66,    73,    31,    17,
-      72,    82
+      54,    55,    56,    57,    73,    87,    88,    21,    17,    57,
+      65,    38,    66,    17,     9,    10,    11,    14,    86,    89,
+      26,    29,    39,    43,    44,    51,    57,    71,    72,    74,
+      75,    76,    81,    15,    32,    36,    40,    45,    47,    57,
+      67,    68,    69,    77,    78,    79,    80,    83,    12,    61,
+      55,    56,    88,    72,    74,    57,    82,    24,    17,    71,
+       4,     5,     6,    35,    50,    52,    85,    87,    88,    90,
+      92,    69,    92,    57,    12,    16,    24,    26,    36,    17,
+      89,    15,    36,    55,    63,    17,    85,    93,    93,    92,
+      18,    19,    20,    21,    22,    23,    84,    91,    91,    93,
+      34,    27,    33,    57,    73,    55,    57,    70,    16,    67,
+      71,    13,    65,    92,    93,    87,    88,    66,    55,    57,
+      66,    16,    25,    73,    17,    55,    93,    34,    34,    46,
+      73,    16,    82,    25,    66,    66,    66,    57,    83,    73,
+      31,    72
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_int8 yyr1[] =
 {
        0,    58,    59,    60,    60,    61,    61,    62,    62,    63,
-      63,    64,    64,    65,    65,    66,    67,    67,    68,    68,
-      68,    68,    68,    69,    69,    70,    70,    71,    71,    72,
-      72,    72,    73,    73,    73,    73,    73,    74,    74,    74,
-      75,    75,    76,    77,    77,    78,    79,    79,    80,    81,
-      82,    82,    83,    83,    83,    83,    83,    83,    84,    84,
-      84,    84,    85,    85,    85,    85,    86,    87,    87,    87,
-      88,    88,    89,    89,    90,    90,    91,    91,    91,    91,
-      91,    91,    91,    91,    92,    92
+      63,    64,    64,    65,    65,    66,    66,    67,    67,    68,
+      68,    68,    68,    68,    69,    69,    69,    69,    70,    70,
+      71,    71,    71,    72,    72,    72,    73,    73,    73,    73,
+      73,    74,    74,    74,    75,    75,    76,    77,    77,    78,
+      79,    79,    80,    81,    82,    82,    83,    83,    84,    84,
+      84,    84,    84,    84,    85,    85,    85,    85,    86,    86,
+      86,    86,    87,    88,    88,    88,    89,    89,    90,    90,
+      91,    91,    92,    92,    92,    92,    92,    92,    92,    92,
+      93,    93
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_int8 yyr2[] =
 {
        0,     2,     8,     2,     2,     4,     5,     2,     2,     4,
-       5,     2,     2,     4,     5,     3,     2,     3,     1,     1,
-       1,     1,     1,     3,     6,     1,     1,     1,     1,     1,
+       5,     2,     2,     4,     5,     3,     2,     2,     3,     1,
+       1,     1,     1,     1,     3,     6,     4,     1,     1,     1,
        1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       2,     2,     8,     4,     6,     4,     6,     6,     2,     5,
-       4,     5,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     1,     1,     1,     1,     1,     2,     1,     1,     1,
-       2,     3,     2,     2,     2,     2,     1,     1,     1,     2,
-       2,     2,     2,     3,     2,     3
+       1,     1,     1,     1,     2,     2,     8,     4,     6,     4,
+       6,     6,     2,     3,     4,     5,     5,     6,     1,     1,
+       1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
+       1,     1,     2,     1,     1,     1,     2,     3,     2,     2,
+       2,     2,     1,     1,     1,     2,     2,     2,     2,     3,
+       2,     3
 };
 
 
@@ -1431,509 +1442,545 @@ yyreduce:
   case 2: /* Entry: _KW_programa _IDENT_ _COLON BlocoConstante BlocoTipo BlocoVar BlocoComando _DOT  */
 #line 213 "pascalzin.y"
                                                                                         { (yyval.entry_) = make_L1((yyvsp[-6]._string), (yyvsp[-4].blococonstante_), (yyvsp[-3].blocotipo_), (yyvsp[-2].blocovar_), (yyvsp[-1].blococomando_)); result->entry_ = (yyval.entry_); }
-#line 1435 "Parser.c"
+#line 1446 "Parser.c"
     break;
 
   case 3: /* BlocoConstante: _KW_const RegraBlocoConstante  */
 #line 215 "pascalzin.y"
                                                { (yyval.blococonstante_) = make_BlocoConstante1((yyvsp[0].regrablococonstante_)); result->blococonstante_ = (yyval.blococonstante_); }
-#line 1441 "Parser.c"
+#line 1452 "Parser.c"
     break;
 
   case 4: /* BlocoConstante: _KW_const _SEMI  */
 #line 216 "pascalzin.y"
                     { (yyval.blococonstante_) = make_BlocoConstante2(); result->blococonstante_ = (yyval.blococonstante_); }
-#line 1447 "Parser.c"
+#line 1458 "Parser.c"
     break;
 
   case 5: /* RegraBlocoConstante: _IDENT_ _EQ Valor _SEMI  */
 #line 218 "pascalzin.y"
                                               { (yyval.regrablococonstante_) = make_RegraBlocoConstante1((yyvsp[-3]._string), (yyvsp[-1].valor_)); result->regrablococonstante_ = (yyval.regrablococonstante_); }
-#line 1453 "Parser.c"
+#line 1464 "Parser.c"
     break;
 
   case 6: /* RegraBlocoConstante: _IDENT_ _EQ Valor _SEMI RegraBlocoConstante  */
 #line 219 "pascalzin.y"
                                                 { (yyval.regrablococonstante_) = make_RegraBlocoConstante2((yyvsp[-4]._string), (yyvsp[-2].valor_), (yyvsp[0].regrablococonstante_)); result->regrablococonstante_ = (yyval.regrablococonstante_); }
-#line 1459 "Parser.c"
+#line 1470 "Parser.c"
     break;
 
   case 7: /* BlocoTipo: _KW_tipo RegraBlocoTipo  */
 #line 221 "pascalzin.y"
                                     { (yyval.blocotipo_) = make_BlocoTipo1((yyvsp[0].regrablocotipo_)); result->blocotipo_ = (yyval.blocotipo_); }
-#line 1465 "Parser.c"
+#line 1476 "Parser.c"
     break;
 
   case 8: /* BlocoTipo: _KW_tipo _SEMI  */
 #line 222 "pascalzin.y"
                    { (yyval.blocotipo_) = make_BlocoTipo2(); result->blocotipo_ = (yyval.blocotipo_); }
-#line 1471 "Parser.c"
+#line 1482 "Parser.c"
     break;
 
   case 9: /* RegraBlocoTipo: _IDENT_ _EQ RegraTipo _SEMI  */
 #line 224 "pascalzin.y"
                                              { (yyval.regrablocotipo_) = make_RegraBlocoTipo1((yyvsp[-3]._string), (yyvsp[-1].regratipo_)); result->regrablocotipo_ = (yyval.regrablocotipo_); }
-#line 1477 "Parser.c"
+#line 1488 "Parser.c"
     break;
 
   case 10: /* RegraBlocoTipo: _IDENT_ _EQ RegraTipo _SEMI RegraBlocoTipo  */
 #line 225 "pascalzin.y"
                                                { (yyval.regrablocotipo_) = make_RegraBlocoTipo2((yyvsp[-4]._string), (yyvsp[-2].regratipo_), (yyvsp[0].regrablocotipo_)); result->regrablocotipo_ = (yyval.regrablocotipo_); }
-#line 1483 "Parser.c"
+#line 1494 "Parser.c"
     break;
 
   case 11: /* BlocoVar: _KW_var RegraBlocoVar  */
 #line 227 "pascalzin.y"
                                  { (yyval.blocovar_) = make_BlocoVar1((yyvsp[0].regrablocovar_)); result->blocovar_ = (yyval.blocovar_); }
-#line 1489 "Parser.c"
+#line 1500 "Parser.c"
     break;
 
   case 12: /* BlocoVar: _KW_var _SEMI  */
 #line 228 "pascalzin.y"
                   { (yyval.blocovar_) = make_BlocoVar2(); result->blocovar_ = (yyval.blocovar_); }
-#line 1495 "Parser.c"
+#line 1506 "Parser.c"
     break;
 
   case 13: /* RegraBlocoVar: _IDENT_ _COLON RegraTipo _SEMI  */
 #line 230 "pascalzin.y"
                                                { (yyval.regrablocovar_) = make_RegraBlocoVar1((yyvsp[-3]._string), (yyvsp[-1].regratipo_)); result->regrablocovar_ = (yyval.regrablocovar_); }
-#line 1501 "Parser.c"
+#line 1512 "Parser.c"
     break;
 
   case 14: /* RegraBlocoVar: _IDENT_ _COLON RegraTipo _SEMI RegraBlocoVar  */
 #line 231 "pascalzin.y"
                                                  { (yyval.regrablocovar_) = make_RegraBlocoVar2((yyvsp[-4]._string), (yyvsp[-2].regratipo_), (yyvsp[0].regrablocovar_)); result->regrablocovar_ = (yyval.regrablocovar_); }
-#line 1507 "Parser.c"
+#line 1518 "Parser.c"
     break;
 
   case 15: /* BlocoComando: _KW_inicio RegraComando _KW_fim  */
 #line 233 "pascalzin.y"
-                                               { (yyval.blococomando_) = make_L5((yyvsp[-1].regracomando_)); result->blococomando_ = (yyval.blococomando_); }
-#line 1513 "Parser.c"
+                                               { (yyval.blococomando_) = make_BlocoComando1((yyvsp[-1].regracomando_)); result->blococomando_ = (yyval.blococomando_); }
+#line 1524 "Parser.c"
     break;
 
-  case 16: /* RegraComando: Comando _SEMI  */
-#line 235 "pascalzin.y"
-                             { (yyval.regracomando_) = make_RegraComando1((yyvsp[-1].comando_)); result->regracomando_ = (yyval.regracomando_); }
-#line 1519 "Parser.c"
+  case 16: /* BlocoComando: _KW_inicio _KW_fim  */
+#line 234 "pascalzin.y"
+                       { (yyval.blococomando_) = make_BlocoComando2(); result->blococomando_ = (yyval.blococomando_); }
+#line 1530 "Parser.c"
     break;
 
-  case 17: /* RegraComando: Comando _SEMI RegraComando  */
+  case 17: /* RegraComando: Comando _SEMI  */
 #line 236 "pascalzin.y"
+                             { (yyval.regracomando_) = make_RegraComando1((yyvsp[-1].comando_)); result->regracomando_ = (yyval.regracomando_); }
+#line 1536 "Parser.c"
+    break;
+
+  case 18: /* RegraComando: Comando _SEMI RegraComando  */
+#line 237 "pascalzin.y"
                                { (yyval.regracomando_) = make_RegraComando2((yyvsp[-2].comando_), (yyvsp[0].regracomando_)); result->regracomando_ = (yyval.regracomando_); }
-#line 1525 "Parser.c"
+#line 1542 "Parser.c"
     break;
 
-  case 18: /* Comando: Atribuicao  */
-#line 238 "pascalzin.y"
-                     { (yyval.comando_) = make_ComandoAtribuicao((yyvsp[0].atribuicao_)); result->comando_ = (yyval.comando_); }
-#line 1531 "Parser.c"
-    break;
-
-  case 19: /* Comando: If  */
+  case 19: /* Comando: Atribuicao  */
 #line 239 "pascalzin.y"
-       { (yyval.comando_) = make_ComandoIf((yyvsp[0].if_)); result->comando_ = (yyval.comando_); }
-#line 1537 "Parser.c"
+                     { (yyval.comando_) = make_ComandoAtribuicao((yyvsp[0].atribuicao_)); result->comando_ = (yyval.comando_); }
+#line 1548 "Parser.c"
     break;
 
-  case 20: /* Comando: While  */
+  case 20: /* Comando: If  */
 #line 240 "pascalzin.y"
-          { (yyval.comando_) = make_ComandoWhile((yyvsp[0].while_)); result->comando_ = (yyval.comando_); }
-#line 1543 "Parser.c"
+       { (yyval.comando_) = make_ComandoIf((yyvsp[0].if_)); result->comando_ = (yyval.comando_); }
+#line 1554 "Parser.c"
     break;
 
-  case 21: /* Comando: For  */
+  case 21: /* Comando: While  */
 #line 241 "pascalzin.y"
-        { (yyval.comando_) = make_ComandoFor((yyvsp[0].for_)); result->comando_ = (yyval.comando_); }
-#line 1549 "Parser.c"
+          { (yyval.comando_) = make_ComandoWhile((yyvsp[0].while_)); result->comando_ = (yyval.comando_); }
+#line 1560 "Parser.c"
     break;
 
-  case 22: /* Comando: Goto  */
+  case 22: /* Comando: For  */
 #line 242 "pascalzin.y"
+        { (yyval.comando_) = make_ComandoFor((yyvsp[0].for_)); result->comando_ = (yyval.comando_); }
+#line 1566 "Parser.c"
+    break;
+
+  case 23: /* Comando: Goto  */
+#line 243 "pascalzin.y"
          { (yyval.comando_) = make_ComandoGoto((yyvsp[0].goto_)); result->comando_ = (yyval.comando_); }
-#line 1555 "Parser.c"
+#line 1572 "Parser.c"
     break;
 
-  case 23: /* Atribuicao: _IDENT_ _COLONEQ Valor  */
-#line 244 "pascalzin.y"
-                                    { (yyval.atribuicao_) = make_Atribuicao1((yyvsp[-2]._string), (yyvsp[0].valor_)); result->atribuicao_ = (yyval.atribuicao_); }
-#line 1561 "Parser.c"
-    break;
-
-  case 24: /* Atribuicao: _IDENT_ _LBRACK SubEscrito _RBRACK _COLONEQ Valor  */
+  case 24: /* Atribuicao: _IDENT_ _COLONEQ Valor  */
 #line 245 "pascalzin.y"
+                                    { (yyval.atribuicao_) = make_Atribuicao1((yyvsp[-2]._string), (yyvsp[0].valor_)); result->atribuicao_ = (yyval.atribuicao_); }
+#line 1578 "Parser.c"
+    break;
+
+  case 25: /* Atribuicao: _IDENT_ _LBRACK SubEscrito _RBRACK _COLONEQ Valor  */
+#line 246 "pascalzin.y"
                                                       { (yyval.atribuicao_) = make_Atribuicao2((yyvsp[-5]._string), (yyvsp[-3].subescrito_), (yyvsp[0].valor_)); result->atribuicao_ = (yyval.atribuicao_); }
-#line 1567 "Parser.c"
+#line 1584 "Parser.c"
     break;
 
-  case 25: /* SubEscrito: _IDENT_  */
+  case 26: /* Atribuicao: _IDENT_ _CARET _COLONEQ Valor  */
 #line 247 "pascalzin.y"
-                     { (yyval.subescrito_) = make_SubEscritoIdent((yyvsp[0]._string)); result->subescrito_ = (yyval.subescrito_); }
-#line 1573 "Parser.c"
+                                  { (yyval.atribuicao_) = make_Atribuicao3((yyvsp[-3]._string), (yyvsp[0].valor_)); result->atribuicao_ = (yyval.atribuicao_); }
+#line 1590 "Parser.c"
     break;
 
-  case 26: /* SubEscrito: _INTEGER_  */
+  case 27: /* Atribuicao: AtribuicaoStruct  */
 #line 248 "pascalzin.y"
-              { (yyval.subescrito_) = make_SubEscritoInteger((yyvsp[0]._int)); result->subescrito_ = (yyval.subescrito_); }
-#line 1579 "Parser.c"
+                     { (yyval.atribuicao_) = make_AtribuicaoAtribuicaoStruct((yyvsp[0].atribuicaostruct_)); result->atribuicao_ = (yyval.atribuicao_); }
+#line 1596 "Parser.c"
     break;
 
-  case 27: /* RegraTipo: TipoPrimitivo  */
+  case 28: /* SubEscrito: _IDENT_  */
 #line 250 "pascalzin.y"
-                          { (yyval.regratipo_) = make_RegraTipoTipoPrimitivo((yyvsp[0].tipoprimitivo_)); result->regratipo_ = (yyval.regratipo_); }
-#line 1585 "Parser.c"
+                     { (yyval.subescrito_) = make_SubEscritoIdent((yyvsp[0]._string)); result->subescrito_ = (yyval.subescrito_); }
+#line 1602 "Parser.c"
     break;
 
-  case 28: /* RegraTipo: TipoDerivado  */
+  case 29: /* SubEscrito: _INTEGER_  */
 #line 251 "pascalzin.y"
-                 { (yyval.regratipo_) = make_RegraTipoTipoDerivado((yyvsp[0].tipoderivado_)); result->regratipo_ = (yyval.regratipo_); }
-#line 1591 "Parser.c"
+              { (yyval.subescrito_) = make_SubEscritoInteger((yyvsp[0]._int)); result->subescrito_ = (yyval.subescrito_); }
+#line 1608 "Parser.c"
     break;
 
-  case 29: /* TipoPrimitivo: _KW_int  */
+  case 30: /* RegraTipo: TipoPrimitivo  */
 #line 253 "pascalzin.y"
-                        { (yyval.tipoprimitivo_) = make_TipoPrimitivo_int(); result->tipoprimitivo_ = (yyval.tipoprimitivo_); }
-#line 1597 "Parser.c"
+                          { (yyval.regratipo_) = make_RegraTipoTipoPrimitivo((yyvsp[0].tipoprimitivo_)); result->regratipo_ = (yyval.regratipo_); }
+#line 1614 "Parser.c"
     break;
 
-  case 30: /* TipoPrimitivo: _KW_real  */
+  case 31: /* RegraTipo: TipoDerivado  */
 #line 254 "pascalzin.y"
-             { (yyval.tipoprimitivo_) = make_TipoPrimitivo_real(); result->tipoprimitivo_ = (yyval.tipoprimitivo_); }
-#line 1603 "Parser.c"
+                 { (yyval.regratipo_) = make_RegraTipoTipoDerivado((yyvsp[0].tipoderivado_)); result->regratipo_ = (yyval.regratipo_); }
+#line 1620 "Parser.c"
     break;
 
-  case 31: /* TipoPrimitivo: _KW_char  */
+  case 32: /* RegraTipo: _IDENT_  */
 #line 255 "pascalzin.y"
-             { (yyval.tipoprimitivo_) = make_TipoPrimitivo_char(); result->tipoprimitivo_ = (yyval.tipoprimitivo_); }
-#line 1609 "Parser.c"
+            { (yyval.regratipo_) = make_RegraTipoIdent((yyvsp[0]._string)); result->regratipo_ = (yyval.regratipo_); }
+#line 1626 "Parser.c"
     break;
 
-  case 32: /* Valor: _INTEGER_  */
+  case 33: /* TipoPrimitivo: _KW_int  */
 #line 257 "pascalzin.y"
-                  { (yyval.valor_) = make_ValorInteger((yyvsp[0]._int)); result->valor_ = (yyval.valor_); }
-#line 1615 "Parser.c"
+                        { (yyval.tipoprimitivo_) = make_TipoPrimitivo_int(); result->tipoprimitivo_ = (yyval.tipoprimitivo_); }
+#line 1632 "Parser.c"
     break;
 
-  case 33: /* Valor: _DOUBLE_  */
+  case 34: /* TipoPrimitivo: _KW_real  */
 #line 258 "pascalzin.y"
-             { (yyval.valor_) = make_ValorDouble((yyvsp[0]._double)); result->valor_ = (yyval.valor_); }
-#line 1621 "Parser.c"
+             { (yyval.tipoprimitivo_) = make_TipoPrimitivo_real(); result->tipoprimitivo_ = (yyval.tipoprimitivo_); }
+#line 1638 "Parser.c"
     break;
 
-  case 34: /* Valor: _CHAR_  */
+  case 35: /* TipoPrimitivo: _KW_char  */
 #line 259 "pascalzin.y"
-           { (yyval.valor_) = make_ValorChar((yyvsp[0]._char)); result->valor_ = (yyval.valor_); }
-#line 1627 "Parser.c"
+             { (yyval.tipoprimitivo_) = make_TipoPrimitivo_char(); result->tipoprimitivo_ = (yyval.tipoprimitivo_); }
+#line 1644 "Parser.c"
     break;
 
-  case 35: /* Valor: _STRING_  */
-#line 260 "pascalzin.y"
-             { (yyval.valor_) = make_ValorString((yyvsp[0]._string)); result->valor_ = (yyval.valor_); }
-#line 1633 "Parser.c"
-    break;
-
-  case 36: /* Valor: ExpressaoAritmetica  */
+  case 36: /* Valor: _INTEGER_  */
 #line 261 "pascalzin.y"
-                        { (yyval.valor_) = make_ValorExpressaoAritmetica((yyvsp[0].expressaoaritmetica_)); result->valor_ = (yyval.valor_); }
-#line 1639 "Parser.c"
+                  { (yyval.valor_) = make_ValorInteger((yyvsp[0]._int)); result->valor_ = (yyval.valor_); }
+#line 1650 "Parser.c"
     break;
 
-  case 37: /* TipoDerivado: Ponteiro  */
+  case 37: /* Valor: _DOUBLE_  */
+#line 262 "pascalzin.y"
+             { (yyval.valor_) = make_ValorDouble((yyvsp[0]._double)); result->valor_ = (yyval.valor_); }
+#line 1656 "Parser.c"
+    break;
+
+  case 38: /* Valor: _CHAR_  */
 #line 263 "pascalzin.y"
-                        { (yyval.tipoderivado_) = make_TipoDerivadoPonteiro((yyvsp[0].ponteiro_)); result->tipoderivado_ = (yyval.tipoderivado_); }
-#line 1645 "Parser.c"
+           { (yyval.valor_) = make_ValorChar((yyvsp[0]._char)); result->valor_ = (yyval.valor_); }
+#line 1662 "Parser.c"
     break;
 
-  case 38: /* TipoDerivado: Vetor  */
+  case 39: /* Valor: _STRING_  */
 #line 264 "pascalzin.y"
-          { (yyval.tipoderivado_) = make_TipoDerivadoVetor((yyvsp[0].vetor_)); result->tipoderivado_ = (yyval.tipoderivado_); }
-#line 1651 "Parser.c"
+             { (yyval.valor_) = make_ValorString((yyvsp[0]._string)); result->valor_ = (yyval.valor_); }
+#line 1668 "Parser.c"
     break;
 
-  case 39: /* TipoDerivado: Struct  */
+  case 40: /* Valor: ExpressaoAritmetica  */
 #line 265 "pascalzin.y"
-           { (yyval.tipoderivado_) = make_TipoDerivadoStruct((yyvsp[0].struct_)); result->tipoderivado_ = (yyval.tipoderivado_); }
-#line 1657 "Parser.c"
+                        { (yyval.valor_) = make_ValorExpressaoAritmetica((yyvsp[0].expressaoaritmetica_)); result->valor_ = (yyval.valor_); }
+#line 1674 "Parser.c"
     break;
 
-  case 40: /* Ponteiro: _CARET TipoPrimitivo  */
+  case 41: /* TipoDerivado: Ponteiro  */
 #line 267 "pascalzin.y"
-                                { (yyval.ponteiro_) = make_Ponteiro1((yyvsp[0].tipoprimitivo_)); result->ponteiro_ = (yyval.ponteiro_); }
-#line 1663 "Parser.c"
+                        { (yyval.tipoderivado_) = make_TipoDerivadoPonteiro((yyvsp[0].ponteiro_)); result->tipoderivado_ = (yyval.tipoderivado_); }
+#line 1680 "Parser.c"
     break;
 
-  case 41: /* Ponteiro: _CARET TipoDerivado  */
+  case 42: /* TipoDerivado: Vetor  */
 #line 268 "pascalzin.y"
-                        { (yyval.ponteiro_) = make_Ponteiro2((yyvsp[0].tipoderivado_)); result->ponteiro_ = (yyval.ponteiro_); }
-#line 1669 "Parser.c"
+          { (yyval.tipoderivado_) = make_TipoDerivadoVetor((yyvsp[0].vetor_)); result->tipoderivado_ = (yyval.tipoderivado_); }
+#line 1686 "Parser.c"
     break;
 
-  case 42: /* Vetor: _KW_vetor _LBRACK _INTEGER_ _DDOT _INTEGER_ _RBRACK _KW_de TipoPrimitivo  */
-#line 270 "pascalzin.y"
-                                                                                 { (yyval.vetor_) = make_L7((yyvsp[-5]._int), (yyvsp[-3]._int), (yyvsp[0].tipoprimitivo_)); result->vetor_ = (yyval.vetor_); }
-#line 1675 "Parser.c"
+  case 43: /* TipoDerivado: Struct  */
+#line 269 "pascalzin.y"
+           { (yyval.tipoderivado_) = make_TipoDerivadoStruct((yyvsp[0].struct_)); result->tipoderivado_ = (yyval.tipoderivado_); }
+#line 1692 "Parser.c"
     break;
 
-  case 43: /* If: _KW_se ExpressaoLogica _KW_entao BlocoComando  */
+  case 44: /* Ponteiro: _CARET TipoPrimitivo  */
+#line 271 "pascalzin.y"
+                                { (yyval.ponteiro_) = make_Ponteiro1((yyvsp[0].tipoprimitivo_)); result->ponteiro_ = (yyval.ponteiro_); }
+#line 1698 "Parser.c"
+    break;
+
+  case 45: /* Ponteiro: _CARET TipoDerivado  */
 #line 272 "pascalzin.y"
+                        { (yyval.ponteiro_) = make_Ponteiro2((yyvsp[0].tipoderivado_)); result->ponteiro_ = (yyval.ponteiro_); }
+#line 1704 "Parser.c"
+    break;
+
+  case 46: /* Vetor: _KW_vetor _LBRACK _INTEGER_ _DDOT _INTEGER_ _RBRACK _KW_de TipoPrimitivo  */
+#line 274 "pascalzin.y"
+                                                                                 { (yyval.vetor_) = make_L7((yyvsp[-5]._int), (yyvsp[-3]._int), (yyvsp[0].tipoprimitivo_)); result->vetor_ = (yyval.vetor_); }
+#line 1710 "Parser.c"
+    break;
+
+  case 47: /* If: _KW_se ExpressaoLogica _KW_entao BlocoComando  */
+#line 276 "pascalzin.y"
                                                    { (yyval.if_) = make_If1((yyvsp[-2].expressaologica_), (yyvsp[0].blococomando_)); result->if_ = (yyval.if_); }
-#line 1681 "Parser.c"
+#line 1716 "Parser.c"
     break;
 
-  case 44: /* If: _KW_se ExpressaoLogica _KW_entao BlocoComando _KW_senao BlocoComando  */
-#line 273 "pascalzin.y"
-                                                                         { (yyval.if_) = make_If2((yyvsp[-4].expressaologica_), (yyvsp[-2].blococomando_), (yyvsp[0].blococomando_)); result->if_ = (yyval.if_); }
-#line 1687 "Parser.c"
-    break;
-
-  case 45: /* While: _KW_enquanto ExpressaoLogica _KW_faca BlocoComando  */
-#line 275 "pascalzin.y"
-                                                           { (yyval.while_) = make_L8((yyvsp[-2].expressaologica_), (yyvsp[0].blococomando_)); result->while_ = (yyval.while_); }
-#line 1693 "Parser.c"
-    break;
-
-  case 46: /* For: _KW_para Atribuicao _KW_ate _INTEGER_ _KW_faca BlocoComando  */
+  case 48: /* If: _KW_se ExpressaoLogica _KW_entao BlocoComando _KW_senao BlocoComando  */
 #line 277 "pascalzin.y"
+                                                                         { (yyval.if_) = make_If2((yyvsp[-4].expressaologica_), (yyvsp[-2].blococomando_), (yyvsp[0].blococomando_)); result->if_ = (yyval.if_); }
+#line 1722 "Parser.c"
+    break;
+
+  case 49: /* While: _KW_enquanto ExpressaoLogica _KW_faca BlocoComando  */
+#line 279 "pascalzin.y"
+                                                           { (yyval.while_) = make_L8((yyvsp[-2].expressaologica_), (yyvsp[0].blococomando_)); result->while_ = (yyval.while_); }
+#line 1728 "Parser.c"
+    break;
+
+  case 50: /* For: _KW_para Atribuicao _KW_ate _INTEGER_ _KW_faca BlocoComando  */
+#line 281 "pascalzin.y"
                                                                   { (yyval.for_) = make_For1((yyvsp[-4].atribuicao_), (yyvsp[-2]._int), (yyvsp[0].blococomando_)); result->for_ = (yyval.for_); }
-#line 1699 "Parser.c"
+#line 1734 "Parser.c"
     break;
 
-  case 47: /* For: _KW_para Atribuicao _KW_ate _IDENT_ _KW_faca BlocoComando  */
-#line 278 "pascalzin.y"
+  case 51: /* For: _KW_para Atribuicao _KW_ate _IDENT_ _KW_faca BlocoComando  */
+#line 282 "pascalzin.y"
                                                               { (yyval.for_) = make_For2((yyvsp[-4].atribuicao_), (yyvsp[-2]._string), (yyvsp[0].blococomando_)); result->for_ = (yyval.for_); }
-#line 1705 "Parser.c"
+#line 1740 "Parser.c"
     break;
 
-  case 48: /* Goto: _KW_sovai _IDENT_  */
-#line 280 "pascalzin.y"
-                         { (yyval.goto_) = make_L9((yyvsp[0]._string)); result->goto_ = (yyval.goto_); }
-#line 1711 "Parser.c"
-    break;
-
-  case 49: /* Struct: _IDENT_ _EQ _KW_registro DefinicaoCampoStruct _KW_fim  */
+  case 52: /* Goto: _KW_sovai _IDENT_  */
 #line 284 "pascalzin.y"
-                                                               { (yyval.struct_) = make_L11((yyvsp[-4]._string), (yyvsp[-1].definicaocampostruct_)); result->struct_ = (yyval.struct_); }
-#line 1717 "Parser.c"
+                         { (yyval.goto_) = make_L9((yyvsp[0]._string)); result->goto_ = (yyval.goto_); }
+#line 1746 "Parser.c"
     break;
 
-  case 50: /* DefinicaoCampoStruct: _IDENT_ _COLON RegraTipo _SEMI  */
-#line 286 "pascalzin.y"
+  case 53: /* Struct: _KW_registro DefinicaoCampoStruct _KW_fim  */
+#line 288 "pascalzin.y"
+                                                   { (yyval.struct_) = make_L11((yyvsp[-1].definicaocampostruct_)); result->struct_ = (yyval.struct_); }
+#line 1752 "Parser.c"
+    break;
+
+  case 54: /* DefinicaoCampoStruct: _IDENT_ _COLON RegraTipo _SEMI  */
+#line 290 "pascalzin.y"
                                                       { (yyval.definicaocampostruct_) = make_DefinicaoCampoStruct1((yyvsp[-3]._string), (yyvsp[-1].regratipo_)); result->definicaocampostruct_ = (yyval.definicaocampostruct_); }
-#line 1723 "Parser.c"
+#line 1758 "Parser.c"
     break;
 
-  case 51: /* DefinicaoCampoStruct: _IDENT_ _COLON RegraTipo _SEMI DefinicaoCampoStruct  */
-#line 287 "pascalzin.y"
+  case 55: /* DefinicaoCampoStruct: _IDENT_ _COLON RegraTipo _SEMI DefinicaoCampoStruct  */
+#line 291 "pascalzin.y"
                                                         { (yyval.definicaocampostruct_) = make_DefinicaoCampoStruct2((yyvsp[-4]._string), (yyvsp[-2].regratipo_), (yyvsp[0].definicaocampostruct_)); result->definicaocampostruct_ = (yyval.definicaocampostruct_); }
-#line 1729 "Parser.c"
+#line 1764 "Parser.c"
     break;
 
-  case 52: /* OperadorRelacional: _GT  */
-#line 292 "pascalzin.y"
-                         { (yyval.operadorrelacional_) = make_OperadorRelacional1(); result->operadorrelacional_ = (yyval.operadorrelacional_); }
-#line 1735 "Parser.c"
-    break;
-
-  case 53: /* OperadorRelacional: _LT  */
+  case 56: /* AtribuicaoStruct: _IDENT_ _DOT _IDENT_ _COLONEQ Valor  */
 #line 293 "pascalzin.y"
-        { (yyval.operadorrelacional_) = make_OperadorRelacional2(); result->operadorrelacional_ = (yyval.operadorrelacional_); }
-#line 1741 "Parser.c"
+                                                       { (yyval.atribuicaostruct_) = make_AtribuicaoStruct1((yyvsp[-4]._string), (yyvsp[-2]._string), (yyvsp[0].valor_)); result->atribuicaostruct_ = (yyval.atribuicaostruct_); }
+#line 1770 "Parser.c"
     break;
 
-  case 54: /* OperadorRelacional: _LTGT  */
+  case 57: /* AtribuicaoStruct: _IDENT_ _DOT _IDENT_ _COLONEQ Valor AtribuicaoStruct  */
 #line 294 "pascalzin.y"
-          { (yyval.operadorrelacional_) = make_OperadorRelacional3(); result->operadorrelacional_ = (yyval.operadorrelacional_); }
-#line 1747 "Parser.c"
+                                                         { (yyval.atribuicaostruct_) = make_AtribuicaoStruct2((yyvsp[-5]._string), (yyvsp[-3]._string), (yyvsp[-1].valor_), (yyvsp[0].atribuicaostruct_)); result->atribuicaostruct_ = (yyval.atribuicaostruct_); }
+#line 1776 "Parser.c"
     break;
 
-  case 55: /* OperadorRelacional: _GTEQ  */
-#line 295 "pascalzin.y"
-          { (yyval.operadorrelacional_) = make_OperadorRelacional4(); result->operadorrelacional_ = (yyval.operadorrelacional_); }
-#line 1753 "Parser.c"
-    break;
-
-  case 56: /* OperadorRelacional: _LDARROW  */
+  case 58: /* OperadorRelacional: _GT  */
 #line 296 "pascalzin.y"
-             { (yyval.operadorrelacional_) = make_OperadorRelacional5(); result->operadorrelacional_ = (yyval.operadorrelacional_); }
-#line 1759 "Parser.c"
+                         { (yyval.operadorrelacional_) = make_OperadorRelacional1(); result->operadorrelacional_ = (yyval.operadorrelacional_); }
+#line 1782 "Parser.c"
     break;
 
-  case 57: /* OperadorRelacional: _EQ  */
+  case 59: /* OperadorRelacional: _LT  */
 #line 297 "pascalzin.y"
-        { (yyval.operadorrelacional_) = make_OperadorRelacional6(); result->operadorrelacional_ = (yyval.operadorrelacional_); }
-#line 1765 "Parser.c"
+        { (yyval.operadorrelacional_) = make_OperadorRelacional2(); result->operadorrelacional_ = (yyval.operadorrelacional_); }
+#line 1788 "Parser.c"
     break;
 
-  case 58: /* OperadorLogico: _BANG  */
+  case 60: /* OperadorRelacional: _LTGT  */
+#line 298 "pascalzin.y"
+          { (yyval.operadorrelacional_) = make_OperadorRelacional3(); result->operadorrelacional_ = (yyval.operadorrelacional_); }
+#line 1794 "Parser.c"
+    break;
+
+  case 61: /* OperadorRelacional: _GTEQ  */
 #line 299 "pascalzin.y"
-                       { (yyval.operadorlogico_) = make_OperadorLogico1(); result->operadorlogico_ = (yyval.operadorlogico_); }
-#line 1771 "Parser.c"
+          { (yyval.operadorrelacional_) = make_OperadorRelacional4(); result->operadorrelacional_ = (yyval.operadorrelacional_); }
+#line 1800 "Parser.c"
     break;
 
-  case 59: /* OperadorLogico: _DAMP  */
+  case 62: /* OperadorRelacional: _LDARROW  */
 #line 300 "pascalzin.y"
-          { (yyval.operadorlogico_) = make_OperadorLogico2(); result->operadorlogico_ = (yyval.operadorlogico_); }
-#line 1777 "Parser.c"
+             { (yyval.operadorrelacional_) = make_OperadorRelacional5(); result->operadorrelacional_ = (yyval.operadorrelacional_); }
+#line 1806 "Parser.c"
     break;
 
-  case 60: /* OperadorLogico: _DBAR  */
+  case 63: /* OperadorRelacional: _EQ  */
 #line 301 "pascalzin.y"
-          { (yyval.operadorlogico_) = make_OperadorLogico3(); result->operadorlogico_ = (yyval.operadorlogico_); }
-#line 1783 "Parser.c"
+        { (yyval.operadorrelacional_) = make_OperadorRelacional6(); result->operadorrelacional_ = (yyval.operadorrelacional_); }
+#line 1812 "Parser.c"
     break;
 
-  case 61: /* OperadorLogico: _SYMB_17  */
-#line 302 "pascalzin.y"
-             { (yyval.operadorlogico_) = make_OperadorLogico4(); result->operadorlogico_ = (yyval.operadorlogico_); }
-#line 1789 "Parser.c"
+  case 64: /* OperadorLogico: _BANG  */
+#line 303 "pascalzin.y"
+                       { (yyval.operadorlogico_) = make_OperadorLogico1(); result->operadorlogico_ = (yyval.operadorlogico_); }
+#line 1818 "Parser.c"
     break;
 
-  case 62: /* OperadorAritmetico: _PLUS  */
+  case 65: /* OperadorLogico: _DAMP  */
 #line 304 "pascalzin.y"
-                           { (yyval.operadoraritmetico_) = make_OperadorAritmetico1(); result->operadoraritmetico_ = (yyval.operadoraritmetico_); }
-#line 1795 "Parser.c"
+          { (yyval.operadorlogico_) = make_OperadorLogico2(); result->operadorlogico_ = (yyval.operadorlogico_); }
+#line 1824 "Parser.c"
     break;
 
-  case 63: /* OperadorAritmetico: _MINUS  */
+  case 66: /* OperadorLogico: _DBAR  */
 #line 305 "pascalzin.y"
-           { (yyval.operadoraritmetico_) = make_OperadorAritmetico2(); result->operadoraritmetico_ = (yyval.operadoraritmetico_); }
-#line 1801 "Parser.c"
+          { (yyval.operadorlogico_) = make_OperadorLogico3(); result->operadorlogico_ = (yyval.operadorlogico_); }
+#line 1830 "Parser.c"
     break;
 
-  case 64: /* OperadorAritmetico: _STAR  */
+  case 67: /* OperadorLogico: _SYMB_17  */
 #line 306 "pascalzin.y"
+             { (yyval.operadorlogico_) = make_OperadorLogico4(); result->operadorlogico_ = (yyval.operadorlogico_); }
+#line 1836 "Parser.c"
+    break;
+
+  case 68: /* OperadorAritmetico: _PLUS  */
+#line 308 "pascalzin.y"
+                           { (yyval.operadoraritmetico_) = make_OperadorAritmetico1(); result->operadoraritmetico_ = (yyval.operadoraritmetico_); }
+#line 1842 "Parser.c"
+    break;
+
+  case 69: /* OperadorAritmetico: _MINUS  */
+#line 309 "pascalzin.y"
+           { (yyval.operadoraritmetico_) = make_OperadorAritmetico2(); result->operadoraritmetico_ = (yyval.operadoraritmetico_); }
+#line 1848 "Parser.c"
+    break;
+
+  case 70: /* OperadorAritmetico: _STAR  */
+#line 310 "pascalzin.y"
           { (yyval.operadoraritmetico_) = make_OperadorAritmetico3(); result->operadoraritmetico_ = (yyval.operadoraritmetico_); }
-#line 1807 "Parser.c"
+#line 1854 "Parser.c"
     break;
 
-  case 65: /* OperadorAritmetico: _SLASH  */
-#line 307 "pascalzin.y"
+  case 71: /* OperadorAritmetico: _SLASH  */
+#line 311 "pascalzin.y"
            { (yyval.operadoraritmetico_) = make_OperadorAritmetico4(); result->operadoraritmetico_ = (yyval.operadoraritmetico_); }
-#line 1813 "Parser.c"
+#line 1860 "Parser.c"
     break;
 
-  case 66: /* ExpressaoAritmetica: Operando RegraAritmetica  */
-#line 323 "pascalzin.y"
-                                               { (yyval.expressaoaritmetica_) = make_L14((yyvsp[-1].operando_), (yyvsp[0].regraaritmetica_)); result->expressaoaritmetica_ = (yyval.expressaoaritmetica_); }
-#line 1819 "Parser.c"
-    break;
-
-  case 67: /* Operando: _INTEGER_  */
-#line 325 "pascalzin.y"
-                     { (yyval.operando_) = make_OperandoInteger((yyvsp[0]._int)); result->operando_ = (yyval.operando_); }
-#line 1825 "Parser.c"
-    break;
-
-  case 68: /* Operando: _DOUBLE_  */
-#line 326 "pascalzin.y"
-             { (yyval.operando_) = make_OperandoDouble((yyvsp[0]._double)); result->operando_ = (yyval.operando_); }
-#line 1831 "Parser.c"
-    break;
-
-  case 69: /* Operando: _IDENT_  */
+  case 72: /* ExpressaoAritmetica: Operando RegraAritmetica  */
 #line 327 "pascalzin.y"
-            { (yyval.operando_) = make_OperandoIdent((yyvsp[0]._string)); result->operando_ = (yyval.operando_); }
-#line 1837 "Parser.c"
+                                               { (yyval.expressaoaritmetica_) = make_L14((yyvsp[-1].operando_), (yyvsp[0].regraaritmetica_)); result->expressaoaritmetica_ = (yyval.expressaoaritmetica_); }
+#line 1866 "Parser.c"
     break;
 
-  case 70: /* RegraAritmetica: OperadorAritmetico Operando  */
+  case 73: /* Operando: _INTEGER_  */
 #line 329 "pascalzin.y"
-                                              { (yyval.regraaritmetica_) = make_RegraAritmetica1((yyvsp[-1].operadoraritmetico_), (yyvsp[0].operando_)); result->regraaritmetica_ = (yyval.regraaritmetica_); }
-#line 1843 "Parser.c"
+                     { (yyval.operando_) = make_OperandoInteger((yyvsp[0]._int)); result->operando_ = (yyval.operando_); }
+#line 1872 "Parser.c"
     break;
 
-  case 71: /* RegraAritmetica: OperadorAritmetico Operando RegraAritmetica  */
+  case 74: /* Operando: _DOUBLE_  */
 #line 330 "pascalzin.y"
-                                                { (yyval.regraaritmetica_) = make_RegraAritmetica2((yyvsp[-2].operadoraritmetico_), (yyvsp[-1].operando_), (yyvsp[0].regraaritmetica_)); result->regraaritmetica_ = (yyval.regraaritmetica_); }
-#line 1849 "Parser.c"
+             { (yyval.operando_) = make_OperandoDouble((yyvsp[0]._double)); result->operando_ = (yyval.operando_); }
+#line 1878 "Parser.c"
     break;
 
-  case 72: /* ExpressaoRelacional: Operando RegraRelacional  */
-#line 332 "pascalzin.y"
-                                               { (yyval.expressaorelacional_) = make_ExpressaoRelacional1((yyvsp[-1].operando_), (yyvsp[0].regrarelacional_)); result->expressaorelacional_ = (yyval.expressaorelacional_); }
-#line 1855 "Parser.c"
+  case 75: /* Operando: _IDENT_  */
+#line 331 "pascalzin.y"
+            { (yyval.operando_) = make_OperandoIdent((yyvsp[0]._string)); result->operando_ = (yyval.operando_); }
+#line 1884 "Parser.c"
     break;
 
-  case 73: /* ExpressaoRelacional: ExpressaoAritmetica RegraRelacional  */
+  case 76: /* RegraAritmetica: OperadorAritmetico Operando  */
 #line 333 "pascalzin.y"
-                                        { (yyval.expressaorelacional_) = make_ExpressaoRelacional2((yyvsp[-1].expressaoaritmetica_), (yyvsp[0].regrarelacional_)); result->expressaorelacional_ = (yyval.expressaorelacional_); }
-#line 1861 "Parser.c"
+                                              { (yyval.regraaritmetica_) = make_RegraAritmetica1((yyvsp[-1].operadoraritmetico_), (yyvsp[0].operando_)); result->regraaritmetica_ = (yyval.regraaritmetica_); }
+#line 1890 "Parser.c"
     break;
 
-  case 74: /* RegraRelacional: OperadorRelacional Operando  */
-#line 335 "pascalzin.y"
-                                              { (yyval.regrarelacional_) = make_RegraRelacional1((yyvsp[-1].operadorrelacional_), (yyvsp[0].operando_)); result->regrarelacional_ = (yyval.regrarelacional_); }
-#line 1867 "Parser.c"
+  case 77: /* RegraAritmetica: OperadorAritmetico Operando RegraAritmetica  */
+#line 334 "pascalzin.y"
+                                                { (yyval.regraaritmetica_) = make_RegraAritmetica2((yyvsp[-2].operadoraritmetico_), (yyvsp[-1].operando_), (yyvsp[0].regraaritmetica_)); result->regraaritmetica_ = (yyval.regraaritmetica_); }
+#line 1896 "Parser.c"
     break;
 
-  case 75: /* RegraRelacional: OperadorRelacional ExpressaoAritmetica  */
+  case 78: /* ExpressaoRelacional: Operando RegraRelacional  */
 #line 336 "pascalzin.y"
-                                           { (yyval.regrarelacional_) = make_RegraRelacional2((yyvsp[-1].operadorrelacional_), (yyvsp[0].expressaoaritmetica_)); result->regrarelacional_ = (yyval.regrarelacional_); }
-#line 1873 "Parser.c"
+                                               { (yyval.expressaorelacional_) = make_ExpressaoRelacional1((yyvsp[-1].operando_), (yyvsp[0].regrarelacional_)); result->expressaorelacional_ = (yyval.expressaorelacional_); }
+#line 1902 "Parser.c"
     break;
 
-  case 76: /* ExpressaoLogica: _KW_falso  */
-#line 338 "pascalzin.y"
-                            { (yyval.expressaologica_) = make_ExpressaoLogica_falso(); result->expressaologica_ = (yyval.expressaologica_); }
-#line 1879 "Parser.c"
+  case 79: /* ExpressaoRelacional: ExpressaoAritmetica RegraRelacional  */
+#line 337 "pascalzin.y"
+                                        { (yyval.expressaorelacional_) = make_ExpressaoRelacional2((yyvsp[-1].expressaoaritmetica_), (yyvsp[0].regrarelacional_)); result->expressaorelacional_ = (yyval.expressaorelacional_); }
+#line 1908 "Parser.c"
     break;
 
-  case 77: /* ExpressaoLogica: _KW_verdadeiro  */
+  case 80: /* RegraRelacional: OperadorRelacional Operando  */
 #line 339 "pascalzin.y"
-                   { (yyval.expressaologica_) = make_ExpressaoLogica_verdadeiro(); result->expressaologica_ = (yyval.expressaologica_); }
-#line 1885 "Parser.c"
+                                              { (yyval.regrarelacional_) = make_RegraRelacional1((yyvsp[-1].operadorrelacional_), (yyvsp[0].operando_)); result->regrarelacional_ = (yyval.regrarelacional_); }
+#line 1914 "Parser.c"
     break;
 
-  case 78: /* ExpressaoLogica: ExpressaoRelacional  */
+  case 81: /* RegraRelacional: OperadorRelacional ExpressaoAritmetica  */
 #line 340 "pascalzin.y"
-                        { (yyval.expressaologica_) = make_ExpressaoLogicaExpressaoRelacional((yyvsp[0].expressaorelacional_)); result->expressaologica_ = (yyval.expressaologica_); }
-#line 1891 "Parser.c"
+                                           { (yyval.regrarelacional_) = make_RegraRelacional2((yyvsp[-1].operadorrelacional_), (yyvsp[0].expressaoaritmetica_)); result->regrarelacional_ = (yyval.regrarelacional_); }
+#line 1920 "Parser.c"
     break;
 
-  case 79: /* ExpressaoLogica: _KW_falso RegraLogico  */
-#line 341 "pascalzin.y"
-                          { (yyval.expressaologica_) = make_ExpressaoLogica1((yyvsp[0].regralogico_)); result->expressaologica_ = (yyval.expressaologica_); }
-#line 1897 "Parser.c"
-    break;
-
-  case 80: /* ExpressaoLogica: _KW_verdadeiro RegraLogico  */
+  case 82: /* ExpressaoLogica: _KW_falso  */
 #line 342 "pascalzin.y"
-                               { (yyval.expressaologica_) = make_ExpressaoLogica2((yyvsp[0].regralogico_)); result->expressaologica_ = (yyval.expressaologica_); }
-#line 1903 "Parser.c"
+                            { (yyval.expressaologica_) = make_ExpressaoLogica_falso(); result->expressaologica_ = (yyval.expressaologica_); }
+#line 1926 "Parser.c"
     break;
 
-  case 81: /* ExpressaoLogica: ExpressaoRelacional RegraLogico  */
+  case 83: /* ExpressaoLogica: _KW_verdadeiro  */
 #line 343 "pascalzin.y"
-                                    { (yyval.expressaologica_) = make_ExpressaoLogica3((yyvsp[-1].expressaorelacional_), (yyvsp[0].regralogico_)); result->expressaologica_ = (yyval.expressaologica_); }
-#line 1909 "Parser.c"
+                   { (yyval.expressaologica_) = make_ExpressaoLogica_verdadeiro(); result->expressaologica_ = (yyval.expressaologica_); }
+#line 1932 "Parser.c"
     break;
 
-  case 82: /* ExpressaoLogica: OperadorLogico ExpressaoLogica  */
+  case 84: /* ExpressaoLogica: ExpressaoRelacional  */
 #line 344 "pascalzin.y"
-                                   { (yyval.expressaologica_) = make_ExpressaoLogica4((yyvsp[-1].operadorlogico_), (yyvsp[0].expressaologica_)); result->expressaologica_ = (yyval.expressaologica_); }
-#line 1915 "Parser.c"
+                        { (yyval.expressaologica_) = make_ExpressaoLogicaExpressaoRelacional((yyvsp[0].expressaorelacional_)); result->expressaologica_ = (yyval.expressaologica_); }
+#line 1938 "Parser.c"
     break;
 
-  case 83: /* ExpressaoLogica: OperadorLogico ExpressaoLogica RegraLogico  */
+  case 85: /* ExpressaoLogica: _KW_falso RegraLogico  */
 #line 345 "pascalzin.y"
-                                               { (yyval.expressaologica_) = make_ExpressaoLogica5((yyvsp[-2].operadorlogico_), (yyvsp[-1].expressaologica_), (yyvsp[0].regralogico_)); result->expressaologica_ = (yyval.expressaologica_); }
-#line 1921 "Parser.c"
+                          { (yyval.expressaologica_) = make_ExpressaoLogica1((yyvsp[0].regralogico_)); result->expressaologica_ = (yyval.expressaologica_); }
+#line 1944 "Parser.c"
     break;
 
-  case 84: /* RegraLogico: OperadorLogico ExpressaoLogica  */
+  case 86: /* ExpressaoLogica: _KW_verdadeiro RegraLogico  */
+#line 346 "pascalzin.y"
+                               { (yyval.expressaologica_) = make_ExpressaoLogica2((yyvsp[0].regralogico_)); result->expressaologica_ = (yyval.expressaologica_); }
+#line 1950 "Parser.c"
+    break;
+
+  case 87: /* ExpressaoLogica: ExpressaoRelacional RegraLogico  */
 #line 347 "pascalzin.y"
-                                             { (yyval.regralogico_) = make_RegraLogico1((yyvsp[-1].operadorlogico_), (yyvsp[0].expressaologica_)); result->regralogico_ = (yyval.regralogico_); }
-#line 1927 "Parser.c"
+                                    { (yyval.expressaologica_) = make_ExpressaoLogica3((yyvsp[-1].expressaorelacional_), (yyvsp[0].regralogico_)); result->expressaologica_ = (yyval.expressaologica_); }
+#line 1956 "Parser.c"
     break;
 
-  case 85: /* RegraLogico: OperadorLogico ExpressaoLogica RegraLogico  */
+  case 88: /* ExpressaoLogica: OperadorLogico ExpressaoLogica  */
 #line 348 "pascalzin.y"
+                                   { (yyval.expressaologica_) = make_ExpressaoLogica4((yyvsp[-1].operadorlogico_), (yyvsp[0].expressaologica_)); result->expressaologica_ = (yyval.expressaologica_); }
+#line 1962 "Parser.c"
+    break;
+
+  case 89: /* ExpressaoLogica: OperadorLogico ExpressaoLogica RegraLogico  */
+#line 349 "pascalzin.y"
+                                               { (yyval.expressaologica_) = make_ExpressaoLogica5((yyvsp[-2].operadorlogico_), (yyvsp[-1].expressaologica_), (yyvsp[0].regralogico_)); result->expressaologica_ = (yyval.expressaologica_); }
+#line 1968 "Parser.c"
+    break;
+
+  case 90: /* RegraLogico: OperadorLogico ExpressaoLogica  */
+#line 351 "pascalzin.y"
+                                             { (yyval.regralogico_) = make_RegraLogico1((yyvsp[-1].operadorlogico_), (yyvsp[0].expressaologica_)); result->regralogico_ = (yyval.regralogico_); }
+#line 1974 "Parser.c"
+    break;
+
+  case 91: /* RegraLogico: OperadorLogico ExpressaoLogica RegraLogico  */
+#line 352 "pascalzin.y"
                                                { (yyval.regralogico_) = make_RegraLogico2((yyvsp[-2].operadorlogico_), (yyvsp[-1].expressaologica_), (yyvsp[0].regralogico_)); result->regralogico_ = (yyval.regralogico_); }
-#line 1933 "Parser.c"
+#line 1980 "Parser.c"
     break;
 
 
-#line 1937 "Parser.c"
+#line 1984 "Parser.c"
 
       default: break;
     }
@@ -2132,7 +2179,7 @@ yyreturn:
   return yyresult;
 }
 
-#line 351 "pascalzin.y"
+#line 355 "pascalzin.y"
 
 
 

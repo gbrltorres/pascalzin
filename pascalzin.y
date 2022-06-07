@@ -230,7 +230,8 @@ BlocoVar : _KW_var RegraBlocoVar { $$ = make_BlocoVar1($2); result->blocovar_ = 
 RegraBlocoVar : _IDENT_ _COLON RegraTipo _SEMI { $$ = make_RegraBlocoVar1($1, $3); result->regrablocovar_ = $$; }
   | _IDENT_ _COLON RegraTipo _SEMI RegraBlocoVar { $$ = make_RegraBlocoVar2($1, $3, $5); result->regrablocovar_ = $$; }
 ;
-BlocoComando : _KW_inicio RegraComando _KW_fim { $$ = make_L5($2); result->blococomando_ = $$; }
+BlocoComando : _KW_inicio RegraComando _KW_fim { $$ = make_BlocoComando1($2); result->blococomando_ = $$; }
+  | _KW_inicio _KW_fim { $$ = make_BlocoComando2(); result->blococomando_ = $$; }
 ;
 RegraComando : Comando _SEMI { $$ = make_RegraComando1($1); result->regracomando_ = $$; }
   | Comando _SEMI RegraComando { $$ = make_RegraComando2($1, $3); result->regracomando_ = $$; }
@@ -243,12 +244,15 @@ Comando : Atribuicao { $$ = make_ComandoAtribuicao($1); result->comando_ = $$; }
 ;
 Atribuicao : _IDENT_ _COLONEQ Valor { $$ = make_Atribuicao1($1, $3); result->atribuicao_ = $$; }
   | _IDENT_ _LBRACK SubEscrito _RBRACK _COLONEQ Valor { $$ = make_Atribuicao2($1, $3, $6); result->atribuicao_ = $$; }
+  | _IDENT_ _CARET _COLONEQ Valor { $$ = make_Atribuicao3($1, $4); result->atribuicao_ = $$; }
+  | AtribuicaoStruct { $$ = make_AtribuicaoAtribuicaoStruct($1); result->atribuicao_ = $$; }
 ;
 SubEscrito : _IDENT_ { $$ = make_SubEscritoIdent($1); result->subescrito_ = $$; }
   | _INTEGER_ { $$ = make_SubEscritoInteger($1); result->subescrito_ = $$; }
 ;
 RegraTipo : TipoPrimitivo { $$ = make_RegraTipoTipoPrimitivo($1); result->regratipo_ = $$; }
   | TipoDerivado { $$ = make_RegraTipoTipoDerivado($1); result->regratipo_ = $$; }
+  | _IDENT_ { $$ = make_RegraTipoIdent($1); result->regratipo_ = $$; }
 ;
 TipoPrimitivo : _KW_int { $$ = make_TipoPrimitivo_int(); result->tipoprimitivo_ = $$; }
   | _KW_real { $$ = make_TipoPrimitivo_real(); result->tipoprimitivo_ = $$; }
@@ -281,7 +285,7 @@ Goto : _KW_sovai _IDENT_ { $$ = make_L9($2); result->goto_ = $$; }
 ;
 Rotulo : _IDENT_ _COLON RegraComando { $$ = make_L10($1, $3); result->rotulo_ = $$; }
 ;
-Struct : _IDENT_ _EQ _KW_registro DefinicaoCampoStruct _KW_fim { $$ = make_L11($1, $4); result->struct_ = $$; }
+Struct : _KW_registro DefinicaoCampoStruct _KW_fim { $$ = make_L11($2); result->struct_ = $$; }
 ;
 DefinicaoCampoStruct : _IDENT_ _COLON RegraTipo _SEMI { $$ = make_DefinicaoCampoStruct1($1, $3); result->definicaocampostruct_ = $$; }
   | _IDENT_ _COLON RegraTipo _SEMI DefinicaoCampoStruct { $$ = make_DefinicaoCampoStruct2($1, $3, $5); result->definicaocampostruct_ = $$; }

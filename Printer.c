@@ -878,10 +878,17 @@ void ppBlocoComando(BlocoComando p, int _i_)
 {
   switch(p->kind)
   {
-  case is_L5:
+  case is_BlocoComando1:
     if (_i_ > 0) renderC(_L_PAREN);
     renderS("inicio");
-    ppRegraComando(p->u.l5_.regracomando_, 0);
+    ppRegraComando(p->u.blococomando1_.regracomando_, 0);
+    renderS("fim");
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
+  case is_BlocoComando2:
+    if (_i_ > 0) renderC(_L_PAREN);
+    renderS("inicio");
     renderS("fim");
     if (_i_ > 0) renderC(_R_PAREN);
     break;
@@ -980,6 +987,21 @@ void ppAtribuicao(Atribuicao p, int _i_)
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
+  case is_Atribuicao3:
+    if (_i_ > 0) renderC(_L_PAREN);
+    ppIdent(p->u.atribuicao3_.ident_, 0);
+    renderC('^');
+    renderS(":=");
+    ppValor(p->u.atribuicao3_.valor_, 0);
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
+  case is_AtribuicaoAtribuicaoStruct:
+    if (_i_ > 0) renderC(_L_PAREN);
+    ppAtribuicaoStruct(p->u.atribuicaoatribuicaostruct_.atribuicaostruct_, 0);
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
   default:
     fprintf(stderr, "Error: bad kind field when printing Atribuicao!\n");
     exit(1);
@@ -1021,6 +1043,12 @@ void ppRegraTipo(RegraTipo p, int _i_)
   case is_RegraTipoTipoDerivado:
     if (_i_ > 0) renderC(_L_PAREN);
     ppTipoDerivado(p->u.regratipotipoderivado_.tipoderivado_, 0);
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
+  case is_RegraTipoIdent:
+    if (_i_ > 0) renderC(_L_PAREN);
+    ppIdent(p->u.regratipoident_.ident_, 0);
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
@@ -1295,8 +1323,6 @@ void ppStruct(Struct p, int _i_)
   {
   case is_L11:
     if (_i_ > 0) renderC(_L_PAREN);
-    ppIdent(p->u.l11_.ident_, 0);
-    renderC('=');
     renderS("registro");
     ppDefinicaoCampoStruct(p->u.l11_.definicaocampostruct_, 0);
     renderS("fim");
@@ -2105,16 +2131,24 @@ void shBlocoComando(BlocoComando p)
 {
   switch(p->kind)
   {
-  case is_L5:
+  case is_BlocoComando1:
     bufAppendC('(');
 
-    bufAppendS("L5");
+    bufAppendS("BlocoComando1");
 
     bufAppendC(' ');
 
-    shRegraComando(p->u.l5_.regracomando_);
+    shRegraComando(p->u.blococomando1_.regracomando_);
 
     bufAppendC(')');
+
+    break;
+  case is_BlocoComando2:
+
+    bufAppendS("BlocoComando2");
+
+
+
 
     break;
 
@@ -2266,6 +2300,32 @@ void shAtribuicao(Atribuicao p)
     bufAppendC(')');
 
     break;
+  case is_Atribuicao3:
+    bufAppendC('(');
+
+    bufAppendS("Atribuicao3");
+
+    bufAppendC(' ');
+
+    shIdent(p->u.atribuicao3_.ident_);
+  bufAppendC(' ');
+    shValor(p->u.atribuicao3_.valor_);
+
+    bufAppendC(')');
+
+    break;
+  case is_AtribuicaoAtribuicaoStruct:
+    bufAppendC('(');
+
+    bufAppendS("AtribuicaoAtribuicaoStruct");
+
+    bufAppendC(' ');
+
+    shAtribuicaoStruct(p->u.atribuicaoatribuicaostruct_.atribuicaostruct_);
+
+    bufAppendC(')');
+
+    break;
 
   default:
     fprintf(stderr, "Error: bad kind field when showing Atribuicao!\n");
@@ -2332,6 +2392,18 @@ void shRegraTipo(RegraTipo p)
     bufAppendC(' ');
 
     shTipoDerivado(p->u.regratipotipoderivado_.tipoderivado_);
+
+    bufAppendC(')');
+
+    break;
+  case is_RegraTipoIdent:
+    bufAppendC('(');
+
+    bufAppendS("RegraTipoIdent");
+
+    bufAppendC(' ');
+
+    shIdent(p->u.regratipoident_.ident_);
 
     bufAppendC(')');
 
@@ -2726,8 +2798,6 @@ void shStruct(Struct p)
 
     bufAppendC(' ');
 
-    shIdent(p->u.l11_.ident_);
-  bufAppendC(' ');
     shDefinicaoCampoStruct(p->u.l11_.definicaocampostruct_);
 
     bufAppendC(')');

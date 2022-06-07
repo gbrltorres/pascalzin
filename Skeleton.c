@@ -153,9 +153,12 @@ void visitBlocoComando(BlocoComando p)
 {
   switch(p->kind)
   {
-  case is_L5:
-    /* Code for L5 Goes Here */
-    visitRegraComando(p->u.l5_.regracomando_);
+  case is_BlocoComando1:
+    /* Code for BlocoComando1 Goes Here */
+    visitRegraComando(p->u.blococomando1_.regracomando_);
+    break;
+  case is_BlocoComando2:
+    /* Code for BlocoComando2 Goes Here */
     break;
 
   default:
@@ -230,6 +233,15 @@ void visitAtribuicao(Atribuicao p)
     visitSubEscrito(p->u.atribuicao2_.subescrito_);
     visitValor(p->u.atribuicao2_.valor_);
     break;
+  case is_Atribuicao3:
+    /* Code for Atribuicao3 Goes Here */
+    visitIdent(p->u.atribuicao3_.ident_);
+    visitValor(p->u.atribuicao3_.valor_);
+    break;
+  case is_AtribuicaoAtribuicaoStruct:
+    /* Code for AtribuicaoAtribuicaoStruct Goes Here */
+    visitAtribuicaoStruct(p->u.atribuicaoatribuicaostruct_.atribuicaostruct_);
+    break;
 
   default:
     fprintf(stderr, "Error: bad kind field when printing Atribuicao!\n");
@@ -267,6 +279,10 @@ void visitRegraTipo(RegraTipo p)
   case is_RegraTipoTipoDerivado:
     /* Code for RegraTipoTipoDerivado Goes Here */
     visitTipoDerivado(p->u.regratipotipoderivado_.tipoderivado_);
+    break;
+  case is_RegraTipoIdent:
+    /* Code for RegraTipoIdent Goes Here */
+    visitIdent(p->u.regratipoident_.ident_);
     break;
 
   default:
@@ -483,7 +499,6 @@ void visitStruct(Struct p)
   {
   case is_L11:
     /* Code for L11 Goes Here */
-    visitIdent(p->u.l11_.ident_);
     visitDefinicaoCampoStruct(p->u.l11_.definicaocampostruct_);
     break;
 

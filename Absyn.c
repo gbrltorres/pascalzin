@@ -211,18 +211,32 @@ RegraBlocoVar make_RegraBlocoVar2(Ident p1, RegraTipo p2, RegraBlocoVar p3)
     return tmp;
 }
 
-/********************   L5    ********************/
+/********************   BlocoComando1    ********************/
 
-BlocoComando make_L5(RegraComando p1)
+BlocoComando make_BlocoComando1(RegraComando p1)
 {
     BlocoComando tmp = (BlocoComando) malloc(sizeof(*tmp));
     if (!tmp)
     {
-        fprintf(stderr, "Error: out of memory when allocating L5!\n");
+        fprintf(stderr, "Error: out of memory when allocating BlocoComando1!\n");
         exit(1);
     }
-    tmp->kind = is_L5;
-    tmp->u.l5_.regracomando_ = p1;
+    tmp->kind = is_BlocoComando1;
+    tmp->u.blococomando1_.regracomando_ = p1;
+    return tmp;
+}
+
+/********************   BlocoComando2    ********************/
+
+BlocoComando make_BlocoComando2()
+{
+    BlocoComando tmp = (BlocoComando) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating BlocoComando2!\n");
+        exit(1);
+    }
+    tmp->kind = is_BlocoComando2;
     return tmp;
 }
 
@@ -365,6 +379,37 @@ Atribuicao make_Atribuicao2(Ident p1, SubEscrito p2, Valor p3)
     return tmp;
 }
 
+/********************   Atribuicao3    ********************/
+
+Atribuicao make_Atribuicao3(Ident p1, Valor p2)
+{
+    Atribuicao tmp = (Atribuicao) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating Atribuicao3!\n");
+        exit(1);
+    }
+    tmp->kind = is_Atribuicao3;
+    tmp->u.atribuicao3_.ident_ = p1;
+    tmp->u.atribuicao3_.valor_ = p2;
+    return tmp;
+}
+
+/********************   AtribuicaoAtribuicaoStruct    ********************/
+
+Atribuicao make_AtribuicaoAtribuicaoStruct(AtribuicaoStruct p1)
+{
+    Atribuicao tmp = (Atribuicao) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating AtribuicaoAtribuicaoStruct!\n");
+        exit(1);
+    }
+    tmp->kind = is_AtribuicaoAtribuicaoStruct;
+    tmp->u.atribuicaoatribuicaostruct_.atribuicaostruct_ = p1;
+    return tmp;
+}
+
 /********************   SubEscritoIdent    ********************/
 
 SubEscrito make_SubEscritoIdent(Ident p1)
@@ -422,6 +467,21 @@ RegraTipo make_RegraTipoTipoDerivado(TipoDerivado p1)
     }
     tmp->kind = is_RegraTipoTipoDerivado;
     tmp->u.regratipotipoderivado_.tipoderivado_ = p1;
+    return tmp;
+}
+
+/********************   RegraTipoIdent    ********************/
+
+RegraTipo make_RegraTipoIdent(Ident p1)
+{
+    RegraTipo tmp = (RegraTipo) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating RegraTipoIdent!\n");
+        exit(1);
+    }
+    tmp->kind = is_RegraTipoIdent;
+    tmp->u.regratipoident_.ident_ = p1;
     return tmp;
 }
 
@@ -750,7 +810,7 @@ Rotulo make_L10(Ident p1, RegraComando p2)
 
 /********************   L11    ********************/
 
-Struct make_L11(Ident p1, DefinicaoCampoStruct p2)
+Struct make_L11(DefinicaoCampoStruct p1)
 {
     Struct tmp = (Struct) malloc(sizeof(*tmp));
     if (!tmp)
@@ -759,8 +819,7 @@ Struct make_L11(Ident p1, DefinicaoCampoStruct p2)
         exit(1);
     }
     tmp->kind = is_L11;
-    tmp->u.l11_.ident_ = p1;
-    tmp->u.l11_.definicaocampostruct_ = p2;
+    tmp->u.l11_.definicaocampostruct_ = p1;
     return tmp;
 }
 
@@ -1631,8 +1690,11 @@ BlocoComando clone_BlocoComando(BlocoComando p)
 {
   switch(p->kind)
   {
-  case is_L5:
-    return make_L5 (clone_RegraComando(p->u.l5_.regracomando_));
+  case is_BlocoComando1:
+    return make_BlocoComando1 (clone_RegraComando(p->u.blococomando1_.regracomando_));
+
+  case is_BlocoComando2:
+    return make_BlocoComando2 ();
 
   default:
     fprintf(stderr, "Error: bad kind field when cloning BlocoComando!\n");
@@ -1701,6 +1763,15 @@ Atribuicao clone_Atribuicao(Atribuicao p)
       , clone_Valor(p->u.atribuicao2_.valor_)
       );
 
+  case is_Atribuicao3:
+    return make_Atribuicao3
+      ( strdup(p->u.atribuicao3_.ident_)
+      , clone_Valor(p->u.atribuicao3_.valor_)
+      );
+
+  case is_AtribuicaoAtribuicaoStruct:
+    return make_AtribuicaoAtribuicaoStruct (clone_AtribuicaoStruct(p->u.atribuicaoatribuicaostruct_.atribuicaostruct_));
+
   default:
     fprintf(stderr, "Error: bad kind field when cloning Atribuicao!\n");
     exit(1);
@@ -1732,6 +1803,9 @@ RegraTipo clone_RegraTipo(RegraTipo p)
 
   case is_RegraTipoTipoDerivado:
     return make_RegraTipoTipoDerivado (clone_TipoDerivado(p->u.regratipotipoderivado_.tipoderivado_));
+
+  case is_RegraTipoIdent:
+    return make_RegraTipoIdent (strdup(p->u.regratipoident_.ident_));
 
   default:
     fprintf(stderr, "Error: bad kind field when cloning RegraTipo!\n");
@@ -1932,10 +2006,7 @@ Struct clone_Struct(Struct p)
   switch(p->kind)
   {
   case is_L11:
-    return make_L11
-      ( strdup(p->u.l11_.ident_)
-      , clone_DefinicaoCampoStruct(p->u.l11_.definicaocampostruct_)
-      );
+    return make_L11 (clone_DefinicaoCampoStruct(p->u.l11_.definicaocampostruct_));
 
   default:
     fprintf(stderr, "Error: bad kind field when cloning Struct!\n");
@@ -2487,8 +2558,11 @@ void free_BlocoComando(BlocoComando p)
 {
   switch(p->kind)
   {
-  case is_L5:
-    free_RegraComando(p->u.l5_.regracomando_);
+  case is_BlocoComando1:
+    free_RegraComando(p->u.blococomando1_.regracomando_);
+    break;
+
+  case is_BlocoComando2:
     break;
 
   default:
@@ -2564,6 +2638,15 @@ void free_Atribuicao(Atribuicao p)
     free_Valor(p->u.atribuicao2_.valor_);
     break;
 
+  case is_Atribuicao3:
+    free(p->u.atribuicao3_.ident_);
+    free_Valor(p->u.atribuicao3_.valor_);
+    break;
+
+  case is_AtribuicaoAtribuicaoStruct:
+    free_AtribuicaoStruct(p->u.atribuicaoatribuicaostruct_.atribuicaostruct_);
+    break;
+
   default:
     fprintf(stderr, "Error: bad kind field when freeing Atribuicao!\n");
     exit(1);
@@ -2599,6 +2682,10 @@ void free_RegraTipo(RegraTipo p)
 
   case is_RegraTipoTipoDerivado:
     free_TipoDerivado(p->u.regratipotipoderivado_.tipoderivado_);
+    break;
+
+  case is_RegraTipoIdent:
+    free(p->u.regratipoident_.ident_);
     break;
 
   default:
@@ -2809,7 +2896,6 @@ void free_Struct(Struct p)
   switch(p->kind)
   {
   case is_L11:
-    free(p->u.l11_.ident_);
     free_DefinicaoCampoStruct(p->u.l11_.definicaocampostruct_);
     break;
 

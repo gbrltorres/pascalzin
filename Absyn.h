@@ -236,14 +236,15 @@ RegraBlocoVar make_RegraBlocoVar2(Ident p0, RegraTipo p1, RegraBlocoVar p2);
 
 struct BlocoComando_
 {
-  enum { is_L5 } kind;
+  enum { is_BlocoComando1, is_BlocoComando2 } kind;
   union
   {
-    struct { RegraComando regracomando_; } l5_;
+    struct { RegraComando regracomando_; } blococomando1_;
   } u;
 };
 
-BlocoComando make_L5(RegraComando p0);
+BlocoComando make_BlocoComando1(RegraComando p0);
+BlocoComando make_BlocoComando2(void);
 
 struct RegraComando_
 {
@@ -279,16 +280,20 @@ Comando make_ComandoGoto(Goto p0);
 
 struct Atribuicao_
 {
-  enum { is_Atribuicao1, is_Atribuicao2 } kind;
+  enum { is_Atribuicao1, is_Atribuicao2, is_Atribuicao3, is_AtribuicaoAtribuicaoStruct } kind;
   union
   {
     struct { Ident ident_; Valor valor_; } atribuicao1_;
     struct { Ident ident_; SubEscrito subescrito_; Valor valor_; } atribuicao2_;
+    struct { Ident ident_; Valor valor_; } atribuicao3_;
+    struct { AtribuicaoStruct atribuicaostruct_; } atribuicaoatribuicaostruct_;
   } u;
 };
 
 Atribuicao make_Atribuicao1(Ident p0, Valor p1);
 Atribuicao make_Atribuicao2(Ident p0, SubEscrito p1, Valor p2);
+Atribuicao make_Atribuicao3(Ident p0, Valor p1);
+Atribuicao make_AtribuicaoAtribuicaoStruct(AtribuicaoStruct p0);
 
 struct SubEscrito_
 {
@@ -305,16 +310,18 @@ SubEscrito make_SubEscritoInteger(Integer p0);
 
 struct RegraTipo_
 {
-  enum { is_RegraTipoTipoPrimitivo, is_RegraTipoTipoDerivado } kind;
+  enum { is_RegraTipoTipoPrimitivo, is_RegraTipoTipoDerivado, is_RegraTipoIdent } kind;
   union
   {
     struct { TipoPrimitivo tipoprimitivo_; } regratipotipoprimitivo_;
     struct { TipoDerivado tipoderivado_; } regratipotipoderivado_;
+    struct { Ident ident_; } regratipoident_;
   } u;
 };
 
 RegraTipo make_RegraTipoTipoPrimitivo(TipoPrimitivo p0);
 RegraTipo make_RegraTipoTipoDerivado(TipoDerivado p0);
+RegraTipo make_RegraTipoIdent(Ident p0);
 
 struct TipoPrimitivo_
 {
@@ -450,11 +457,11 @@ struct Struct_
   enum { is_L11 } kind;
   union
   {
-    struct { DefinicaoCampoStruct definicaocampostruct_; Ident ident_; } l11_;
+    struct { DefinicaoCampoStruct definicaocampostruct_; } l11_;
   } u;
 };
 
-Struct make_L11(Ident p0, DefinicaoCampoStruct p1);
+Struct make_L11(DefinicaoCampoStruct p0);
 
 struct DefinicaoCampoStruct_
 {
