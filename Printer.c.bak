@@ -125,13 +125,6 @@ char *printEntry(Entry p)
   ppEntry(p, 0);
   return buf_;
 }
-char *printRegraBloco(RegraBloco p)
-{
-  _n_ = 0;
-  bufReset();
-  ppRegraBloco(p, 0);
-  return buf_;
-}
 char *printBlocoConstante(BlocoConstante p)
 {
   _n_ = 0;
@@ -410,13 +403,6 @@ char *showEntry(Entry p)
   _n_ = 0;
   bufReset();
   shEntry(p);
-  return buf_;
-}
-char *showRegraBloco(RegraBloco p)
-{
-  _n_ = 0;
-  bufReset();
-  shRegraBloco(p);
   return buf_;
 }
 char *showBlocoConstante(BlocoConstante p)
@@ -701,6 +687,9 @@ void ppEntry(Entry p, int _i_)
     renderS("programa");
     ppIdent(p->u.l1_.ident_, 0);
     renderC(':');
+    ppBlocoConstante(p->u.l1_.blococonstante_, 0);
+    ppBlocoTipo(p->u.l1_.blocotipo_, 0);
+    ppBlocoVar(p->u.l1_.blocovar_, 0);
     ppBlocoComando(p->u.l1_.blococomando_, 0);
     renderC('.');
     if (_i_ > 0) renderC(_R_PAREN);
@@ -712,63 +701,21 @@ void ppEntry(Entry p, int _i_)
   }
 }
 
-void ppRegraBloco(RegraBloco p, int _i_)
-{
-  switch(p->kind)
-  {
-  case is_RegraBlocoBlocoConstante:
-    if (_i_ > 0) renderC(_L_PAREN);
-    ppBlocoConstante(p->u.regrablocoblococonstante_.blococonstante_, 0);
-    if (_i_ > 0) renderC(_R_PAREN);
-    break;
-
-  case is_RegraBlocoBlocoTipo:
-    if (_i_ > 0) renderC(_L_PAREN);
-    ppBlocoTipo(p->u.regrablocoblocotipo_.blocotipo_, 0);
-    if (_i_ > 0) renderC(_R_PAREN);
-    break;
-
-  case is_RegraBlocoBlocoVar:
-    if (_i_ > 0) renderC(_L_PAREN);
-    ppBlocoVar(p->u.regrablocoblocovar_.blocovar_, 0);
-    if (_i_ > 0) renderC(_R_PAREN);
-    break;
-
-  case is_RegraBloco1:
-    if (_i_ > 0) renderC(_L_PAREN);
-    ppBlocoConstante(p->u.regrabloco1_.blococonstante_, 0);
-    ppRegraBloco(p->u.regrabloco1_.regrabloco_, 0);
-    if (_i_ > 0) renderC(_R_PAREN);
-    break;
-
-  case is_RegraBloco2:
-    if (_i_ > 0) renderC(_L_PAREN);
-    ppBlocoTipo(p->u.regrabloco2_.blocotipo_, 0);
-    ppRegraBloco(p->u.regrabloco2_.regrabloco_, 0);
-    if (_i_ > 0) renderC(_R_PAREN);
-    break;
-
-  case is_RegraBloco3:
-    if (_i_ > 0) renderC(_L_PAREN);
-    ppBlocoVar(p->u.regrabloco3_.blocovar_, 0);
-    ppRegraBloco(p->u.regrabloco3_.regrabloco_, 0);
-    if (_i_ > 0) renderC(_R_PAREN);
-    break;
-
-  default:
-    fprintf(stderr, "Error: bad kind field when printing RegraBloco!\n");
-    exit(1);
-  }
-}
-
 void ppBlocoConstante(BlocoConstante p, int _i_)
 {
   switch(p->kind)
   {
-  case is_L2:
+  case is_BlocoConstante1:
     if (_i_ > 0) renderC(_L_PAREN);
     renderS("const");
-    ppRegraBlocoConstante(p->u.l2_.regrablococonstante_, 0);
+    ppRegraBlocoConstante(p->u.blococonstante1_.regrablococonstante_, 0);
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
+  case is_BlocoConstante2:
+    if (_i_ > 0) renderC(_L_PAREN);
+    renderS("const");
+    renderC(';');
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
@@ -811,10 +758,17 @@ void ppBlocoTipo(BlocoTipo p, int _i_)
 {
   switch(p->kind)
   {
-  case is_L3:
+  case is_BlocoTipo1:
     if (_i_ > 0) renderC(_L_PAREN);
     renderS("tipo");
-    ppRegraBlocoTipo(p->u.l3_.regrablocotipo_, 0);
+    ppRegraBlocoTipo(p->u.blocotipo1_.regrablocotipo_, 0);
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
+  case is_BlocoTipo2:
+    if (_i_ > 0) renderC(_L_PAREN);
+    renderS("tipo");
+    renderC(';');
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
@@ -857,10 +811,17 @@ void ppBlocoVar(BlocoVar p, int _i_)
 {
   switch(p->kind)
   {
-  case is_L4:
+  case is_BlocoVar1:
     if (_i_ > 0) renderC(_L_PAREN);
     renderS("var");
-    ppRegraBlocoVar(p->u.l4_.regrablocovar_, 0);
+    ppRegraBlocoVar(p->u.blocovar1_.regrablocovar_, 0);
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
+  case is_BlocoVar2:
+    if (_i_ > 0) renderC(_L_PAREN);
+    renderS("var");
+    renderC(';');
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
@@ -1078,6 +1039,12 @@ void ppValor(Valor p, int _i_)
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
+  case is_ValorExpressaoAritmetica:
+    if (_i_ > 0) renderC(_L_PAREN);
+    ppExpressaoAritmetica(p->u.valorexpressaoaritmetica_.expressaoaritmetica_, 0);
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
   default:
     fprintf(stderr, "Error: bad kind field when printing Valor!\n");
     exit(1);
@@ -1247,7 +1214,7 @@ void ppGoto(Goto p, int _i_)
   case is_L9:
     if (_i_ > 0) renderC(_L_PAREN);
     renderS("sovai");
-    ppRotulo(p->u.l9_.rotulo_, 0);
+    ppIdent(p->u.l9_.ident_, 0);
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
@@ -1853,6 +1820,12 @@ void shEntry(Entry p)
 
     shIdent(p->u.l1_.ident_);
   bufAppendC(' ');
+    shBlocoConstante(p->u.l1_.blococonstante_);
+  bufAppendC(' ');
+    shBlocoTipo(p->u.l1_.blocotipo_);
+  bufAppendC(' ');
+    shBlocoVar(p->u.l1_.blocovar_);
+  bufAppendC(' ');
     shBlocoComando(p->u.l1_.blococomando_);
 
     bufAppendC(')');
@@ -1865,109 +1838,28 @@ void shEntry(Entry p)
   }
 }
 
-void shRegraBloco(RegraBloco p)
-{
-  switch(p->kind)
-  {
-  case is_RegraBlocoBlocoConstante:
-    bufAppendC('(');
-
-    bufAppendS("RegraBlocoBlocoConstante");
-
-    bufAppendC(' ');
-
-    shBlocoConstante(p->u.regrablocoblococonstante_.blococonstante_);
-
-    bufAppendC(')');
-
-    break;
-  case is_RegraBlocoBlocoTipo:
-    bufAppendC('(');
-
-    bufAppendS("RegraBlocoBlocoTipo");
-
-    bufAppendC(' ');
-
-    shBlocoTipo(p->u.regrablocoblocotipo_.blocotipo_);
-
-    bufAppendC(')');
-
-    break;
-  case is_RegraBlocoBlocoVar:
-    bufAppendC('(');
-
-    bufAppendS("RegraBlocoBlocoVar");
-
-    bufAppendC(' ');
-
-    shBlocoVar(p->u.regrablocoblocovar_.blocovar_);
-
-    bufAppendC(')');
-
-    break;
-  case is_RegraBloco1:
-    bufAppendC('(');
-
-    bufAppendS("RegraBloco1");
-
-    bufAppendC(' ');
-
-    shBlocoConstante(p->u.regrabloco1_.blococonstante_);
-  bufAppendC(' ');
-    shRegraBloco(p->u.regrabloco1_.regrabloco_);
-
-    bufAppendC(')');
-
-    break;
-  case is_RegraBloco2:
-    bufAppendC('(');
-
-    bufAppendS("RegraBloco2");
-
-    bufAppendC(' ');
-
-    shBlocoTipo(p->u.regrabloco2_.blocotipo_);
-  bufAppendC(' ');
-    shRegraBloco(p->u.regrabloco2_.regrabloco_);
-
-    bufAppendC(')');
-
-    break;
-  case is_RegraBloco3:
-    bufAppendC('(');
-
-    bufAppendS("RegraBloco3");
-
-    bufAppendC(' ');
-
-    shBlocoVar(p->u.regrabloco3_.blocovar_);
-  bufAppendC(' ');
-    shRegraBloco(p->u.regrabloco3_.regrabloco_);
-
-    bufAppendC(')');
-
-    break;
-
-  default:
-    fprintf(stderr, "Error: bad kind field when showing RegraBloco!\n");
-    exit(1);
-  }
-}
-
 void shBlocoConstante(BlocoConstante p)
 {
   switch(p->kind)
   {
-  case is_L2:
+  case is_BlocoConstante1:
     bufAppendC('(');
 
-    bufAppendS("L2");
+    bufAppendS("BlocoConstante1");
 
     bufAppendC(' ');
 
-    shRegraBlocoConstante(p->u.l2_.regrablococonstante_);
+    shRegraBlocoConstante(p->u.blococonstante1_.regrablococonstante_);
 
     bufAppendC(')');
+
+    break;
+  case is_BlocoConstante2:
+
+    bufAppendS("BlocoConstante2");
+
+
+
 
     break;
 
@@ -2022,16 +1914,24 @@ void shBlocoTipo(BlocoTipo p)
 {
   switch(p->kind)
   {
-  case is_L3:
+  case is_BlocoTipo1:
     bufAppendC('(');
 
-    bufAppendS("L3");
+    bufAppendS("BlocoTipo1");
 
     bufAppendC(' ');
 
-    shRegraBlocoTipo(p->u.l3_.regrablocotipo_);
+    shRegraBlocoTipo(p->u.blocotipo1_.regrablocotipo_);
 
     bufAppendC(')');
+
+    break;
+  case is_BlocoTipo2:
+
+    bufAppendS("BlocoTipo2");
+
+
+
 
     break;
 
@@ -2086,16 +1986,24 @@ void shBlocoVar(BlocoVar p)
 {
   switch(p->kind)
   {
-  case is_L4:
+  case is_BlocoVar1:
     bufAppendC('(');
 
-    bufAppendS("L4");
+    bufAppendS("BlocoVar1");
 
     bufAppendC(' ');
 
-    shRegraBlocoVar(p->u.l4_.regrablocovar_);
+    shRegraBlocoVar(p->u.blocovar1_.regrablocovar_);
 
     bufAppendC(')');
+
+    break;
+  case is_BlocoVar2:
+
+    bufAppendS("BlocoVar2");
+
+
+
 
     break;
 
@@ -2424,6 +2332,18 @@ void shValor(Valor p)
     bufAppendC(')');
 
     break;
+  case is_ValorExpressaoAritmetica:
+    bufAppendC('(');
+
+    bufAppendS("ValorExpressaoAritmetica");
+
+    bufAppendC(' ');
+
+    shExpressaoAritmetica(p->u.valorexpressaoaritmetica_.expressaoaritmetica_);
+
+    bufAppendC(')');
+
+    break;
 
   default:
     fprintf(stderr, "Error: bad kind field when showing Valor!\n");
@@ -2660,7 +2580,7 @@ void shGoto(Goto p)
 
     bufAppendC(' ');
 
-    shRotulo(p->u.l9_.rotulo_);
+    shIdent(p->u.l9_.ident_);
 
     bufAppendC(')');
 

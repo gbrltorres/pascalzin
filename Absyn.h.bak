@@ -26,9 +26,6 @@ typedef char* Ident;
 struct Entry_;
 typedef struct Entry_ *Entry;
 
-struct RegraBloco_;
-typedef struct RegraBloco_ *RegraBloco;
-
 struct BlocoConstante_;
 typedef struct BlocoConstante_ *BlocoConstante;
 
@@ -153,43 +150,23 @@ struct Entry_
   enum { is_L1 } kind;
   union
   {
-    struct { BlocoComando blococomando_; Ident ident_; } l1_;
+    struct { BlocoComando blococomando_; BlocoConstante blococonstante_; BlocoTipo blocotipo_; BlocoVar blocovar_; Ident ident_; } l1_;
   } u;
 };
 
-Entry make_L1(Ident p0, BlocoComando p1);
-
-struct RegraBloco_
-{
-  enum { is_RegraBlocoBlocoConstante, is_RegraBlocoBlocoTipo, is_RegraBlocoBlocoVar, is_RegraBloco1, is_RegraBloco2, is_RegraBloco3 } kind;
-  union
-  {
-    struct { BlocoConstante blococonstante_; } regrablocoblococonstante_;
-    struct { BlocoTipo blocotipo_; } regrablocoblocotipo_;
-    struct { BlocoVar blocovar_; } regrablocoblocovar_;
-    struct { BlocoConstante blococonstante_; RegraBloco regrabloco_; } regrabloco1_;
-    struct { BlocoTipo blocotipo_; RegraBloco regrabloco_; } regrabloco2_;
-    struct { BlocoVar blocovar_; RegraBloco regrabloco_; } regrabloco3_;
-  } u;
-};
-
-RegraBloco make_RegraBlocoBlocoConstante(BlocoConstante p0);
-RegraBloco make_RegraBlocoBlocoTipo(BlocoTipo p0);
-RegraBloco make_RegraBlocoBlocoVar(BlocoVar p0);
-RegraBloco make_RegraBloco1(BlocoConstante p0, RegraBloco p1);
-RegraBloco make_RegraBloco2(BlocoTipo p0, RegraBloco p1);
-RegraBloco make_RegraBloco3(BlocoVar p0, RegraBloco p1);
+Entry make_L1(Ident p0, BlocoConstante p1, BlocoTipo p2, BlocoVar p3, BlocoComando p4);
 
 struct BlocoConstante_
 {
-  enum { is_L2 } kind;
+  enum { is_BlocoConstante1, is_BlocoConstante2 } kind;
   union
   {
-    struct { RegraBlocoConstante regrablococonstante_; } l2_;
+    struct { RegraBlocoConstante regrablococonstante_; } blococonstante1_;
   } u;
 };
 
-BlocoConstante make_L2(RegraBlocoConstante p0);
+BlocoConstante make_BlocoConstante1(RegraBlocoConstante p0);
+BlocoConstante make_BlocoConstante2(void);
 
 struct RegraBlocoConstante_
 {
@@ -206,14 +183,15 @@ RegraBlocoConstante make_RegraBlocoConstante2(Ident p0, Valor p1, RegraBlocoCons
 
 struct BlocoTipo_
 {
-  enum { is_L3 } kind;
+  enum { is_BlocoTipo1, is_BlocoTipo2 } kind;
   union
   {
-    struct { RegraBlocoTipo regrablocotipo_; } l3_;
+    struct { RegraBlocoTipo regrablocotipo_; } blocotipo1_;
   } u;
 };
 
-BlocoTipo make_L3(RegraBlocoTipo p0);
+BlocoTipo make_BlocoTipo1(RegraBlocoTipo p0);
+BlocoTipo make_BlocoTipo2(void);
 
 struct RegraBlocoTipo_
 {
@@ -230,14 +208,15 @@ RegraBlocoTipo make_RegraBlocoTipo2(Ident p0, RegraTipo p1, RegraBlocoTipo p2);
 
 struct BlocoVar_
 {
-  enum { is_L4 } kind;
+  enum { is_BlocoVar1, is_BlocoVar2 } kind;
   union
   {
-    struct { RegraBlocoVar regrablocovar_; } l4_;
+    struct { RegraBlocoVar regrablocovar_; } blocovar1_;
   } u;
 };
 
-BlocoVar make_L4(RegraBlocoVar p0);
+BlocoVar make_BlocoVar1(RegraBlocoVar p0);
+BlocoVar make_BlocoVar2(void);
 
 struct RegraBlocoVar_
 {
@@ -333,13 +312,14 @@ TipoPrimitivo make_TipoPrimitivo_char(void);
 
 struct Valor_
 {
-  enum { is_ValorInteger, is_ValorDouble, is_ValorChar, is_ValorString } kind;
+  enum { is_ValorInteger, is_ValorDouble, is_ValorChar, is_ValorString, is_ValorExpressaoAritmetica } kind;
   union
   {
     struct { Integer integer_; } valorinteger_;
     struct { Double double_; } valordouble_;
     struct { Char char_; } valorchar_;
     struct { String string_; } valorstring_;
+    struct { ExpressaoAritmetica expressaoaritmetica_; } valorexpressaoaritmetica_;
   } u;
 };
 
@@ -347,6 +327,7 @@ Valor make_ValorInteger(Integer p0);
 Valor make_ValorDouble(Double p0);
 Valor make_ValorChar(Char p0);
 Valor make_ValorString(String p0);
+Valor make_ValorExpressaoAritmetica(ExpressaoAritmetica p0);
 
 struct TipoDerivado_
 {
@@ -429,11 +410,11 @@ struct Goto_
   enum { is_L9 } kind;
   union
   {
-    struct { Rotulo rotulo_; } l9_;
+    struct { Ident ident_; } l9_;
   } u;
 };
 
-Goto make_L9(Rotulo p0);
+Goto make_L9(Ident p0);
 
 struct Rotulo_
 {
@@ -691,7 +672,6 @@ RegraLogico make_RegraLogico2(OperadorLogico p0, ExpressaoLogica p1, RegraLogico
 /***************************   Cloning   ******************************/
 
 Entry clone_Entry(Entry p);
-RegraBloco clone_RegraBloco(RegraBloco p);
 BlocoConstante clone_BlocoConstante(BlocoConstante p);
 RegraBlocoConstante clone_RegraBlocoConstante(RegraBlocoConstante p);
 BlocoTipo clone_BlocoTipo(BlocoTipo p);
@@ -743,7 +723,6 @@ RegraLogico clone_RegraLogico(RegraLogico p);
  */
 
 void free_Entry(Entry p);
-void free_RegraBloco(RegraBloco p);
 void free_BlocoConstante(BlocoConstante p);
 void free_RegraBlocoConstante(RegraBlocoConstante p);
 void free_BlocoTipo(BlocoTipo p);

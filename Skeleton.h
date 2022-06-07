@@ -18,6 +18,7 @@ void visitBlocoComando(BlocoComando p);
 void visitRegraComando(RegraComando p);
 void visitComando(Comando p);
 void visitAtribuicao(Atribuicao p);
+void visitSubEscrito(SubEscrito p);
 void visitRegraTipo(RegraTipo p);
 void visitTipoPrimitivo(TipoPrimitivo p);
 void visitValor(Valor p);

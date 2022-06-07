@@ -28,6 +28,8 @@ Comando  pComando(FILE *inp);
 Comando psComando(const char *str);
 Atribuicao  pAtribuicao(FILE *inp);
 Atribuicao psAtribuicao(const char *str);
+SubEscrito  pSubEscrito(FILE *inp);
+SubEscrito psSubEscrito(const char *str);
 RegraTipo  pRegraTipo(FILE *inp);
 RegraTipo psRegraTipo(const char *str);
 TipoPrimitivo  pTipoPrimitivo(FILE *inp);

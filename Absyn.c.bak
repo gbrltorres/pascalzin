@@ -8,7 +8,7 @@
 
 /********************   L1    ********************/
 
-Entry make_L1(Ident p1, BlocoComando p2)
+Entry make_L1(Ident p1, BlocoConstante p2, BlocoTipo p3, BlocoVar p4, BlocoComando p5)
 {
     Entry tmp = (Entry) malloc(sizeof(*tmp));
     if (!tmp)
@@ -18,115 +18,39 @@ Entry make_L1(Ident p1, BlocoComando p2)
     }
     tmp->kind = is_L1;
     tmp->u.l1_.ident_ = p1;
-    tmp->u.l1_.blococomando_ = p2;
+    tmp->u.l1_.blococonstante_ = p2;
+    tmp->u.l1_.blocotipo_ = p3;
+    tmp->u.l1_.blocovar_ = p4;
+    tmp->u.l1_.blococomando_ = p5;
     return tmp;
 }
 
-/********************   RegraBlocoBlocoConstante    ********************/
+/********************   BlocoConstante1    ********************/
 
-RegraBloco make_RegraBlocoBlocoConstante(BlocoConstante p1)
-{
-    RegraBloco tmp = (RegraBloco) malloc(sizeof(*tmp));
-    if (!tmp)
-    {
-        fprintf(stderr, "Error: out of memory when allocating RegraBlocoBlocoConstante!\n");
-        exit(1);
-    }
-    tmp->kind = is_RegraBlocoBlocoConstante;
-    tmp->u.regrablocoblococonstante_.blococonstante_ = p1;
-    return tmp;
-}
-
-/********************   RegraBlocoBlocoTipo    ********************/
-
-RegraBloco make_RegraBlocoBlocoTipo(BlocoTipo p1)
-{
-    RegraBloco tmp = (RegraBloco) malloc(sizeof(*tmp));
-    if (!tmp)
-    {
-        fprintf(stderr, "Error: out of memory when allocating RegraBlocoBlocoTipo!\n");
-        exit(1);
-    }
-    tmp->kind = is_RegraBlocoBlocoTipo;
-    tmp->u.regrablocoblocotipo_.blocotipo_ = p1;
-    return tmp;
-}
-
-/********************   RegraBlocoBlocoVar    ********************/
-
-RegraBloco make_RegraBlocoBlocoVar(BlocoVar p1)
-{
-    RegraBloco tmp = (RegraBloco) malloc(sizeof(*tmp));
-    if (!tmp)
-    {
-        fprintf(stderr, "Error: out of memory when allocating RegraBlocoBlocoVar!\n");
-        exit(1);
-    }
-    tmp->kind = is_RegraBlocoBlocoVar;
-    tmp->u.regrablocoblocovar_.blocovar_ = p1;
-    return tmp;
-}
-
-/********************   RegraBloco1    ********************/
-
-RegraBloco make_RegraBloco1(BlocoConstante p1, RegraBloco p2)
-{
-    RegraBloco tmp = (RegraBloco) malloc(sizeof(*tmp));
-    if (!tmp)
-    {
-        fprintf(stderr, "Error: out of memory when allocating RegraBloco1!\n");
-        exit(1);
-    }
-    tmp->kind = is_RegraBloco1;
-    tmp->u.regrabloco1_.blococonstante_ = p1;
-    tmp->u.regrabloco1_.regrabloco_ = p2;
-    return tmp;
-}
-
-/********************   RegraBloco2    ********************/
-
-RegraBloco make_RegraBloco2(BlocoTipo p1, RegraBloco p2)
-{
-    RegraBloco tmp = (RegraBloco) malloc(sizeof(*tmp));
-    if (!tmp)
-    {
-        fprintf(stderr, "Error: out of memory when allocating RegraBloco2!\n");
-        exit(1);
-    }
-    tmp->kind = is_RegraBloco2;
-    tmp->u.regrabloco2_.blocotipo_ = p1;
-    tmp->u.regrabloco2_.regrabloco_ = p2;
-    return tmp;
-}
-
-/********************   RegraBloco3    ********************/
-
-RegraBloco make_RegraBloco3(BlocoVar p1, RegraBloco p2)
-{
-    RegraBloco tmp = (RegraBloco) malloc(sizeof(*tmp));
-    if (!tmp)
-    {
-        fprintf(stderr, "Error: out of memory when allocating RegraBloco3!\n");
-        exit(1);
-    }
-    tmp->kind = is_RegraBloco3;
-    tmp->u.regrabloco3_.blocovar_ = p1;
-    tmp->u.regrabloco3_.regrabloco_ = p2;
-    return tmp;
-}
-
-/********************   L2    ********************/
-
-BlocoConstante make_L2(RegraBlocoConstante p1)
+BlocoConstante make_BlocoConstante1(RegraBlocoConstante p1)
 {
     BlocoConstante tmp = (BlocoConstante) malloc(sizeof(*tmp));
     if (!tmp)
     {
-        fprintf(stderr, "Error: out of memory when allocating L2!\n");
+        fprintf(stderr, "Error: out of memory when allocating BlocoConstante1!\n");
         exit(1);
     }
-    tmp->kind = is_L2;
-    tmp->u.l2_.regrablococonstante_ = p1;
+    tmp->kind = is_BlocoConstante1;
+    tmp->u.blococonstante1_.regrablococonstante_ = p1;
+    return tmp;
+}
+
+/********************   BlocoConstante2    ********************/
+
+BlocoConstante make_BlocoConstante2()
+{
+    BlocoConstante tmp = (BlocoConstante) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating BlocoConstante2!\n");
+        exit(1);
+    }
+    tmp->kind = is_BlocoConstante2;
     return tmp;
 }
 
@@ -163,18 +87,32 @@ RegraBlocoConstante make_RegraBlocoConstante2(Ident p1, Valor p2, RegraBlocoCons
     return tmp;
 }
 
-/********************   L3    ********************/
+/********************   BlocoTipo1    ********************/
 
-BlocoTipo make_L3(RegraBlocoTipo p1)
+BlocoTipo make_BlocoTipo1(RegraBlocoTipo p1)
 {
     BlocoTipo tmp = (BlocoTipo) malloc(sizeof(*tmp));
     if (!tmp)
     {
-        fprintf(stderr, "Error: out of memory when allocating L3!\n");
+        fprintf(stderr, "Error: out of memory when allocating BlocoTipo1!\n");
         exit(1);
     }
-    tmp->kind = is_L3;
-    tmp->u.l3_.regrablocotipo_ = p1;
+    tmp->kind = is_BlocoTipo1;
+    tmp->u.blocotipo1_.regrablocotipo_ = p1;
+    return tmp;
+}
+
+/********************   BlocoTipo2    ********************/
+
+BlocoTipo make_BlocoTipo2()
+{
+    BlocoTipo tmp = (BlocoTipo) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating BlocoTipo2!\n");
+        exit(1);
+    }
+    tmp->kind = is_BlocoTipo2;
     return tmp;
 }
 
@@ -211,18 +149,32 @@ RegraBlocoTipo make_RegraBlocoTipo2(Ident p1, RegraTipo p2, RegraBlocoTipo p3)
     return tmp;
 }
 
-/********************   L4    ********************/
+/********************   BlocoVar1    ********************/
 
-BlocoVar make_L4(RegraBlocoVar p1)
+BlocoVar make_BlocoVar1(RegraBlocoVar p1)
 {
     BlocoVar tmp = (BlocoVar) malloc(sizeof(*tmp));
     if (!tmp)
     {
-        fprintf(stderr, "Error: out of memory when allocating L4!\n");
+        fprintf(stderr, "Error: out of memory when allocating BlocoVar1!\n");
         exit(1);
     }
-    tmp->kind = is_L4;
-    tmp->u.l4_.regrablocovar_ = p1;
+    tmp->kind = is_BlocoVar1;
+    tmp->u.blocovar1_.regrablocovar_ = p1;
+    return tmp;
+}
+
+/********************   BlocoVar2    ********************/
+
+BlocoVar make_BlocoVar2()
+{
+    BlocoVar tmp = (BlocoVar) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating BlocoVar2!\n");
+        exit(1);
+    }
+    tmp->kind = is_BlocoVar2;
     return tmp;
 }
 
@@ -528,6 +480,21 @@ Valor make_ValorString(String p1)
     return tmp;
 }
 
+/********************   ValorExpressaoAritmetica    ********************/
+
+Valor make_ValorExpressaoAritmetica(ExpressaoAritmetica p1)
+{
+    Valor tmp = (Valor) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating ValorExpressaoAritmetica!\n");
+        exit(1);
+    }
+    tmp->kind = is_ValorExpressaoAritmetica;
+    tmp->u.valorexpressaoaritmetica_.expressaoaritmetica_ = p1;
+    return tmp;
+}
+
 /********************   TipoDerivadoPonteiro    ********************/
 
 TipoDerivado make_TipoDerivadoPonteiro(Ponteiro p1)
@@ -705,7 +672,7 @@ For make_For2(Atribuicao p1, Ident p2, BlocoComando p3)
 
 /********************   L9    ********************/
 
-Goto make_L9(Rotulo p1)
+Goto make_L9(Ident p1)
 {
     Goto tmp = (Goto) malloc(sizeof(*tmp));
     if (!tmp)
@@ -714,7 +681,7 @@ Goto make_L9(Rotulo p1)
         exit(1);
     }
     tmp->kind = is_L9;
-    tmp->u.l9_.rotulo_ = p1;
+    tmp->u.l9_.ident_ = p1;
     return tmp;
 }
 
@@ -1484,6 +1451,9 @@ Entry clone_Entry(Entry p)
   case is_L1:
     return make_L1
       ( strdup(p->u.l1_.ident_)
+      , clone_BlocoConstante(p->u.l1_.blococonstante_)
+      , clone_BlocoTipo(p->u.l1_.blocotipo_)
+      , clone_BlocoVar(p->u.l1_.blocovar_)
       , clone_BlocoComando(p->u.l1_.blococomando_)
       );
 
@@ -1493,49 +1463,15 @@ Entry clone_Entry(Entry p)
   }
 }
 
-RegraBloco clone_RegraBloco(RegraBloco p)
-{
-  switch(p->kind)
-  {
-  case is_RegraBlocoBlocoConstante:
-    return make_RegraBlocoBlocoConstante (clone_BlocoConstante(p->u.regrablocoblococonstante_.blococonstante_));
-
-  case is_RegraBlocoBlocoTipo:
-    return make_RegraBlocoBlocoTipo (clone_BlocoTipo(p->u.regrablocoblocotipo_.blocotipo_));
-
-  case is_RegraBlocoBlocoVar:
-    return make_RegraBlocoBlocoVar (clone_BlocoVar(p->u.regrablocoblocovar_.blocovar_));
-
-  case is_RegraBloco1:
-    return make_RegraBloco1
-      ( clone_BlocoConstante(p->u.regrabloco1_.blococonstante_)
-      , clone_RegraBloco(p->u.regrabloco1_.regrabloco_)
-      );
-
-  case is_RegraBloco2:
-    return make_RegraBloco2
-      ( clone_BlocoTipo(p->u.regrabloco2_.blocotipo_)
-      , clone_RegraBloco(p->u.regrabloco2_.regrabloco_)
-      );
-
-  case is_RegraBloco3:
-    return make_RegraBloco3
-      ( clone_BlocoVar(p->u.regrabloco3_.blocovar_)
-      , clone_RegraBloco(p->u.regrabloco3_.regrabloco_)
-      );
-
-  default:
-    fprintf(stderr, "Error: bad kind field when cloning RegraBloco!\n");
-    exit(1);
-  }
-}
-
 BlocoConstante clone_BlocoConstante(BlocoConstante p)
 {
   switch(p->kind)
   {
-  case is_L2:
-    return make_L2 (clone_RegraBlocoConstante(p->u.l2_.regrablococonstante_));
+  case is_BlocoConstante1:
+    return make_BlocoConstante1 (clone_RegraBlocoConstante(p->u.blococonstante1_.regrablococonstante_));
+
+  case is_BlocoConstante2:
+    return make_BlocoConstante2 ();
 
   default:
     fprintf(stderr, "Error: bad kind field when cloning BlocoConstante!\n");
@@ -1570,8 +1506,11 @@ BlocoTipo clone_BlocoTipo(BlocoTipo p)
 {
   switch(p->kind)
   {
-  case is_L3:
-    return make_L3 (clone_RegraBlocoTipo(p->u.l3_.regrablocotipo_));
+  case is_BlocoTipo1:
+    return make_BlocoTipo1 (clone_RegraBlocoTipo(p->u.blocotipo1_.regrablocotipo_));
+
+  case is_BlocoTipo2:
+    return make_BlocoTipo2 ();
 
   default:
     fprintf(stderr, "Error: bad kind field when cloning BlocoTipo!\n");
@@ -1606,8 +1545,11 @@ BlocoVar clone_BlocoVar(BlocoVar p)
 {
   switch(p->kind)
   {
-  case is_L4:
-    return make_L4 (clone_RegraBlocoVar(p->u.l4_.regrablocovar_));
+  case is_BlocoVar1:
+    return make_BlocoVar1 (clone_RegraBlocoVar(p->u.blocovar1_.regrablocovar_));
+
+  case is_BlocoVar2:
+    return make_BlocoVar2 ();
 
   default:
     fprintf(stderr, "Error: bad kind field when cloning BlocoVar!\n");
@@ -1762,6 +1704,9 @@ Valor clone_Valor(Valor p)
   case is_ValorString:
     return make_ValorString (strdup(p->u.valorstring_.string_));
 
+  case is_ValorExpressaoAritmetica:
+    return make_ValorExpressaoAritmetica (clone_ExpressaoAritmetica(p->u.valorexpressaoaritmetica_.expressaoaritmetica_));
+
   default:
     fprintf(stderr, "Error: bad kind field when cloning Valor!\n");
     exit(1);
@@ -1888,7 +1833,7 @@ Goto clone_Goto(Goto p)
   switch(p->kind)
   {
   case is_L9:
-    return make_L9 (clone_Rotulo(p->u.l9_.rotulo_));
+    return make_L9 (strdup(p->u.l9_.ident_));
 
   default:
     fprintf(stderr, "Error: bad kind field when cloning Goto!\n");
@@ -2335,6 +2280,9 @@ void free_Entry(Entry p)
   {
   case is_L1:
     free(p->u.l1_.ident_);
+    free_BlocoConstante(p->u.l1_.blococonstante_);
+    free_BlocoTipo(p->u.l1_.blocotipo_);
+    free_BlocoVar(p->u.l1_.blocovar_);
     free_BlocoComando(p->u.l1_.blococomando_);
     break;
 
@@ -2345,50 +2293,15 @@ void free_Entry(Entry p)
   free(p);
 }
 
-void free_RegraBloco(RegraBloco p)
-{
-  switch(p->kind)
-  {
-  case is_RegraBlocoBlocoConstante:
-    free_BlocoConstante(p->u.regrablocoblococonstante_.blococonstante_);
-    break;
-
-  case is_RegraBlocoBlocoTipo:
-    free_BlocoTipo(p->u.regrablocoblocotipo_.blocotipo_);
-    break;
-
-  case is_RegraBlocoBlocoVar:
-    free_BlocoVar(p->u.regrablocoblocovar_.blocovar_);
-    break;
-
-  case is_RegraBloco1:
-    free_BlocoConstante(p->u.regrabloco1_.blococonstante_);
-    free_RegraBloco(p->u.regrabloco1_.regrabloco_);
-    break;
-
-  case is_RegraBloco2:
-    free_BlocoTipo(p->u.regrabloco2_.blocotipo_);
-    free_RegraBloco(p->u.regrabloco2_.regrabloco_);
-    break;
-
-  case is_RegraBloco3:
-    free_BlocoVar(p->u.regrabloco3_.blocovar_);
-    free_RegraBloco(p->u.regrabloco3_.regrabloco_);
-    break;
-
-  default:
-    fprintf(stderr, "Error: bad kind field when freeing RegraBloco!\n");
-    exit(1);
-  }
-  free(p);
-}
-
 void free_BlocoConstante(BlocoConstante p)
 {
   switch(p->kind)
   {
-  case is_L2:
-    free_RegraBlocoConstante(p->u.l2_.regrablococonstante_);
+  case is_BlocoConstante1:
+    free_RegraBlocoConstante(p->u.blococonstante1_.regrablococonstante_);
+    break;
+
+  case is_BlocoConstante2:
     break;
 
   default:
@@ -2424,8 +2337,11 @@ void free_BlocoTipo(BlocoTipo p)
 {
   switch(p->kind)
   {
-  case is_L3:
-    free_RegraBlocoTipo(p->u.l3_.regrablocotipo_);
+  case is_BlocoTipo1:
+    free_RegraBlocoTipo(p->u.blocotipo1_.regrablocotipo_);
+    break;
+
+  case is_BlocoTipo2:
     break;
 
   default:
@@ -2461,8 +2377,11 @@ void free_BlocoVar(BlocoVar p)
 {
   switch(p->kind)
   {
-  case is_L4:
-    free_RegraBlocoVar(p->u.l4_.regrablocovar_);
+  case is_BlocoVar1:
+    free_RegraBlocoVar(p->u.blocovar1_.regrablocovar_);
+    break;
+
+  case is_BlocoVar2:
     break;
 
   default:
@@ -2632,6 +2551,10 @@ void free_Valor(Valor p)
     free(p->u.valorstring_.string_);
     break;
 
+  case is_ValorExpressaoAritmetica:
+    free_ExpressaoAritmetica(p->u.valorexpressaoaritmetica_.expressaoaritmetica_);
+    break;
+
   default:
     fprintf(stderr, "Error: bad kind field when freeing Valor!\n");
     exit(1);
@@ -2761,7 +2684,7 @@ void free_Goto(Goto p)
   switch(p->kind)
   {
   case is_L9:
-    free_Rotulo(p->u.l9_.rotulo_);
+    free(p->u.l9_.ident_);
     break;
 
   default:

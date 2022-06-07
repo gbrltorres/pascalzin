@@ -1,0 +1,8 @@
+programa L1:
+const;
+tipo;
+var
+	arr : vetor [ 1 .. 8 ] de int;
+inicio
+	A[2] := 2;	
+fim.

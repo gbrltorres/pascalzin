@@ -8,17 +8,18 @@ rules RegraBlocoVar ::= Ident ":" RegraTipo ";" | Ident ":" RegraTipo ";" RegraB
 L5. BlocoComando ::= "inicio" RegraComando "fim" ;
 rules RegraComando ::= Comando ";" | Comando ";" RegraComando ;
 rules Comando ::= Atribuicao | If | While | For | Goto ;
-L6. Atribuicao ::= Ident ":=" Valor ;
+rules Atribuicao ::= Ident ":=" Valor | Ident "[" SubEscrito "]" ":=" Valor ;
+rules SubEscrito ::= Ident | Integer ;
 rules RegraTipo ::= TipoPrimitivo | TipoDerivado ;
 rules TipoPrimitivo ::= "int" | "real" | "char" ;
-rules Valor ::= Integer | Double | Char | String ;
+rules Valor ::= Integer | Double | Char | String | ExpressaoAritmetica;
 rules TipoDerivado ::= Ponteiro | Vetor | Struct ;
 rules Ponteiro ::= "^"TipoPrimitivo | "^"TipoDerivado ;
 L7. Vetor ::= "vetor" "[" Integer ".." Integer "]" "de" TipoPrimitivo ;
 rules If ::= "se" ExpressaoLogica "entao" BlocoComando | "se" ExpressaoLogica "entao" BlocoComando "senao" BlocoComando ;
 L8. While ::= "enquanto" ExpressaoLogica "faca" BlocoComando ;
 rules For ::= "para" Atribuicao "ate" Integer "faca" BlocoComando | "para" Atribuicao "ate" Ident "faca" BlocoComando ;
-L9. Goto ::= "sovai" Rotulo ;
+L9. Goto ::= "sovai" Ident ;
 L10. Rotulo ::= Ident ":" RegraComando ;
 L11. Struct ::= Ident "=" "registro" DefinicaoCampoStruct "fim" ;
 rules DefinicaoCampoStruct ::= Ident ":" RegraTipo ";" | Ident ":" RegraTipo ";" DefinicaoCampoStruct ;
@@ -37,4 +38,4 @@ rules RegraAritmetica ::=  OperadorAritmetico Operando | OperadorAritmetico Oper
 rules ExpressaoRelacional ::= Operando RegraRelacional | ExpressaoAritmetica RegraRelacional ;
 rules RegraRelacional ::= OperadorRelacional Operando | OperadorRelacional ExpressaoAritmetica ;
 rules ExpressaoLogica ::= "falso" | "verdadeiro" | ExpressaoRelacional | "falso" RegraLogico | "verdadeiro"  RegraLogico | ExpressaoRelacional RegraLogico | OperadorLogico ExpressaoLogica |  OperadorLogico ExpressaoLogica RegraLogico;
-rules RegraLogico ::= OperadorLogico ExpressaoLogica | OperadorLogico ExpressaoLogica RegraLogico; 
+rules RegraLogico ::= OperadorLogico ExpressaoLogica | OperadorLogico ExpressaoLogica RegraLogico;

@@ -134,6 +134,7 @@ union YYSTYPE
   RegraComando regracomando_;
   Comando comando_;
   Atribuicao atribuicao_;
+  SubEscrito subescrito_;
   RegraTipo regratipo_;
   TipoPrimitivo tipoprimitivo_;
   Valor valor_;
@@ -164,7 +165,7 @@ union YYSTYPE
   ExpressaoLogica expressaologica_;
   RegraLogico regralogico_;
 
-#line 168 "Bison.h"
+#line 169 "Bison.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

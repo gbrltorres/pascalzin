@@ -80,10 +80,10 @@ IDENT [a-zA-Z0-9'_]
 <INITIAL>";"      	 return _SEMI;
 <INITIAL>"="      	 return _EQ;
 <INITIAL>":="      	 return _COLONEQ;
-<INITIAL>"^"      	 return _CARET;
 <INITIAL>"["      	 return _LBRACK;
-<INITIAL>".."      	 return _DDOT;
 <INITIAL>"]"      	 return _RBRACK;
+<INITIAL>"^"      	 return _CARET;
+<INITIAL>".."      	 return _DDOT;
 <INITIAL>">"      	 return _GT;
 <INITIAL>"<"      	 return _LT;
 <INITIAL>"<>"      	 return _LTGT;

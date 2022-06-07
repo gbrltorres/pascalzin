@@ -64,6 +64,7 @@ extern yyscan_t pascalzin__initialize_lexer(FILE * inp);
   RegraComando regracomando_;
   Comando comando_;
   Atribuicao atribuicao_;
+  SubEscrito subescrito_;
   RegraTipo regratipo_;
   TipoPrimitivo tipoprimitivo_;
   Valor valor_;
@@ -174,6 +175,7 @@ extern int yylex(YYSTYPE *lvalp, YYLTYPE *llocp, yyscan_t scanner);
 %type <regracomando_> RegraComando
 %type <comando_> Comando
 %type <atribuicao_> Atribuicao
+%type <subescrito_> SubEscrito
 %type <regratipo_> RegraTipo
 %type <tipoprimitivo_> TipoPrimitivo
 %type <valor_> Valor
@@ -239,7 +241,11 @@ Comando : Atribuicao { $$ = make_ComandoAtribuicao($1); result->comando_ = $$; }
   | For { $$ = make_ComandoFor($1); result->comando_ = $$; }
   | Goto { $$ = make_ComandoGoto($1); result->comando_ = $$; }
 ;
-Atribuicao : _IDENT_ _COLONEQ Valor { $$ = make_L6($1, $3); result->atribuicao_ = $$; }
+Atribuicao : _IDENT_ _COLONEQ Valor { $$ = make_Atribuicao1($1, $3); result->atribuicao_ = $$; }
+  | _IDENT_ _LBRACK SubEscrito _RBRACK _COLONEQ Valor { $$ = make_Atribuicao2($1, $3, $6); result->atribuicao_ = $$; }
+;
+SubEscrito : _IDENT_ { $$ = make_SubEscritoIdent($1); result->subescrito_ = $$; }
+  | _INTEGER_ { $$ = make_SubEscritoInteger($1); result->subescrito_ = $$; }
 ;
 RegraTipo : TipoPrimitivo { $$ = make_RegraTipoTipoPrimitivo($1); result->regratipo_ = $$; }
   | TipoDerivado { $$ = make_RegraTipoTipoDerivado($1); result->regratipo_ = $$; }
@@ -252,6 +258,7 @@ Valor : _INTEGER_ { $$ = make_ValorInteger($1); result->valor_ = $$; }
   | _DOUBLE_ { $$ = make_ValorDouble($1); result->valor_ = $$; }
   | _CHAR_ { $$ = make_ValorChar($1); result->valor_ = $$; }
   | _STRING_ { $$ = make_ValorString($1); result->valor_ = $$; }
+  | ExpressaoAritmetica { $$ = make_ValorExpressaoAritmetica($1); result->valor_ = $$; }
 ;
 TipoDerivado : Ponteiro { $$ = make_TipoDerivadoPonteiro($1); result->tipoderivado_ = $$; }
   | Vetor { $$ = make_TipoDerivadoVetor($1); result->tipoderivado_ = $$; }
@@ -270,7 +277,7 @@ While : _KW_enquanto ExpressaoLogica _KW_faca BlocoComando { $$ = make_L8($2, $4
 For : _KW_para Atribuicao _KW_ate _INTEGER_ _KW_faca BlocoComando { $$ = make_For1($2, $4, $6); result->for_ = $$; }
   | _KW_para Atribuicao _KW_ate _IDENT_ _KW_faca BlocoComando { $$ = make_For2($2, $4, $6); result->for_ = $$; }
 ;
-Goto : _KW_sovai Rotulo { $$ = make_L9($2); result->goto_ = $$; }
+Goto : _KW_sovai _IDENT_ { $$ = make_L9($2); result->goto_ = $$; }
 ;
 Rotulo : _IDENT_ _COLON RegraComando { $$ = make_L10($1, $3); result->rotulo_ = $$; }
 ;
@@ -825,6 +832,50 @@ Atribuicao psAtribuicao(const char *str)
   else
   { /* Success */
     return result.atribuicao_;
+  }
+}
+
+/* Entrypoint: parse SubEscrito from file. */
+SubEscrito pSubEscrito(FILE *inp)
+{
+  YYSTYPE result;
+  yyscan_t scanner = pascalzin__initialize_lexer(inp);
+  if (!scanner) {
+    fprintf(stderr, "Failed to initialize lexer.\n");
+    return 0;
+  }
+  int error = yyparse(scanner, &result);
+  pascalzin_lex_destroy(scanner);
+  if (error)
+  { /* Failure */
+    return 0;
+  }
+  else
+  { /* Success */
+    return result.subescrito_;
+  }
+}
+
+/* Entrypoint: parse SubEscrito from string. */
+SubEscrito psSubEscrito(const char *str)
+{
+  YYSTYPE result;
+  yyscan_t scanner = pascalzin__initialize_lexer(0);
+  if (!scanner) {
+    fprintf(stderr, "Failed to initialize lexer.\n");
+    return 0;
+  }
+  YY_BUFFER_STATE buf = pascalzin__scan_string(str, scanner);
+  int error = yyparse(scanner, &result);
+  pascalzin__delete_buffer(buf, scanner);
+  pascalzin_lex_destroy(scanner);
+  if (error)
+  { /* Failure */
+    return 0;
+  }
+  else
+  { /* Success */
+    return result.subescrito_;
   }
 }
 

@@ -26,4 +26,21 @@ inicio
     			B := 1;
     		fim;
     	fim;
+    	
+    	enquanto verdadeiro faca
+    	inicio
+    		B := 1;
+    	fim;	
+    	
+    	para C := 2 ate 3 faca
+    	inicio
+    		D := 1;
+    	fim;
+    	
+    	para C := 2 ate B faca
+    	inicio
+    		D := 1;
+    	fim;
+    	
+    	sovai B;
 fim.

@@ -23,7 +23,6 @@ void removeTrailingWhitespace(void);
 
 
 char *printEntry(Entry p);
-char *printRegraBloco(RegraBloco p);
 char *printBlocoConstante(BlocoConstante p);
 char *printRegraBlocoConstante(RegraBlocoConstante p);
 char *printBlocoTipo(BlocoTipo p);
@@ -65,7 +64,6 @@ char *printExpressaoLogica(ExpressaoLogica p);
 char *printRegraLogico(RegraLogico p);
 
 void ppEntry(Entry p, int i);
-void ppRegraBloco(RegraBloco p, int i);
 void ppBlocoConstante(BlocoConstante p, int i);
 void ppRegraBlocoConstante(RegraBlocoConstante p, int i);
 void ppBlocoTipo(BlocoTipo p, int i);
@@ -107,7 +105,6 @@ void ppExpressaoLogica(ExpressaoLogica p, int i);
 void ppRegraLogico(RegraLogico p, int i);
 
 char *showEntry(Entry p);
-char *showRegraBloco(RegraBloco p);
 char *showBlocoConstante(BlocoConstante p);
 char *showRegraBlocoConstante(RegraBlocoConstante p);
 char *showBlocoTipo(BlocoTipo p);
@@ -149,7 +146,6 @@ char *showExpressaoLogica(ExpressaoLogica p);
 char *showRegraLogico(RegraLogico p);
 
 void shEntry(Entry p);
-void shRegraBloco(RegraBloco p);
 void shBlocoConstante(BlocoConstante p);
 void shRegraBlocoConstante(RegraBlocoConstante p);
 void shBlocoTipo(BlocoTipo p);

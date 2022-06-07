@@ -592,11 +592,11 @@ static const flex_int16_t yy_accept[180] =
         0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
         0,    0,   76,   74,   73,   73,   15,   50,   74,   61,
        23,   24,   21,   19,   20,    2,   22,   71,    1,    3,
-       11,    4,   10,   72,    7,    9,    6,   72,   72,   72,
+       11,    4,   10,   72,    6,    7,    8,   72,   72,   72,
        72,   72,   72,   72,   72,   72,   72,   72,   74,   63,
        75,   62,   68,   64,   65,   66,   67,   69,   53,   52,
        51,   60,   58,   59,   54,   55,   56,   57,   16,   18,
-        8,    0,   71,    5,   14,   12,   13,   72,   72,   72,
+        9,    0,   71,    5,   14,   12,   13,   72,   72,   72,
        72,   72,   29,   72,   72,   72,   72,   72,   72,   72,
        72,   43,   72,   72,   72,   72,   17,   70,   25,   72,
 
@@ -1200,22 +1200,22 @@ return _COLONEQ;
 case 6:
 YY_RULE_SETUP
 #line 83 "pascalzin.l"
-return _CARET;
+return _LBRACK;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 84 "pascalzin.l"
-return _LBRACK;
+return _RBRACK;
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 85 "pascalzin.l"
-return _DDOT;
+return _CARET;
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 86 "pascalzin.l"
-return _RBRACK;
+return _DDOT;
 	YY_BREAK
 case 10:
 YY_RULE_SETUP

@@ -332,19 +332,66 @@ Comando make_ComandoGoto(Goto p1)
     return tmp;
 }
 
-/********************   L6    ********************/
+/********************   Atribuicao1    ********************/
 
-Atribuicao make_L6(Ident p1, Valor p2)
+Atribuicao make_Atribuicao1(Ident p1, Valor p2)
 {
     Atribuicao tmp = (Atribuicao) malloc(sizeof(*tmp));
     if (!tmp)
     {
-        fprintf(stderr, "Error: out of memory when allocating L6!\n");
+        fprintf(stderr, "Error: out of memory when allocating Atribuicao1!\n");
         exit(1);
     }
-    tmp->kind = is_L6;
-    tmp->u.l6_.ident_ = p1;
-    tmp->u.l6_.valor_ = p2;
+    tmp->kind = is_Atribuicao1;
+    tmp->u.atribuicao1_.ident_ = p1;
+    tmp->u.atribuicao1_.valor_ = p2;
+    return tmp;
+}
+
+/********************   Atribuicao2    ********************/
+
+Atribuicao make_Atribuicao2(Ident p1, SubEscrito p2, Valor p3)
+{
+    Atribuicao tmp = (Atribuicao) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating Atribuicao2!\n");
+        exit(1);
+    }
+    tmp->kind = is_Atribuicao2;
+    tmp->u.atribuicao2_.ident_ = p1;
+    tmp->u.atribuicao2_.subescrito_ = p2;
+    tmp->u.atribuicao2_.valor_ = p3;
+    return tmp;
+}
+
+/********************   SubEscritoIdent    ********************/
+
+SubEscrito make_SubEscritoIdent(Ident p1)
+{
+    SubEscrito tmp = (SubEscrito) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating SubEscritoIdent!\n");
+        exit(1);
+    }
+    tmp->kind = is_SubEscritoIdent;
+    tmp->u.subescritoident_.ident_ = p1;
+    return tmp;
+}
+
+/********************   SubEscritoInteger    ********************/
+
+SubEscrito make_SubEscritoInteger(Integer p1)
+{
+    SubEscrito tmp = (SubEscrito) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating SubEscritoInteger!\n");
+        exit(1);
+    }
+    tmp->kind = is_SubEscritoInteger;
+    tmp->u.subescritointeger_.integer_ = p1;
     return tmp;
 }
 
@@ -477,6 +524,21 @@ Valor make_ValorString(String p1)
     }
     tmp->kind = is_ValorString;
     tmp->u.valorstring_.string_ = p1;
+    return tmp;
+}
+
+/********************   ValorExpressaoAritmetica    ********************/
+
+Valor make_ValorExpressaoAritmetica(ExpressaoAritmetica p1)
+{
+    Valor tmp = (Valor) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating ValorExpressaoAritmetica!\n");
+        exit(1);
+    }
+    tmp->kind = is_ValorExpressaoAritmetica;
+    tmp->u.valorexpressaoaritmetica_.expressaoaritmetica_ = p1;
     return tmp;
 }
 
@@ -657,7 +719,7 @@ For make_For2(Atribuicao p1, Ident p2, BlocoComando p3)
 
 /********************   L9    ********************/
 
-Goto make_L9(Rotulo p1)
+Goto make_L9(Ident p1)
 {
     Goto tmp = (Goto) malloc(sizeof(*tmp));
     if (!tmp)
@@ -666,7 +728,7 @@ Goto make_L9(Rotulo p1)
         exit(1);
     }
     tmp->kind = is_L9;
-    tmp->u.l9_.rotulo_ = p1;
+    tmp->u.l9_.ident_ = p1;
     return tmp;
 }
 
@@ -1626,14 +1688,37 @@ Atribuicao clone_Atribuicao(Atribuicao p)
 {
   switch(p->kind)
   {
-  case is_L6:
-    return make_L6
-      ( strdup(p->u.l6_.ident_)
-      , clone_Valor(p->u.l6_.valor_)
+  case is_Atribuicao1:
+    return make_Atribuicao1
+      ( strdup(p->u.atribuicao1_.ident_)
+      , clone_Valor(p->u.atribuicao1_.valor_)
+      );
+
+  case is_Atribuicao2:
+    return make_Atribuicao2
+      ( strdup(p->u.atribuicao2_.ident_)
+      , clone_SubEscrito(p->u.atribuicao2_.subescrito_)
+      , clone_Valor(p->u.atribuicao2_.valor_)
       );
 
   default:
     fprintf(stderr, "Error: bad kind field when cloning Atribuicao!\n");
+    exit(1);
+  }
+}
+
+SubEscrito clone_SubEscrito(SubEscrito p)
+{
+  switch(p->kind)
+  {
+  case is_SubEscritoIdent:
+    return make_SubEscritoIdent (strdup(p->u.subescritoident_.ident_));
+
+  case is_SubEscritoInteger:
+    return make_SubEscritoInteger (p->u.subescritointeger_.integer_);
+
+  default:
+    fprintf(stderr, "Error: bad kind field when cloning SubEscrito!\n");
     exit(1);
   }
 }
@@ -1688,6 +1773,9 @@ Valor clone_Valor(Valor p)
 
   case is_ValorString:
     return make_ValorString (strdup(p->u.valorstring_.string_));
+
+  case is_ValorExpressaoAritmetica:
+    return make_ValorExpressaoAritmetica (clone_ExpressaoAritmetica(p->u.valorexpressaoaritmetica_.expressaoaritmetica_));
 
   default:
     fprintf(stderr, "Error: bad kind field when cloning Valor!\n");
@@ -1815,7 +1903,7 @@ Goto clone_Goto(Goto p)
   switch(p->kind)
   {
   case is_L9:
-    return make_L9 (clone_Rotulo(p->u.l9_.rotulo_));
+    return make_L9 (strdup(p->u.l9_.ident_));
 
   default:
     fprintf(stderr, "Error: bad kind field when cloning Goto!\n");
@@ -2465,13 +2553,37 @@ void free_Atribuicao(Atribuicao p)
 {
   switch(p->kind)
   {
-  case is_L6:
-    free(p->u.l6_.ident_);
-    free_Valor(p->u.l6_.valor_);
+  case is_Atribuicao1:
+    free(p->u.atribuicao1_.ident_);
+    free_Valor(p->u.atribuicao1_.valor_);
+    break;
+
+  case is_Atribuicao2:
+    free(p->u.atribuicao2_.ident_);
+    free_SubEscrito(p->u.atribuicao2_.subescrito_);
+    free_Valor(p->u.atribuicao2_.valor_);
     break;
 
   default:
     fprintf(stderr, "Error: bad kind field when freeing Atribuicao!\n");
+    exit(1);
+  }
+  free(p);
+}
+
+void free_SubEscrito(SubEscrito p)
+{
+  switch(p->kind)
+  {
+  case is_SubEscritoIdent:
+    free(p->u.subescritoident_.ident_);
+    break;
+
+  case is_SubEscritoInteger:
+    break;
+
+  default:
+    fprintf(stderr, "Error: bad kind field when freeing SubEscrito!\n");
     exit(1);
   }
   free(p);
@@ -2531,6 +2643,10 @@ void free_Valor(Valor p)
 
   case is_ValorString:
     free(p->u.valorstring_.string_);
+    break;
+
+  case is_ValorExpressaoAritmetica:
+    free_ExpressaoAritmetica(p->u.valorexpressaoaritmetica_.expressaoaritmetica_);
     break;
 
   default:
@@ -2662,7 +2778,7 @@ void free_Goto(Goto p)
   switch(p->kind)
   {
   case is_L9:
-    free_Rotulo(p->u.l9_.rotulo_);
+    free(p->u.l9_.ident_);
     break;
 
   default:

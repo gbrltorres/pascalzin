@@ -219,14 +219,39 @@ void visitAtribuicao(Atribuicao p)
 {
   switch(p->kind)
   {
-  case is_L6:
-    /* Code for L6 Goes Here */
-    visitIdent(p->u.l6_.ident_);
-    visitValor(p->u.l6_.valor_);
+  case is_Atribuicao1:
+    /* Code for Atribuicao1 Goes Here */
+    visitIdent(p->u.atribuicao1_.ident_);
+    visitValor(p->u.atribuicao1_.valor_);
+    break;
+  case is_Atribuicao2:
+    /* Code for Atribuicao2 Goes Here */
+    visitIdent(p->u.atribuicao2_.ident_);
+    visitSubEscrito(p->u.atribuicao2_.subescrito_);
+    visitValor(p->u.atribuicao2_.valor_);
     break;
 
   default:
     fprintf(stderr, "Error: bad kind field when printing Atribuicao!\n");
+    exit(1);
+  }
+}
+
+void visitSubEscrito(SubEscrito p)
+{
+  switch(p->kind)
+  {
+  case is_SubEscritoIdent:
+    /* Code for SubEscritoIdent Goes Here */
+    visitIdent(p->u.subescritoident_.ident_);
+    break;
+  case is_SubEscritoInteger:
+    /* Code for SubEscritoInteger Goes Here */
+    visitInteger(p->u.subescritointeger_.integer_);
+    break;
+
+  default:
+    fprintf(stderr, "Error: bad kind field when printing SubEscrito!\n");
     exit(1);
   }
 }
@@ -289,6 +314,10 @@ void visitValor(Valor p)
   case is_ValorString:
     /* Code for ValorString Goes Here */
     visitString(p->u.valorstring_.string_);
+    break;
+  case is_ValorExpressaoAritmetica:
+    /* Code for ValorExpressaoAritmetica Goes Here */
+    visitExpressaoAritmetica(p->u.valorexpressaoaritmetica_.expressaoaritmetica_);
     break;
 
   default:
@@ -423,7 +452,7 @@ void visitGoto(Goto p)
   {
   case is_L9:
     /* Code for L9 Goes Here */
-    visitRotulo(p->u.l9_.rotulo_);
+    visitIdent(p->u.l9_.ident_);
     break;
 
   default:

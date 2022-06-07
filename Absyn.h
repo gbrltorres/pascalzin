@@ -56,6 +56,9 @@ typedef struct Comando_ *Comando;
 struct Atribuicao_;
 typedef struct Atribuicao_ *Atribuicao;
 
+struct SubEscrito_;
+typedef struct SubEscrito_ *SubEscrito;
+
 struct RegraTipo_;
 typedef struct RegraTipo_ *RegraTipo;
 
@@ -276,14 +279,29 @@ Comando make_ComandoGoto(Goto p0);
 
 struct Atribuicao_
 {
-  enum { is_L6 } kind;
+  enum { is_Atribuicao1, is_Atribuicao2 } kind;
   union
   {
-    struct { Ident ident_; Valor valor_; } l6_;
+    struct { Ident ident_; Valor valor_; } atribuicao1_;
+    struct { Ident ident_; SubEscrito subescrito_; Valor valor_; } atribuicao2_;
   } u;
 };
 
-Atribuicao make_L6(Ident p0, Valor p1);
+Atribuicao make_Atribuicao1(Ident p0, Valor p1);
+Atribuicao make_Atribuicao2(Ident p0, SubEscrito p1, Valor p2);
+
+struct SubEscrito_
+{
+  enum { is_SubEscritoIdent, is_SubEscritoInteger } kind;
+  union
+  {
+    struct { Ident ident_; } subescritoident_;
+    struct { Integer integer_; } subescritointeger_;
+  } u;
+};
+
+SubEscrito make_SubEscritoIdent(Ident p0);
+SubEscrito make_SubEscritoInteger(Integer p0);
 
 struct RegraTipo_
 {
@@ -312,13 +330,14 @@ TipoPrimitivo make_TipoPrimitivo_char(void);
 
 struct Valor_
 {
-  enum { is_ValorInteger, is_ValorDouble, is_ValorChar, is_ValorString } kind;
+  enum { is_ValorInteger, is_ValorDouble, is_ValorChar, is_ValorString, is_ValorExpressaoAritmetica } kind;
   union
   {
     struct { Integer integer_; } valorinteger_;
     struct { Double double_; } valordouble_;
     struct { Char char_; } valorchar_;
     struct { String string_; } valorstring_;
+    struct { ExpressaoAritmetica expressaoaritmetica_; } valorexpressaoaritmetica_;
   } u;
 };
 
@@ -326,6 +345,7 @@ Valor make_ValorInteger(Integer p0);
 Valor make_ValorDouble(Double p0);
 Valor make_ValorChar(Char p0);
 Valor make_ValorString(String p0);
+Valor make_ValorExpressaoAritmetica(ExpressaoAritmetica p0);
 
 struct TipoDerivado_
 {
@@ -408,11 +428,11 @@ struct Goto_
   enum { is_L9 } kind;
   union
   {
-    struct { Rotulo rotulo_; } l9_;
+    struct { Ident ident_; } l9_;
   } u;
 };
 
-Goto make_L9(Rotulo p0);
+Goto make_L9(Ident p0);
 
 struct Rotulo_
 {
@@ -680,6 +700,7 @@ BlocoComando clone_BlocoComando(BlocoComando p);
 RegraComando clone_RegraComando(RegraComando p);
 Comando clone_Comando(Comando p);
 Atribuicao clone_Atribuicao(Atribuicao p);
+SubEscrito clone_SubEscrito(SubEscrito p);
 RegraTipo clone_RegraTipo(RegraTipo p);
 TipoPrimitivo clone_TipoPrimitivo(TipoPrimitivo p);
 Valor clone_Valor(Valor p);
@@ -731,6 +752,7 @@ void free_BlocoComando(BlocoComando p);
 void free_RegraComando(RegraComando p);
 void free_Comando(Comando p);
 void free_Atribuicao(Atribuicao p);
+void free_SubEscrito(SubEscrito p);
 void free_RegraTipo(RegraTipo p);
 void free_TipoPrimitivo(TipoPrimitivo p);
 void free_Valor(Valor p);

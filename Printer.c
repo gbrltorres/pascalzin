@@ -195,6 +195,13 @@ char *printAtribuicao(Atribuicao p)
   ppAtribuicao(p, 0);
   return buf_;
 }
+char *printSubEscrito(SubEscrito p)
+{
+  _n_ = 0;
+  bufReset();
+  ppSubEscrito(p, 0);
+  return buf_;
+}
 char *printRegraTipo(RegraTipo p)
 {
   _n_ = 0;
@@ -473,6 +480,13 @@ char *showAtribuicao(Atribuicao p)
   _n_ = 0;
   bufReset();
   shAtribuicao(p);
+  return buf_;
+}
+char *showSubEscrito(SubEscrito p)
+{
+  _n_ = 0;
+  bufReset();
+  shSubEscrito(p);
   return buf_;
 }
 char *showRegraTipo(RegraTipo p)
@@ -947,16 +961,49 @@ void ppAtribuicao(Atribuicao p, int _i_)
 {
   switch(p->kind)
   {
-  case is_L6:
+  case is_Atribuicao1:
     if (_i_ > 0) renderC(_L_PAREN);
-    ppIdent(p->u.l6_.ident_, 0);
+    ppIdent(p->u.atribuicao1_.ident_, 0);
     renderS(":=");
-    ppValor(p->u.l6_.valor_, 0);
+    ppValor(p->u.atribuicao1_.valor_, 0);
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
+  case is_Atribuicao2:
+    if (_i_ > 0) renderC(_L_PAREN);
+    ppIdent(p->u.atribuicao2_.ident_, 0);
+    renderC('[');
+    ppSubEscrito(p->u.atribuicao2_.subescrito_, 0);
+    renderC(']');
+    renderS(":=");
+    ppValor(p->u.atribuicao2_.valor_, 0);
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
   default:
     fprintf(stderr, "Error: bad kind field when printing Atribuicao!\n");
+    exit(1);
+  }
+}
+
+void ppSubEscrito(SubEscrito p, int _i_)
+{
+  switch(p->kind)
+  {
+  case is_SubEscritoIdent:
+    if (_i_ > 0) renderC(_L_PAREN);
+    ppIdent(p->u.subescritoident_.ident_, 0);
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
+  case is_SubEscritoInteger:
+    if (_i_ > 0) renderC(_L_PAREN);
+    ppInteger(p->u.subescritointeger_.integer_, 0);
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
+  default:
+    fprintf(stderr, "Error: bad kind field when printing SubEscrito!\n");
     exit(1);
   }
 }
@@ -1036,6 +1083,12 @@ void ppValor(Valor p, int _i_)
   case is_ValorString:
     if (_i_ > 0) renderC(_L_PAREN);
     ppString(p->u.valorstring_.string_, 0);
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
+  case is_ValorExpressaoAritmetica:
+    if (_i_ > 0) renderC(_L_PAREN);
+    ppExpressaoAritmetica(p->u.valorexpressaoaritmetica_.expressaoaritmetica_, 0);
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
@@ -1208,7 +1261,7 @@ void ppGoto(Goto p, int _i_)
   case is_L9:
     if (_i_ > 0) renderC(_L_PAREN);
     renderS("sovai");
-    ppRotulo(p->u.l9_.rotulo_, 0);
+    ppIdent(p->u.l9_.ident_, 0);
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
@@ -2183,16 +2236,32 @@ void shAtribuicao(Atribuicao p)
 {
   switch(p->kind)
   {
-  case is_L6:
+  case is_Atribuicao1:
     bufAppendC('(');
 
-    bufAppendS("L6");
+    bufAppendS("Atribuicao1");
 
     bufAppendC(' ');
 
-    shIdent(p->u.l6_.ident_);
+    shIdent(p->u.atribuicao1_.ident_);
   bufAppendC(' ');
-    shValor(p->u.l6_.valor_);
+    shValor(p->u.atribuicao1_.valor_);
+
+    bufAppendC(')');
+
+    break;
+  case is_Atribuicao2:
+    bufAppendC('(');
+
+    bufAppendS("Atribuicao2");
+
+    bufAppendC(' ');
+
+    shIdent(p->u.atribuicao2_.ident_);
+  bufAppendC(' ');
+    shSubEscrito(p->u.atribuicao2_.subescrito_);
+  bufAppendC(' ');
+    shValor(p->u.atribuicao2_.valor_);
 
     bufAppendC(')');
 
@@ -2200,6 +2269,41 @@ void shAtribuicao(Atribuicao p)
 
   default:
     fprintf(stderr, "Error: bad kind field when showing Atribuicao!\n");
+    exit(1);
+  }
+}
+
+void shSubEscrito(SubEscrito p)
+{
+  switch(p->kind)
+  {
+  case is_SubEscritoIdent:
+    bufAppendC('(');
+
+    bufAppendS("SubEscritoIdent");
+
+    bufAppendC(' ');
+
+    shIdent(p->u.subescritoident_.ident_);
+
+    bufAppendC(')');
+
+    break;
+  case is_SubEscritoInteger:
+    bufAppendC('(');
+
+    bufAppendS("SubEscritoInteger");
+
+    bufAppendC(' ');
+
+    shInteger(p->u.subescritointeger_.integer_);
+
+    bufAppendC(')');
+
+    break;
+
+  default:
+    fprintf(stderr, "Error: bad kind field when showing SubEscrito!\n");
     exit(1);
   }
 }
@@ -2322,6 +2426,18 @@ void shValor(Valor p)
     bufAppendC(' ');
 
     shString(p->u.valorstring_.string_);
+
+    bufAppendC(')');
+
+    break;
+  case is_ValorExpressaoAritmetica:
+    bufAppendC('(');
+
+    bufAppendS("ValorExpressaoAritmetica");
+
+    bufAppendC(' ');
+
+    shExpressaoAritmetica(p->u.valorexpressaoaritmetica_.expressaoaritmetica_);
 
     bufAppendC(')');
 
@@ -2562,7 +2678,7 @@ void shGoto(Goto p)
 
     bufAppendC(' ');
 
-    shRotulo(p->u.l9_.rotulo_);
+    shIdent(p->u.l9_.ident_);
 
     bufAppendC(')');
 

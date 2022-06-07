@@ -17,6 +17,9 @@ void visitEntry(Entry p)
   case is_L1:
     /* Code for L1 Goes Here */
     visitIdent(p->u.l1_.ident_);
+    visitBlocoConstante(p->u.l1_.blococonstante_);
+    visitBlocoTipo(p->u.l1_.blocotipo_);
+    visitBlocoVar(p->u.l1_.blocovar_);
     visitBlocoComando(p->u.l1_.blococomando_);
     break;
 
@@ -26,51 +29,16 @@ void visitEntry(Entry p)
   }
 }
 
-void visitRegraBloco(RegraBloco p)
-{
-  switch(p->kind)
-  {
-  case is_RegraBlocoBlocoConstante:
-    /* Code for RegraBlocoBlocoConstante Goes Here */
-    visitBlocoConstante(p->u.regrablocoblococonstante_.blococonstante_);
-    break;
-  case is_RegraBlocoBlocoTipo:
-    /* Code for RegraBlocoBlocoTipo Goes Here */
-    visitBlocoTipo(p->u.regrablocoblocotipo_.blocotipo_);
-    break;
-  case is_RegraBlocoBlocoVar:
-    /* Code for RegraBlocoBlocoVar Goes Here */
-    visitBlocoVar(p->u.regrablocoblocovar_.blocovar_);
-    break;
-  case is_RegraBloco1:
-    /* Code for RegraBloco1 Goes Here */
-    visitBlocoConstante(p->u.regrabloco1_.blococonstante_);
-    visitRegraBloco(p->u.regrabloco1_.regrabloco_);
-    break;
-  case is_RegraBloco2:
-    /* Code for RegraBloco2 Goes Here */
-    visitBlocoTipo(p->u.regrabloco2_.blocotipo_);
-    visitRegraBloco(p->u.regrabloco2_.regrabloco_);
-    break;
-  case is_RegraBloco3:
-    /* Code for RegraBloco3 Goes Here */
-    visitBlocoVar(p->u.regrabloco3_.blocovar_);
-    visitRegraBloco(p->u.regrabloco3_.regrabloco_);
-    break;
-
-  default:
-    fprintf(stderr, "Error: bad kind field when printing RegraBloco!\n");
-    exit(1);
-  }
-}
-
 void visitBlocoConstante(BlocoConstante p)
 {
   switch(p->kind)
   {
-  case is_L2:
-    /* Code for L2 Goes Here */
-    visitRegraBlocoConstante(p->u.l2_.regrablococonstante_);
+  case is_BlocoConstante1:
+    /* Code for BlocoConstante1 Goes Here */
+    visitRegraBlocoConstante(p->u.blococonstante1_.regrablococonstante_);
+    break;
+  case is_BlocoConstante2:
+    /* Code for BlocoConstante2 Goes Here */
     break;
 
   default:
@@ -105,9 +73,12 @@ void visitBlocoTipo(BlocoTipo p)
 {
   switch(p->kind)
   {
-  case is_L3:
-    /* Code for L3 Goes Here */
-    visitRegraBlocoTipo(p->u.l3_.regrablocotipo_);
+  case is_BlocoTipo1:
+    /* Code for BlocoTipo1 Goes Here */
+    visitRegraBlocoTipo(p->u.blocotipo1_.regrablocotipo_);
+    break;
+  case is_BlocoTipo2:
+    /* Code for BlocoTipo2 Goes Here */
     break;
 
   default:
@@ -142,9 +113,12 @@ void visitBlocoVar(BlocoVar p)
 {
   switch(p->kind)
   {
-  case is_L4:
-    /* Code for L4 Goes Here */
-    visitRegraBlocoVar(p->u.l4_.regrablocovar_);
+  case is_BlocoVar1:
+    /* Code for BlocoVar1 Goes Here */
+    visitRegraBlocoVar(p->u.blocovar1_.regrablocovar_);
+    break;
+  case is_BlocoVar2:
+    /* Code for BlocoVar2 Goes Here */
     break;
 
   default:
@@ -316,6 +290,10 @@ void visitValor(Valor p)
     /* Code for ValorString Goes Here */
     visitString(p->u.valorstring_.string_);
     break;
+  case is_ValorExpressaoAritmetica:
+    /* Code for ValorExpressaoAritmetica Goes Here */
+    visitExpressaoAritmetica(p->u.valorexpressaoaritmetica_.expressaoaritmetica_);
+    break;
 
   default:
     fprintf(stderr, "Error: bad kind field when printing Valor!\n");
@@ -449,7 +427,7 @@ void visitGoto(Goto p)
   {
   case is_L9:
     /* Code for L9 Goes Here */
-    visitRotulo(p->u.l9_.rotulo_);
+    visitIdent(p->u.l9_.ident_);
     break;
 
   default:
