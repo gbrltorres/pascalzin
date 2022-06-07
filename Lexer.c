@@ -591,8 +591,8 @@ static const flex_int16_t yy_accept[180] =
     {   0,
         0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
         0,    0,   76,   74,   73,   73,   15,   50,   74,   61,
-       23,   24,   21,   19,   20,    2,   22,   71,    1,    3,
-       11,    4,   10,   72,    6,    7,    8,   72,   72,   72,
+       23,   24,   21,   19,   20,    2,   22,   71,    1,    4,
+       11,    3,   10,   72,    6,    7,    8,   72,   72,   72,
        72,   72,   72,   72,   72,   72,   72,   72,   74,   63,
        75,   62,   68,   64,   65,   66,   67,   69,   53,   52,
        51,   60,   58,   59,   54,   55,   56,   57,   16,   18,
@@ -1185,12 +1185,12 @@ return _DOT;
 case 3:
 YY_RULE_SETUP
 #line 80 "pascalzin.l"
-return _SEMI;
+return _EQ;
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 81 "pascalzin.l"
-return _EQ;
+return _SEMI;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP

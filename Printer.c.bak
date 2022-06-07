@@ -779,10 +779,8 @@ void ppBlocoTipo(BlocoTipo p, int _i_)
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
-  case is_BlocoTipo2:
+  case is_BlocoTipo_:
     if (_i_ > 0) renderC(_L_PAREN);
-    renderS("tipo");
-    renderC(';');
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
@@ -993,6 +991,12 @@ void ppAtribuicao(Atribuicao p, int _i_)
     renderC('^');
     renderS(":=");
     ppValor(p->u.atribuicao3_.valor_, 0);
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
+  case is_AtribuicaoAtribuicaoStruct:
+    if (_i_ > 0) renderC(_L_PAREN);
+    ppAtribuicaoStruct(p->u.atribuicaoatribuicaostruct_.atribuicaostruct_, 0);
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
@@ -1993,9 +1997,9 @@ void shBlocoTipo(BlocoTipo p)
     bufAppendC(')');
 
     break;
-  case is_BlocoTipo2:
+  case is_BlocoTipo_:
 
-    bufAppendS("BlocoTipo2");
+    bufAppendS("BlocoTipo_");
 
 
 
@@ -2304,6 +2308,18 @@ void shAtribuicao(Atribuicao p)
     shIdent(p->u.atribuicao3_.ident_);
   bufAppendC(' ');
     shValor(p->u.atribuicao3_.valor_);
+
+    bufAppendC(')');
+
+    break;
+  case is_AtribuicaoAtribuicaoStruct:
+    bufAppendC('(');
+
+    bufAppendS("AtribuicaoAtribuicaoStruct");
+
+    bufAppendC(' ');
+
+    shAtribuicaoStruct(p->u.atribuicaoatribuicaostruct_.atribuicaostruct_);
 
     bufAppendC(')');
 

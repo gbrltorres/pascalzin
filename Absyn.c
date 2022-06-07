@@ -40,17 +40,17 @@ BlocoConstante make_BlocoConstante1(RegraBlocoConstante p1)
     return tmp;
 }
 
-/********************   BlocoConstante2    ********************/
+/********************   BlocoConstante_    ********************/
 
-BlocoConstante make_BlocoConstante2()
+BlocoConstante make_BlocoConstante_()
 {
     BlocoConstante tmp = (BlocoConstante) malloc(sizeof(*tmp));
     if (!tmp)
     {
-        fprintf(stderr, "Error: out of memory when allocating BlocoConstante2!\n");
+        fprintf(stderr, "Error: out of memory when allocating BlocoConstante_!\n");
         exit(1);
     }
-    tmp->kind = is_BlocoConstante2;
+    tmp->kind = is_BlocoConstante_;
     return tmp;
 }
 
@@ -102,17 +102,17 @@ BlocoTipo make_BlocoTipo1(RegraBlocoTipo p1)
     return tmp;
 }
 
-/********************   BlocoTipo2    ********************/
+/********************   BlocoTipo_    ********************/
 
-BlocoTipo make_BlocoTipo2()
+BlocoTipo make_BlocoTipo_()
 {
     BlocoTipo tmp = (BlocoTipo) malloc(sizeof(*tmp));
     if (!tmp)
     {
-        fprintf(stderr, "Error: out of memory when allocating BlocoTipo2!\n");
+        fprintf(stderr, "Error: out of memory when allocating BlocoTipo_!\n");
         exit(1);
     }
-    tmp->kind = is_BlocoTipo2;
+    tmp->kind = is_BlocoTipo_;
     return tmp;
 }
 
@@ -164,17 +164,17 @@ BlocoVar make_BlocoVar1(RegraBlocoVar p1)
     return tmp;
 }
 
-/********************   BlocoVar2    ********************/
+/********************   BlocoVar_    ********************/
 
-BlocoVar make_BlocoVar2()
+BlocoVar make_BlocoVar_()
 {
     BlocoVar tmp = (BlocoVar) malloc(sizeof(*tmp));
     if (!tmp)
     {
-        fprintf(stderr, "Error: out of memory when allocating BlocoVar2!\n");
+        fprintf(stderr, "Error: out of memory when allocating BlocoVar_!\n");
         exit(1);
     }
-    tmp->kind = is_BlocoVar2;
+    tmp->kind = is_BlocoVar_;
     return tmp;
 }
 
@@ -226,17 +226,17 @@ BlocoComando make_BlocoComando1(RegraComando p1)
     return tmp;
 }
 
-/********************   BlocoComando2    ********************/
+/********************   BlocoComando_    ********************/
 
-BlocoComando make_BlocoComando2()
+BlocoComando make_BlocoComando_()
 {
     BlocoComando tmp = (BlocoComando) malloc(sizeof(*tmp));
     if (!tmp)
     {
-        fprintf(stderr, "Error: out of memory when allocating BlocoComando2!\n");
+        fprintf(stderr, "Error: out of memory when allocating BlocoComando_!\n");
         exit(1);
     }
-    tmp->kind = is_BlocoComando2;
+    tmp->kind = is_BlocoComando_;
     return tmp;
 }
 
@@ -1576,8 +1576,8 @@ BlocoConstante clone_BlocoConstante(BlocoConstante p)
   case is_BlocoConstante1:
     return make_BlocoConstante1 (clone_RegraBlocoConstante(p->u.blococonstante1_.regrablococonstante_));
 
-  case is_BlocoConstante2:
-    return make_BlocoConstante2 ();
+  case is_BlocoConstante_:
+    return make_BlocoConstante_ ();
 
   default:
     fprintf(stderr, "Error: bad kind field when cloning BlocoConstante!\n");
@@ -1615,8 +1615,8 @@ BlocoTipo clone_BlocoTipo(BlocoTipo p)
   case is_BlocoTipo1:
     return make_BlocoTipo1 (clone_RegraBlocoTipo(p->u.blocotipo1_.regrablocotipo_));
 
-  case is_BlocoTipo2:
-    return make_BlocoTipo2 ();
+  case is_BlocoTipo_:
+    return make_BlocoTipo_ ();
 
   default:
     fprintf(stderr, "Error: bad kind field when cloning BlocoTipo!\n");
@@ -1654,8 +1654,8 @@ BlocoVar clone_BlocoVar(BlocoVar p)
   case is_BlocoVar1:
     return make_BlocoVar1 (clone_RegraBlocoVar(p->u.blocovar1_.regrablocovar_));
 
-  case is_BlocoVar2:
-    return make_BlocoVar2 ();
+  case is_BlocoVar_:
+    return make_BlocoVar_ ();
 
   default:
     fprintf(stderr, "Error: bad kind field when cloning BlocoVar!\n");
@@ -1693,8 +1693,8 @@ BlocoComando clone_BlocoComando(BlocoComando p)
   case is_BlocoComando1:
     return make_BlocoComando1 (clone_RegraComando(p->u.blococomando1_.regracomando_));
 
-  case is_BlocoComando2:
-    return make_BlocoComando2 ();
+  case is_BlocoComando_:
+    return make_BlocoComando_ ();
 
   default:
     fprintf(stderr, "Error: bad kind field when cloning BlocoComando!\n");
@@ -2442,7 +2442,7 @@ void free_BlocoConstante(BlocoConstante p)
     free_RegraBlocoConstante(p->u.blococonstante1_.regrablococonstante_);
     break;
 
-  case is_BlocoConstante2:
+  case is_BlocoConstante_:
     break;
 
   default:
@@ -2482,7 +2482,7 @@ void free_BlocoTipo(BlocoTipo p)
     free_RegraBlocoTipo(p->u.blocotipo1_.regrablocotipo_);
     break;
 
-  case is_BlocoTipo2:
+  case is_BlocoTipo_:
     break;
 
   default:
@@ -2522,7 +2522,7 @@ void free_BlocoVar(BlocoVar p)
     free_RegraBlocoVar(p->u.blocovar1_.regrablocovar_);
     break;
 
-  case is_BlocoVar2:
+  case is_BlocoVar_:
     break;
 
   default:
@@ -2562,7 +2562,7 @@ void free_BlocoComando(BlocoComando p)
     free_RegraComando(p->u.blococomando1_.regracomando_);
     break;
 
-  case is_BlocoComando2:
+  case is_BlocoComando_:
     break;
 
   default:

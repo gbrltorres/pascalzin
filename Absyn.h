@@ -161,7 +161,7 @@ Entry make_L1(Ident p0, BlocoConstante p1, BlocoTipo p2, BlocoVar p3, BlocoComan
 
 struct BlocoConstante_
 {
-  enum { is_BlocoConstante1, is_BlocoConstante2 } kind;
+  enum { is_BlocoConstante1, is_BlocoConstante_ } kind;
   union
   {
     struct { RegraBlocoConstante regrablococonstante_; } blococonstante1_;
@@ -169,7 +169,7 @@ struct BlocoConstante_
 };
 
 BlocoConstante make_BlocoConstante1(RegraBlocoConstante p0);
-BlocoConstante make_BlocoConstante2(void);
+BlocoConstante make_BlocoConstante_(void);
 
 struct RegraBlocoConstante_
 {
@@ -186,7 +186,7 @@ RegraBlocoConstante make_RegraBlocoConstante2(Ident p0, Valor p1, RegraBlocoCons
 
 struct BlocoTipo_
 {
-  enum { is_BlocoTipo1, is_BlocoTipo2 } kind;
+  enum { is_BlocoTipo1, is_BlocoTipo_ } kind;
   union
   {
     struct { RegraBlocoTipo regrablocotipo_; } blocotipo1_;
@@ -194,7 +194,7 @@ struct BlocoTipo_
 };
 
 BlocoTipo make_BlocoTipo1(RegraBlocoTipo p0);
-BlocoTipo make_BlocoTipo2(void);
+BlocoTipo make_BlocoTipo_(void);
 
 struct RegraBlocoTipo_
 {
@@ -211,7 +211,7 @@ RegraBlocoTipo make_RegraBlocoTipo2(Ident p0, RegraTipo p1, RegraBlocoTipo p2);
 
 struct BlocoVar_
 {
-  enum { is_BlocoVar1, is_BlocoVar2 } kind;
+  enum { is_BlocoVar1, is_BlocoVar_ } kind;
   union
   {
     struct { RegraBlocoVar regrablocovar_; } blocovar1_;
@@ -219,7 +219,7 @@ struct BlocoVar_
 };
 
 BlocoVar make_BlocoVar1(RegraBlocoVar p0);
-BlocoVar make_BlocoVar2(void);
+BlocoVar make_BlocoVar_(void);
 
 struct RegraBlocoVar_
 {
@@ -236,7 +236,7 @@ RegraBlocoVar make_RegraBlocoVar2(Ident p0, RegraTipo p1, RegraBlocoVar p2);
 
 struct BlocoComando_
 {
-  enum { is_BlocoComando1, is_BlocoComando2 } kind;
+  enum { is_BlocoComando1, is_BlocoComando_ } kind;
   union
   {
     struct { RegraComando regracomando_; } blococomando1_;
@@ -244,7 +244,7 @@ struct BlocoComando_
 };
 
 BlocoComando make_BlocoComando1(RegraComando p0);
-BlocoComando make_BlocoComando2(void);
+BlocoComando make_BlocoComando_(void);
 
 struct RegraComando_
 {

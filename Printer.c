@@ -726,10 +726,8 @@ void ppBlocoConstante(BlocoConstante p, int _i_)
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
-  case is_BlocoConstante2:
+  case is_BlocoConstante_:
     if (_i_ > 0) renderC(_L_PAREN);
-    renderS("const");
-    renderC(';');
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
@@ -779,10 +777,8 @@ void ppBlocoTipo(BlocoTipo p, int _i_)
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
-  case is_BlocoTipo2:
+  case is_BlocoTipo_:
     if (_i_ > 0) renderC(_L_PAREN);
-    renderS("tipo");
-    renderC(';');
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
@@ -832,10 +828,8 @@ void ppBlocoVar(BlocoVar p, int _i_)
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
-  case is_BlocoVar2:
+  case is_BlocoVar_:
     if (_i_ > 0) renderC(_L_PAREN);
-    renderS("var");
-    renderC(';');
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
@@ -886,10 +880,8 @@ void ppBlocoComando(BlocoComando p, int _i_)
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
-  case is_BlocoComando2:
+  case is_BlocoComando_:
     if (_i_ > 0) renderC(_L_PAREN);
-    renderS("inicio");
-    renderS("fim");
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
@@ -1927,9 +1919,9 @@ void shBlocoConstante(BlocoConstante p)
     bufAppendC(')');
 
     break;
-  case is_BlocoConstante2:
+  case is_BlocoConstante_:
 
-    bufAppendS("BlocoConstante2");
+    bufAppendS("BlocoConstante_");
 
 
 
@@ -1999,9 +1991,9 @@ void shBlocoTipo(BlocoTipo p)
     bufAppendC(')');
 
     break;
-  case is_BlocoTipo2:
+  case is_BlocoTipo_:
 
-    bufAppendS("BlocoTipo2");
+    bufAppendS("BlocoTipo_");
 
 
 
@@ -2071,9 +2063,9 @@ void shBlocoVar(BlocoVar p)
     bufAppendC(')');
 
     break;
-  case is_BlocoVar2:
+  case is_BlocoVar_:
 
-    bufAppendS("BlocoVar2");
+    bufAppendS("BlocoVar_");
 
 
 
@@ -2143,9 +2135,9 @@ void shBlocoComando(BlocoComando p)
     bufAppendC(')');
 
     break;
-  case is_BlocoComando2:
+  case is_BlocoComando_:
 
-    bufAppendS("BlocoComando2");
+    bufAppendS("BlocoComando_");
 
 
 

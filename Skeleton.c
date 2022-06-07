@@ -37,8 +37,8 @@ void visitBlocoConstante(BlocoConstante p)
     /* Code for BlocoConstante1 Goes Here */
     visitRegraBlocoConstante(p->u.blococonstante1_.regrablococonstante_);
     break;
-  case is_BlocoConstante2:
-    /* Code for BlocoConstante2 Goes Here */
+  case is_BlocoConstante_:
+    /* Code for BlocoConstante_ Goes Here */
     break;
 
   default:
@@ -77,8 +77,8 @@ void visitBlocoTipo(BlocoTipo p)
     /* Code for BlocoTipo1 Goes Here */
     visitRegraBlocoTipo(p->u.blocotipo1_.regrablocotipo_);
     break;
-  case is_BlocoTipo2:
-    /* Code for BlocoTipo2 Goes Here */
+  case is_BlocoTipo_:
+    /* Code for BlocoTipo_ Goes Here */
     break;
 
   default:
@@ -117,8 +117,8 @@ void visitBlocoVar(BlocoVar p)
     /* Code for BlocoVar1 Goes Here */
     visitRegraBlocoVar(p->u.blocovar1_.regrablocovar_);
     break;
-  case is_BlocoVar2:
-    /* Code for BlocoVar2 Goes Here */
+  case is_BlocoVar_:
+    /* Code for BlocoVar_ Goes Here */
     break;
 
   default:
@@ -157,8 +157,8 @@ void visitBlocoComando(BlocoComando p)
     /* Code for BlocoComando1 Goes Here */
     visitRegraComando(p->u.blococomando1_.regracomando_);
     break;
-  case is_BlocoComando2:
-    /* Code for BlocoComando2 Goes Here */
+  case is_BlocoComando_:
+    /* Code for BlocoComando_ Goes Here */
     break;
 
   default:

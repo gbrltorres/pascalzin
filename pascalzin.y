@@ -213,25 +213,25 @@ extern int yylex(YYSTYPE *lvalp, YYLTYPE *llocp, yyscan_t scanner);
 Entry : _KW_programa _IDENT_ _COLON BlocoConstante BlocoTipo BlocoVar BlocoComando _DOT { $$ = make_L1($2, $4, $5, $6, $7); result->entry_ = $$; }
 ;
 BlocoConstante : _KW_const RegraBlocoConstante { $$ = make_BlocoConstante1($2); result->blococonstante_ = $$; }
-  | _KW_const _SEMI { $$ = make_BlocoConstante2(); result->blococonstante_ = $$; }
+  | /* empty */ { $$ = make_BlocoConstante_(); result->blococonstante_ = $$; }
 ;
 RegraBlocoConstante : _IDENT_ _EQ Valor _SEMI { $$ = make_RegraBlocoConstante1($1, $3); result->regrablococonstante_ = $$; }
   | _IDENT_ _EQ Valor _SEMI RegraBlocoConstante { $$ = make_RegraBlocoConstante2($1, $3, $5); result->regrablococonstante_ = $$; }
 ;
 BlocoTipo : _KW_tipo RegraBlocoTipo { $$ = make_BlocoTipo1($2); result->blocotipo_ = $$; }
-  | _KW_tipo _SEMI { $$ = make_BlocoTipo2(); result->blocotipo_ = $$; }
+  | /* empty */ { $$ = make_BlocoTipo_(); result->blocotipo_ = $$; }
 ;
 RegraBlocoTipo : _IDENT_ _EQ RegraTipo _SEMI { $$ = make_RegraBlocoTipo1($1, $3); result->regrablocotipo_ = $$; }
   | _IDENT_ _EQ RegraTipo _SEMI RegraBlocoTipo { $$ = make_RegraBlocoTipo2($1, $3, $5); result->regrablocotipo_ = $$; }
 ;
 BlocoVar : _KW_var RegraBlocoVar { $$ = make_BlocoVar1($2); result->blocovar_ = $$; }
-  | _KW_var _SEMI { $$ = make_BlocoVar2(); result->blocovar_ = $$; }
+  | /* empty */ { $$ = make_BlocoVar_(); result->blocovar_ = $$; }
 ;
 RegraBlocoVar : _IDENT_ _COLON RegraTipo _SEMI { $$ = make_RegraBlocoVar1($1, $3); result->regrablocovar_ = $$; }
   | _IDENT_ _COLON RegraTipo _SEMI RegraBlocoVar { $$ = make_RegraBlocoVar2($1, $3, $5); result->regrablocovar_ = $$; }
 ;
 BlocoComando : _KW_inicio RegraComando _KW_fim { $$ = make_BlocoComando1($2); result->blococomando_ = $$; }
-  | _KW_inicio _KW_fim { $$ = make_BlocoComando2(); result->blococomando_ = $$; }
+  | /* empty */ { $$ = make_BlocoComando_(); result->blococomando_ = $$; }
 ;
 RegraComando : Comando _SEMI { $$ = make_RegraComando1($1); result->regracomando_ = $$; }
   | Comando _SEMI RegraComando { $$ = make_RegraComando2($1, $3); result->regracomando_ = $$; }

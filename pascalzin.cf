@@ -1,11 +1,11 @@
 L1. Entry ::= "programa" Ident ":" BlocoConstante BlocoTipo BlocoVar BlocoComando "." ;
-rules BlocoConstante ::= "const" RegraBlocoConstante | "const" ";" ;
+rules BlocoConstante ::= "const" RegraBlocoConstante | "" ;
 rules RegraBlocoConstante ::= Ident "=" Valor ";" | Ident "=" Valor ";" RegraBlocoConstante ;
-rules BlocoTipo ::= "tipo" RegraBlocoTipo | "tipo" ";";
+rules BlocoTipo ::= "tipo" RegraBlocoTipo | "" ;
 rules RegraBlocoTipo ::= Ident "=" RegraTipo ";" | Ident "=" RegraTipo ";" RegraBlocoTipo;
-rules BlocoVar ::= "var" RegraBlocoVar | "var" ";" ;
+rules BlocoVar ::= "var" RegraBlocoVar | "" ;
 rules RegraBlocoVar ::= Ident ":" RegraTipo ";" | Ident ":" RegraTipo ";" RegraBlocoVar ;
-rules BlocoComando ::= "inicio" RegraComando "fim" | "inicio" "fim" ;
+rules BlocoComando ::= "inicio" RegraComando "fim" | "" ;
 rules RegraComando ::= Comando ";" | Comando ";" RegraComando ;
 rules Comando ::= Atribuicao | If | While | For | Goto ;
 rules Atribuicao ::= Ident ":=" Valor | Ident "[" SubEscrito "]" ":=" Valor | Ident "^" ":=" Valor | AtribuicaoStruct ;

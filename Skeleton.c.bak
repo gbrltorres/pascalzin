@@ -77,8 +77,8 @@ void visitBlocoTipo(BlocoTipo p)
     /* Code for BlocoTipo1 Goes Here */
     visitRegraBlocoTipo(p->u.blocotipo1_.regrablocotipo_);
     break;
-  case is_BlocoTipo2:
-    /* Code for BlocoTipo2 Goes Here */
+  case is_BlocoTipo_:
+    /* Code for BlocoTipo_ Goes Here */
     break;
 
   default:
@@ -237,6 +237,10 @@ void visitAtribuicao(Atribuicao p)
     /* Code for Atribuicao3 Goes Here */
     visitIdent(p->u.atribuicao3_.ident_);
     visitValor(p->u.atribuicao3_.valor_);
+    break;
+  case is_AtribuicaoAtribuicaoStruct:
+    /* Code for AtribuicaoAtribuicaoStruct Goes Here */
+    visitAtribuicaoStruct(p->u.atribuicaoatribuicaostruct_.atribuicaostruct_);
     break;
 
   default:

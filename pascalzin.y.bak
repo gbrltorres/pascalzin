@@ -219,7 +219,7 @@ RegraBlocoConstante : _IDENT_ _EQ Valor _SEMI { $$ = make_RegraBlocoConstante1($
   | _IDENT_ _EQ Valor _SEMI RegraBlocoConstante { $$ = make_RegraBlocoConstante2($1, $3, $5); result->regrablococonstante_ = $$; }
 ;
 BlocoTipo : _KW_tipo RegraBlocoTipo { $$ = make_BlocoTipo1($2); result->blocotipo_ = $$; }
-  | _KW_tipo _SEMI { $$ = make_BlocoTipo2(); result->blocotipo_ = $$; }
+  | /* empty */ { $$ = make_BlocoTipo_(); result->blocotipo_ = $$; }
 ;
 RegraBlocoTipo : _IDENT_ _EQ RegraTipo _SEMI { $$ = make_RegraBlocoTipo1($1, $3); result->regrablocotipo_ = $$; }
   | _IDENT_ _EQ RegraTipo _SEMI RegraBlocoTipo { $$ = make_RegraBlocoTipo2($1, $3, $5); result->regrablocotipo_ = $$; }
@@ -245,6 +245,7 @@ Comando : Atribuicao { $$ = make_ComandoAtribuicao($1); result->comando_ = $$; }
 Atribuicao : _IDENT_ _COLONEQ Valor { $$ = make_Atribuicao1($1, $3); result->atribuicao_ = $$; }
   | _IDENT_ _LBRACK SubEscrito _RBRACK _COLONEQ Valor { $$ = make_Atribuicao2($1, $3, $6); result->atribuicao_ = $$; }
   | _IDENT_ _CARET _COLONEQ Valor { $$ = make_Atribuicao3($1, $4); result->atribuicao_ = $$; }
+  | AtribuicaoStruct { $$ = make_AtribuicaoAtribuicaoStruct($1); result->atribuicao_ = $$; }
 ;
 SubEscrito : _IDENT_ { $$ = make_SubEscritoIdent($1); result->subescrito_ = $$; }
   | _INTEGER_ { $$ = make_SubEscritoInteger($1); result->subescrito_ = $$; }

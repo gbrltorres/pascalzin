@@ -186,7 +186,7 @@ RegraBlocoConstante make_RegraBlocoConstante2(Ident p0, Valor p1, RegraBlocoCons
 
 struct BlocoTipo_
 {
-  enum { is_BlocoTipo1, is_BlocoTipo2 } kind;
+  enum { is_BlocoTipo1, is_BlocoTipo_ } kind;
   union
   {
     struct { RegraBlocoTipo regrablocotipo_; } blocotipo1_;
@@ -194,7 +194,7 @@ struct BlocoTipo_
 };
 
 BlocoTipo make_BlocoTipo1(RegraBlocoTipo p0);
-BlocoTipo make_BlocoTipo2(void);
+BlocoTipo make_BlocoTipo_(void);
 
 struct RegraBlocoTipo_
 {
@@ -280,18 +280,20 @@ Comando make_ComandoGoto(Goto p0);
 
 struct Atribuicao_
 {
-  enum { is_Atribuicao1, is_Atribuicao2, is_Atribuicao3 } kind;
+  enum { is_Atribuicao1, is_Atribuicao2, is_Atribuicao3, is_AtribuicaoAtribuicaoStruct } kind;
   union
   {
     struct { Ident ident_; Valor valor_; } atribuicao1_;
     struct { Ident ident_; SubEscrito subescrito_; Valor valor_; } atribuicao2_;
     struct { Ident ident_; Valor valor_; } atribuicao3_;
+    struct { AtribuicaoStruct atribuicaostruct_; } atribuicaoatribuicaostruct_;
   } u;
 };
 
 Atribuicao make_Atribuicao1(Ident p0, Valor p1);
 Atribuicao make_Atribuicao2(Ident p0, SubEscrito p1, Valor p2);
 Atribuicao make_Atribuicao3(Ident p0, Valor p1);
+Atribuicao make_AtribuicaoAtribuicaoStruct(AtribuicaoStruct p0);
 
 struct SubEscrito_
 {

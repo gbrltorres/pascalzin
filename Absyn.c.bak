@@ -102,17 +102,17 @@ BlocoTipo make_BlocoTipo1(RegraBlocoTipo p1)
     return tmp;
 }
 
-/********************   BlocoTipo2    ********************/
+/********************   BlocoTipo_    ********************/
 
-BlocoTipo make_BlocoTipo2()
+BlocoTipo make_BlocoTipo_()
 {
     BlocoTipo tmp = (BlocoTipo) malloc(sizeof(*tmp));
     if (!tmp)
     {
-        fprintf(stderr, "Error: out of memory when allocating BlocoTipo2!\n");
+        fprintf(stderr, "Error: out of memory when allocating BlocoTipo_!\n");
         exit(1);
     }
-    tmp->kind = is_BlocoTipo2;
+    tmp->kind = is_BlocoTipo_;
     return tmp;
 }
 
@@ -392,6 +392,21 @@ Atribuicao make_Atribuicao3(Ident p1, Valor p2)
     tmp->kind = is_Atribuicao3;
     tmp->u.atribuicao3_.ident_ = p1;
     tmp->u.atribuicao3_.valor_ = p2;
+    return tmp;
+}
+
+/********************   AtribuicaoAtribuicaoStruct    ********************/
+
+Atribuicao make_AtribuicaoAtribuicaoStruct(AtribuicaoStruct p1)
+{
+    Atribuicao tmp = (Atribuicao) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating AtribuicaoAtribuicaoStruct!\n");
+        exit(1);
+    }
+    tmp->kind = is_AtribuicaoAtribuicaoStruct;
+    tmp->u.atribuicaoatribuicaostruct_.atribuicaostruct_ = p1;
     return tmp;
 }
 
@@ -1600,8 +1615,8 @@ BlocoTipo clone_BlocoTipo(BlocoTipo p)
   case is_BlocoTipo1:
     return make_BlocoTipo1 (clone_RegraBlocoTipo(p->u.blocotipo1_.regrablocotipo_));
 
-  case is_BlocoTipo2:
-    return make_BlocoTipo2 ();
+  case is_BlocoTipo_:
+    return make_BlocoTipo_ ();
 
   default:
     fprintf(stderr, "Error: bad kind field when cloning BlocoTipo!\n");
@@ -1753,6 +1768,9 @@ Atribuicao clone_Atribuicao(Atribuicao p)
       ( strdup(p->u.atribuicao3_.ident_)
       , clone_Valor(p->u.atribuicao3_.valor_)
       );
+
+  case is_AtribuicaoAtribuicaoStruct:
+    return make_AtribuicaoAtribuicaoStruct (clone_AtribuicaoStruct(p->u.atribuicaoatribuicaostruct_.atribuicaostruct_));
 
   default:
     fprintf(stderr, "Error: bad kind field when cloning Atribuicao!\n");
@@ -2464,7 +2482,7 @@ void free_BlocoTipo(BlocoTipo p)
     free_RegraBlocoTipo(p->u.blocotipo1_.regrablocotipo_);
     break;
 
-  case is_BlocoTipo2:
+  case is_BlocoTipo_:
     break;
 
   default:
@@ -2623,6 +2641,10 @@ void free_Atribuicao(Atribuicao p)
   case is_Atribuicao3:
     free(p->u.atribuicao3_.ident_);
     free_Valor(p->u.atribuicao3_.valor_);
+    break;
+
+  case is_AtribuicaoAtribuicaoStruct:
+    free_AtribuicaoStruct(p->u.atribuicaoatribuicaostruct_.atribuicaostruct_);
     break;
 
   default:
