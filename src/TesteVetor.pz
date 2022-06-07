@@ -1,8 +1,9 @@
 programa L1:
 const;
-tipo;
+tipo
+	vector = vetor [ 2 .. 5 ] de real; 
 var
 	arr : vetor [ 1 .. 8 ] de int;
 inicio
-	A[2] := 2;	
+	A[2] := 2 + 3;	
 fim.
