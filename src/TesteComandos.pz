@@ -1,7 +1,4 @@
 programa L1:
-const;
-tipo;
-var;
 inicio
     	A := 10;
     	

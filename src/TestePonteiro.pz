@@ -1,5 +1,4 @@
 programa pontero:
-const;
 tipo
 	pontero = ^char;
 var

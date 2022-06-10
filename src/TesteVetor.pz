@@ -1,5 +1,4 @@
 programa L1:
-const;
 tipo
 	vector = vetor [ 2 .. 5 ] de real; 
 var

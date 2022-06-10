@@ -17,6 +17,7 @@ void visitEntry(Entry p)
   case is_L1:
     /* Code for L1 Goes Here */
     visitIdent(p->u.l1_.ident_);
+    visitBlocoFuncao(p->u.l1_.blocofuncao_);
     visitBlocoConstante(p->u.l1_.blococonstante_);
     visitBlocoTipo(p->u.l1_.blocotipo_);
     visitBlocoVar(p->u.l1_.blocovar_);
@@ -29,6 +30,38 @@ void visitEntry(Entry p)
   }
 }
 
+void visitBlocoFuncao(BlocoFuncao p)
+{
+  switch(p->kind)
+  {
+  case is_BlocoFuncaoFuncao:
+    /* Code for BlocoFuncaoFuncao Goes Here */
+    visitFuncao(p->u.blocofuncaofuncao_.funcao_);
+    break;
+  case is_BlocoFuncao1:
+    /* Code for BlocoFuncao1 Goes Here */
+    visitFuncao(p->u.blocofuncao1_.funcao_);
+    visitBlocoFuncao(p->u.blocofuncao1_.blocofuncao_);
+    break;
+  case is_BlocoFuncaoProcedimento:
+    /* Code for BlocoFuncaoProcedimento Goes Here */
+    visitProcedimento(p->u.blocofuncaoprocedimento_.procedimento_);
+    break;
+  case is_BlocoFuncao2:
+    /* Code for BlocoFuncao2 Goes Here */
+    visitProcedimento(p->u.blocofuncao2_.procedimento_);
+    visitBlocoFuncao(p->u.blocofuncao2_.blocofuncao_);
+    break;
+  case is_BlocoFuncao_:
+    /* Code for BlocoFuncao_ Goes Here */
+    break;
+
+  default:
+    fprintf(stderr, "Error: bad kind field when printing BlocoFuncao!\n");
+    exit(1);
+  }
+}
+
 void visitBlocoConstante(BlocoConstante p)
 {
   switch(p->kind)
@@ -37,8 +70,8 @@ void visitBlocoConstante(BlocoConstante p)
     /* Code for BlocoConstante1 Goes Here */
     visitRegraBlocoConstante(p->u.blococonstante1_.regrablococonstante_);
     break;
-  case is_BlocoConstante2:
-    /* Code for BlocoConstante2 Goes Here */
+  case is_BlocoConstante_:
+    /* Code for BlocoConstante_ Goes Here */
     break;
 
   default:
@@ -117,8 +150,8 @@ void visitBlocoVar(BlocoVar p)
     /* Code for BlocoVar1 Goes Here */
     visitRegraBlocoVar(p->u.blocovar1_.regrablocovar_);
     break;
-  case is_BlocoVar2:
-    /* Code for BlocoVar2 Goes Here */
+  case is_BlocoVar_:
+    /* Code for BlocoVar_ Goes Here */
     break;
 
   default:
@@ -142,6 +175,11 @@ void visitRegraBlocoVar(RegraBlocoVar p)
     visitRegraTipo(p->u.regrablocovar2_.regratipo_);
     visitRegraBlocoVar(p->u.regrablocovar2_.regrablocovar_);
     break;
+  case is_RegraBlocoVar3:
+    /* Code for RegraBlocoVar3 Goes Here */
+    visitListaIdent(p->u.regrablocovar3_.listaident_);
+    visitRegraTipo(p->u.regrablocovar3_.regratipo_);
+    break;
 
   default:
     fprintf(stderr, "Error: bad kind field when printing RegraBlocoVar!\n");
@@ -157,8 +195,8 @@ void visitBlocoComando(BlocoComando p)
     /* Code for BlocoComando1 Goes Here */
     visitRegraComando(p->u.blococomando1_.regracomando_);
     break;
-  case is_BlocoComando2:
-    /* Code for BlocoComando2 Goes Here */
+  case is_BlocoComando_:
+    /* Code for BlocoComando_ Goes Here */
     break;
 
   default:
@@ -211,6 +249,10 @@ void visitComando(Comando p)
     /* Code for ComandoGoto Goes Here */
     visitGoto(p->u.comandogoto_.goto_);
     break;
+  case is_ComandoChamadaFuncao:
+    /* Code for ComandoChamadaFuncao Goes Here */
+    visitChamadaFuncao(p->u.comandochamadafuncao_.chamadafuncao_);
+    break;
 
   default:
     fprintf(stderr, "Error: bad kind field when printing Comando!\n");
@@ -229,18 +271,28 @@ void visitAtribuicao(Atribuicao p)
     break;
   case is_Atribuicao2:
     /* Code for Atribuicao2 Goes Here */
-    visitIdent(p->u.atribuicao2_.ident_);
-    visitSubEscrito(p->u.atribuicao2_.subescrito_);
-    visitValor(p->u.atribuicao2_.valor_);
+    visitIdent(p->u.atribuicao2_.ident_1);
+    visitIdent(p->u.atribuicao2_.ident_2);
     break;
   case is_Atribuicao3:
     /* Code for Atribuicao3 Goes Here */
     visitIdent(p->u.atribuicao3_.ident_);
+    visitSubEscrito(p->u.atribuicao3_.subescrito_);
     visitValor(p->u.atribuicao3_.valor_);
+    break;
+  case is_Atribuicao4:
+    /* Code for Atribuicao4 Goes Here */
+    visitIdent(p->u.atribuicao4_.ident_);
+    visitValor(p->u.atribuicao4_.valor_);
     break;
   case is_AtribuicaoAtribuicaoStruct:
     /* Code for AtribuicaoAtribuicaoStruct Goes Here */
     visitAtribuicaoStruct(p->u.atribuicaoatribuicaostruct_.atribuicaostruct_);
+    break;
+  case is_Atribuicao5:
+    /* Code for Atribuicao5 Goes Here */
+    visitIdent(p->u.atribuicao5_.ident_);
+    visitChamadaFuncao(p->u.atribuicao5_.chamadafuncao_);
     break;
 
   default:
@@ -686,6 +738,42 @@ void visitSeletor(Seletor p)
 
   default:
     fprintf(stderr, "Error: bad kind field when printing Seletor!\n");
+    exit(1);
+  }
+}
+
+void visitChamadaFuncao(ChamadaFuncao p)
+{
+  switch(p->kind)
+  {
+  case is_L33:
+    /* Code for L33 Goes Here */
+    visitIdent(p->u.l33_.ident_);
+    visitListaIdent(p->u.l33_.listaident_);
+    break;
+
+  default:
+    fprintf(stderr, "Error: bad kind field when printing ChamadaFuncao!\n");
+    exit(1);
+  }
+}
+
+void visitListaIdent(ListaIdent p)
+{
+  switch(p->kind)
+  {
+  case is_ListaIdentIdent:
+    /* Code for ListaIdentIdent Goes Here */
+    visitIdent(p->u.listaidentident_.ident_);
+    break;
+  case is_ListaIdent1:
+    /* Code for ListaIdent1 Goes Here */
+    visitIdent(p->u.listaident1_.ident_);
+    visitListaIdent(p->u.listaident1_.listaident_);
+    break;
+
+  default:
+    fprintf(stderr, "Error: bad kind field when printing ListaIdent!\n");
     exit(1);
   }
 }

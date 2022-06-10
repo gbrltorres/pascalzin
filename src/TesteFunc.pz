@@ -1,2 +1,18 @@
 programa programa_func:
-.
+funcao foo(num, num2: double;): int
+var
+   result: int;
+inicio
+   se num1 > num2 entao
+   inicio
+      result := num1;
+   fim
+   senao
+   inicio
+      result := num2;
+   fim;
+fim;
+
+inicio
+   ret := foo(a, b);
+fim.

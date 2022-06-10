@@ -1,7 +1,27 @@
 programa esqueleto:
-const;
-tipo;
-var;
+
+procedimento findMin(x, y, z: int; a, b: char;)
+var
+   m: int; 
 inicio
-	
+   se x < y entao
+   inicio
+      m := x;
+   fim
+   senao
+   inicio
+      m := y;
+   fim;
+   
+   se z < m entao
+   inicio
+      m := z;
+   fim;
+fim  
+
+var
+   a, b: int;
+
+inicio
+   findMin(a, b, c); 
 fim.

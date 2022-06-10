@@ -8,7 +8,7 @@
 
 /********************   L1    ********************/
 
-Entry make_L1(Ident p1, BlocoConstante p2, BlocoTipo p3, BlocoVar p4, BlocoComando p5)
+Entry make_L1(Ident p1, BlocoFuncao p2, BlocoConstante p3, BlocoTipo p4, BlocoVar p5, BlocoComando p6)
 {
     Entry tmp = (Entry) malloc(sizeof(*tmp));
     if (!tmp)
@@ -18,10 +18,87 @@ Entry make_L1(Ident p1, BlocoConstante p2, BlocoTipo p3, BlocoVar p4, BlocoComan
     }
     tmp->kind = is_L1;
     tmp->u.l1_.ident_ = p1;
-    tmp->u.l1_.blococonstante_ = p2;
-    tmp->u.l1_.blocotipo_ = p3;
-    tmp->u.l1_.blocovar_ = p4;
-    tmp->u.l1_.blococomando_ = p5;
+    tmp->u.l1_.blocofuncao_ = p2;
+    tmp->u.l1_.blococonstante_ = p3;
+    tmp->u.l1_.blocotipo_ = p4;
+    tmp->u.l1_.blocovar_ = p5;
+    tmp->u.l1_.blococomando_ = p6;
+    return tmp;
+}
+
+/********************   BlocoFuncaoFuncao    ********************/
+
+BlocoFuncao make_BlocoFuncaoFuncao(Funcao p1)
+{
+    BlocoFuncao tmp = (BlocoFuncao) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating BlocoFuncaoFuncao!\n");
+        exit(1);
+    }
+    tmp->kind = is_BlocoFuncaoFuncao;
+    tmp->u.blocofuncaofuncao_.funcao_ = p1;
+    return tmp;
+}
+
+/********************   BlocoFuncao1    ********************/
+
+BlocoFuncao make_BlocoFuncao1(Funcao p1, BlocoFuncao p2)
+{
+    BlocoFuncao tmp = (BlocoFuncao) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating BlocoFuncao1!\n");
+        exit(1);
+    }
+    tmp->kind = is_BlocoFuncao1;
+    tmp->u.blocofuncao1_.funcao_ = p1;
+    tmp->u.blocofuncao1_.blocofuncao_ = p2;
+    return tmp;
+}
+
+/********************   BlocoFuncaoProcedimento    ********************/
+
+BlocoFuncao make_BlocoFuncaoProcedimento(Procedimento p1)
+{
+    BlocoFuncao tmp = (BlocoFuncao) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating BlocoFuncaoProcedimento!\n");
+        exit(1);
+    }
+    tmp->kind = is_BlocoFuncaoProcedimento;
+    tmp->u.blocofuncaoprocedimento_.procedimento_ = p1;
+    return tmp;
+}
+
+/********************   BlocoFuncao2    ********************/
+
+BlocoFuncao make_BlocoFuncao2(Procedimento p1, BlocoFuncao p2)
+{
+    BlocoFuncao tmp = (BlocoFuncao) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating BlocoFuncao2!\n");
+        exit(1);
+    }
+    tmp->kind = is_BlocoFuncao2;
+    tmp->u.blocofuncao2_.procedimento_ = p1;
+    tmp->u.blocofuncao2_.blocofuncao_ = p2;
+    return tmp;
+}
+
+/********************   BlocoFuncao_    ********************/
+
+BlocoFuncao make_BlocoFuncao_()
+{
+    BlocoFuncao tmp = (BlocoFuncao) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating BlocoFuncao_!\n");
+        exit(1);
+    }
+    tmp->kind = is_BlocoFuncao_;
     return tmp;
 }
 
@@ -40,17 +117,17 @@ BlocoConstante make_BlocoConstante1(RegraBlocoConstante p1)
     return tmp;
 }
 
-/********************   BlocoConstante2    ********************/
+/********************   BlocoConstante_    ********************/
 
-BlocoConstante make_BlocoConstante2()
+BlocoConstante make_BlocoConstante_()
 {
     BlocoConstante tmp = (BlocoConstante) malloc(sizeof(*tmp));
     if (!tmp)
     {
-        fprintf(stderr, "Error: out of memory when allocating BlocoConstante2!\n");
+        fprintf(stderr, "Error: out of memory when allocating BlocoConstante_!\n");
         exit(1);
     }
-    tmp->kind = is_BlocoConstante2;
+    tmp->kind = is_BlocoConstante_;
     return tmp;
 }
 
@@ -164,17 +241,17 @@ BlocoVar make_BlocoVar1(RegraBlocoVar p1)
     return tmp;
 }
 
-/********************   BlocoVar2    ********************/
+/********************   BlocoVar_    ********************/
 
-BlocoVar make_BlocoVar2()
+BlocoVar make_BlocoVar_()
 {
     BlocoVar tmp = (BlocoVar) malloc(sizeof(*tmp));
     if (!tmp)
     {
-        fprintf(stderr, "Error: out of memory when allocating BlocoVar2!\n");
+        fprintf(stderr, "Error: out of memory when allocating BlocoVar_!\n");
         exit(1);
     }
-    tmp->kind = is_BlocoVar2;
+    tmp->kind = is_BlocoVar_;
     return tmp;
 }
 
@@ -211,6 +288,22 @@ RegraBlocoVar make_RegraBlocoVar2(Ident p1, RegraTipo p2, RegraBlocoVar p3)
     return tmp;
 }
 
+/********************   RegraBlocoVar3    ********************/
+
+RegraBlocoVar make_RegraBlocoVar3(ListaIdent p1, RegraTipo p2)
+{
+    RegraBlocoVar tmp = (RegraBlocoVar) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating RegraBlocoVar3!\n");
+        exit(1);
+    }
+    tmp->kind = is_RegraBlocoVar3;
+    tmp->u.regrablocovar3_.listaident_ = p1;
+    tmp->u.regrablocovar3_.regratipo_ = p2;
+    return tmp;
+}
+
 /********************   BlocoComando1    ********************/
 
 BlocoComando make_BlocoComando1(RegraComando p1)
@@ -226,17 +319,17 @@ BlocoComando make_BlocoComando1(RegraComando p1)
     return tmp;
 }
 
-/********************   BlocoComando2    ********************/
+/********************   BlocoComando_    ********************/
 
-BlocoComando make_BlocoComando2()
+BlocoComando make_BlocoComando_()
 {
     BlocoComando tmp = (BlocoComando) malloc(sizeof(*tmp));
     if (!tmp)
     {
-        fprintf(stderr, "Error: out of memory when allocating BlocoComando2!\n");
+        fprintf(stderr, "Error: out of memory when allocating BlocoComando_!\n");
         exit(1);
     }
-    tmp->kind = is_BlocoComando2;
+    tmp->kind = is_BlocoComando_;
     return tmp;
 }
 
@@ -346,6 +439,21 @@ Comando make_ComandoGoto(Goto p1)
     return tmp;
 }
 
+/********************   ComandoChamadaFuncao    ********************/
+
+Comando make_ComandoChamadaFuncao(ChamadaFuncao p1)
+{
+    Comando tmp = (Comando) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating ComandoChamadaFuncao!\n");
+        exit(1);
+    }
+    tmp->kind = is_ComandoChamadaFuncao;
+    tmp->u.comandochamadafuncao_.chamadafuncao_ = p1;
+    return tmp;
+}
+
 /********************   Atribuicao1    ********************/
 
 Atribuicao make_Atribuicao1(Ident p1, Valor p2)
@@ -364,7 +472,7 @@ Atribuicao make_Atribuicao1(Ident p1, Valor p2)
 
 /********************   Atribuicao2    ********************/
 
-Atribuicao make_Atribuicao2(Ident p1, SubEscrito p2, Valor p3)
+Atribuicao make_Atribuicao2(Ident p1, Ident p2)
 {
     Atribuicao tmp = (Atribuicao) malloc(sizeof(*tmp));
     if (!tmp)
@@ -373,15 +481,14 @@ Atribuicao make_Atribuicao2(Ident p1, SubEscrito p2, Valor p3)
         exit(1);
     }
     tmp->kind = is_Atribuicao2;
-    tmp->u.atribuicao2_.ident_ = p1;
-    tmp->u.atribuicao2_.subescrito_ = p2;
-    tmp->u.atribuicao2_.valor_ = p3;
+    tmp->u.atribuicao2_.ident_1 = p1;
+    tmp->u.atribuicao2_.ident_2 = p2;
     return tmp;
 }
 
 /********************   Atribuicao3    ********************/
 
-Atribuicao make_Atribuicao3(Ident p1, Valor p2)
+Atribuicao make_Atribuicao3(Ident p1, SubEscrito p2, Valor p3)
 {
     Atribuicao tmp = (Atribuicao) malloc(sizeof(*tmp));
     if (!tmp)
@@ -391,7 +498,24 @@ Atribuicao make_Atribuicao3(Ident p1, Valor p2)
     }
     tmp->kind = is_Atribuicao3;
     tmp->u.atribuicao3_.ident_ = p1;
-    tmp->u.atribuicao3_.valor_ = p2;
+    tmp->u.atribuicao3_.subescrito_ = p2;
+    tmp->u.atribuicao3_.valor_ = p3;
+    return tmp;
+}
+
+/********************   Atribuicao4    ********************/
+
+Atribuicao make_Atribuicao4(Ident p1, Valor p2)
+{
+    Atribuicao tmp = (Atribuicao) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating Atribuicao4!\n");
+        exit(1);
+    }
+    tmp->kind = is_Atribuicao4;
+    tmp->u.atribuicao4_.ident_ = p1;
+    tmp->u.atribuicao4_.valor_ = p2;
     return tmp;
 }
 
@@ -407,6 +531,22 @@ Atribuicao make_AtribuicaoAtribuicaoStruct(AtribuicaoStruct p1)
     }
     tmp->kind = is_AtribuicaoAtribuicaoStruct;
     tmp->u.atribuicaoatribuicaostruct_.atribuicaostruct_ = p1;
+    return tmp;
+}
+
+/********************   Atribuicao5    ********************/
+
+Atribuicao make_Atribuicao5(Ident p1, ChamadaFuncao p2)
+{
+    Atribuicao tmp = (Atribuicao) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating Atribuicao5!\n");
+        exit(1);
+    }
+    tmp->kind = is_Atribuicao5;
+    tmp->u.atribuicao5_.ident_ = p1;
+    tmp->u.atribuicao5_.chamadafuncao_ = p2;
     return tmp;
 }
 
@@ -1181,6 +1321,53 @@ Seletor make_SeletorIdent(Ident p1)
     return tmp;
 }
 
+/********************   L33    ********************/
+
+ChamadaFuncao make_L33(Ident p1, ListaIdent p2)
+{
+    ChamadaFuncao tmp = (ChamadaFuncao) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating L33!\n");
+        exit(1);
+    }
+    tmp->kind = is_L33;
+    tmp->u.l33_.ident_ = p1;
+    tmp->u.l33_.listaident_ = p2;
+    return tmp;
+}
+
+/********************   ListaIdentIdent    ********************/
+
+ListaIdent make_ListaIdentIdent(Ident p1)
+{
+    ListaIdent tmp = (ListaIdent) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating ListaIdentIdent!\n");
+        exit(1);
+    }
+    tmp->kind = is_ListaIdentIdent;
+    tmp->u.listaidentident_.ident_ = p1;
+    return tmp;
+}
+
+/********************   ListaIdent1    ********************/
+
+ListaIdent make_ListaIdent1(Ident p1, ListaIdent p2)
+{
+    ListaIdent tmp = (ListaIdent) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating ListaIdent1!\n");
+        exit(1);
+    }
+    tmp->kind = is_ListaIdent1;
+    tmp->u.listaident1_.ident_ = p1;
+    tmp->u.listaident1_.listaident_ = p2;
+    return tmp;
+}
+
 /********************   L13    ********************/
 
 Funcao make_L13(Ident p1, RegraBlocoVar p2, RegraTipo p3, BlocoVar p4, BlocoComando p5)
@@ -1557,6 +1744,7 @@ Entry clone_Entry(Entry p)
   case is_L1:
     return make_L1
       ( strdup(p->u.l1_.ident_)
+      , clone_BlocoFuncao(p->u.l1_.blocofuncao_)
       , clone_BlocoConstante(p->u.l1_.blococonstante_)
       , clone_BlocoTipo(p->u.l1_.blocotipo_)
       , clone_BlocoVar(p->u.l1_.blocovar_)
@@ -1569,6 +1757,37 @@ Entry clone_Entry(Entry p)
   }
 }
 
+BlocoFuncao clone_BlocoFuncao(BlocoFuncao p)
+{
+  switch(p->kind)
+  {
+  case is_BlocoFuncaoFuncao:
+    return make_BlocoFuncaoFuncao (clone_Funcao(p->u.blocofuncaofuncao_.funcao_));
+
+  case is_BlocoFuncao1:
+    return make_BlocoFuncao1
+      ( clone_Funcao(p->u.blocofuncao1_.funcao_)
+      , clone_BlocoFuncao(p->u.blocofuncao1_.blocofuncao_)
+      );
+
+  case is_BlocoFuncaoProcedimento:
+    return make_BlocoFuncaoProcedimento (clone_Procedimento(p->u.blocofuncaoprocedimento_.procedimento_));
+
+  case is_BlocoFuncao2:
+    return make_BlocoFuncao2
+      ( clone_Procedimento(p->u.blocofuncao2_.procedimento_)
+      , clone_BlocoFuncao(p->u.blocofuncao2_.blocofuncao_)
+      );
+
+  case is_BlocoFuncao_:
+    return make_BlocoFuncao_ ();
+
+  default:
+    fprintf(stderr, "Error: bad kind field when cloning BlocoFuncao!\n");
+    exit(1);
+  }
+}
+
 BlocoConstante clone_BlocoConstante(BlocoConstante p)
 {
   switch(p->kind)
@@ -1576,8 +1795,8 @@ BlocoConstante clone_BlocoConstante(BlocoConstante p)
   case is_BlocoConstante1:
     return make_BlocoConstante1 (clone_RegraBlocoConstante(p->u.blococonstante1_.regrablococonstante_));
 
-  case is_BlocoConstante2:
-    return make_BlocoConstante2 ();
+  case is_BlocoConstante_:
+    return make_BlocoConstante_ ();
 
   default:
     fprintf(stderr, "Error: bad kind field when cloning BlocoConstante!\n");
@@ -1654,8 +1873,8 @@ BlocoVar clone_BlocoVar(BlocoVar p)
   case is_BlocoVar1:
     return make_BlocoVar1 (clone_RegraBlocoVar(p->u.blocovar1_.regrablocovar_));
 
-  case is_BlocoVar2:
-    return make_BlocoVar2 ();
+  case is_BlocoVar_:
+    return make_BlocoVar_ ();
 
   default:
     fprintf(stderr, "Error: bad kind field when cloning BlocoVar!\n");
@@ -1680,6 +1899,12 @@ RegraBlocoVar clone_RegraBlocoVar(RegraBlocoVar p)
       , clone_RegraBlocoVar(p->u.regrablocovar2_.regrablocovar_)
       );
 
+  case is_RegraBlocoVar3:
+    return make_RegraBlocoVar3
+      ( clone_ListaIdent(p->u.regrablocovar3_.listaident_)
+      , clone_RegraTipo(p->u.regrablocovar3_.regratipo_)
+      );
+
   default:
     fprintf(stderr, "Error: bad kind field when cloning RegraBlocoVar!\n");
     exit(1);
@@ -1693,8 +1918,8 @@ BlocoComando clone_BlocoComando(BlocoComando p)
   case is_BlocoComando1:
     return make_BlocoComando1 (clone_RegraComando(p->u.blococomando1_.regracomando_));
 
-  case is_BlocoComando2:
-    return make_BlocoComando2 ();
+  case is_BlocoComando_:
+    return make_BlocoComando_ ();
 
   default:
     fprintf(stderr, "Error: bad kind field when cloning BlocoComando!\n");
@@ -1740,6 +1965,9 @@ Comando clone_Comando(Comando p)
   case is_ComandoGoto:
     return make_ComandoGoto (clone_Goto(p->u.comandogoto_.goto_));
 
+  case is_ComandoChamadaFuncao:
+    return make_ComandoChamadaFuncao (clone_ChamadaFuncao(p->u.comandochamadafuncao_.chamadafuncao_));
+
   default:
     fprintf(stderr, "Error: bad kind field when cloning Comando!\n");
     exit(1);
@@ -1758,19 +1986,31 @@ Atribuicao clone_Atribuicao(Atribuicao p)
 
   case is_Atribuicao2:
     return make_Atribuicao2
-      ( strdup(p->u.atribuicao2_.ident_)
-      , clone_SubEscrito(p->u.atribuicao2_.subescrito_)
-      , clone_Valor(p->u.atribuicao2_.valor_)
+      ( strdup(p->u.atribuicao2_.ident_1)
+      , strdup(p->u.atribuicao2_.ident_2)
       );
 
   case is_Atribuicao3:
     return make_Atribuicao3
       ( strdup(p->u.atribuicao3_.ident_)
+      , clone_SubEscrito(p->u.atribuicao3_.subescrito_)
       , clone_Valor(p->u.atribuicao3_.valor_)
+      );
+
+  case is_Atribuicao4:
+    return make_Atribuicao4
+      ( strdup(p->u.atribuicao4_.ident_)
+      , clone_Valor(p->u.atribuicao4_.valor_)
       );
 
   case is_AtribuicaoAtribuicaoStruct:
     return make_AtribuicaoAtribuicaoStruct (clone_AtribuicaoStruct(p->u.atribuicaoatribuicaostruct_.atribuicaostruct_));
+
+  case is_Atribuicao5:
+    return make_Atribuicao5
+      ( strdup(p->u.atribuicao5_.ident_)
+      , clone_ChamadaFuncao(p->u.atribuicao5_.chamadafuncao_)
+      );
 
   default:
     fprintf(stderr, "Error: bad kind field when cloning Atribuicao!\n");
@@ -2192,6 +2432,41 @@ Seletor clone_Seletor(Seletor p)
   }
 }
 
+ChamadaFuncao clone_ChamadaFuncao(ChamadaFuncao p)
+{
+  switch(p->kind)
+  {
+  case is_L33:
+    return make_L33
+      ( strdup(p->u.l33_.ident_)
+      , clone_ListaIdent(p->u.l33_.listaident_)
+      );
+
+  default:
+    fprintf(stderr, "Error: bad kind field when cloning ChamadaFuncao!\n");
+    exit(1);
+  }
+}
+
+ListaIdent clone_ListaIdent(ListaIdent p)
+{
+  switch(p->kind)
+  {
+  case is_ListaIdentIdent:
+    return make_ListaIdentIdent (strdup(p->u.listaidentident_.ident_));
+
+  case is_ListaIdent1:
+    return make_ListaIdent1
+      ( strdup(p->u.listaident1_.ident_)
+      , clone_ListaIdent(p->u.listaident1_.listaident_)
+      );
+
+  default:
+    fprintf(stderr, "Error: bad kind field when cloning ListaIdent!\n");
+    exit(1);
+  }
+}
+
 Funcao clone_Funcao(Funcao p)
 {
   switch(p->kind)
@@ -2421,6 +2696,7 @@ void free_Entry(Entry p)
   {
   case is_L1:
     free(p->u.l1_.ident_);
+    free_BlocoFuncao(p->u.l1_.blocofuncao_);
     free_BlocoConstante(p->u.l1_.blococonstante_);
     free_BlocoTipo(p->u.l1_.blocotipo_);
     free_BlocoVar(p->u.l1_.blocovar_);
@@ -2434,6 +2710,38 @@ void free_Entry(Entry p)
   free(p);
 }
 
+void free_BlocoFuncao(BlocoFuncao p)
+{
+  switch(p->kind)
+  {
+  case is_BlocoFuncaoFuncao:
+    free_Funcao(p->u.blocofuncaofuncao_.funcao_);
+    break;
+
+  case is_BlocoFuncao1:
+    free_Funcao(p->u.blocofuncao1_.funcao_);
+    free_BlocoFuncao(p->u.blocofuncao1_.blocofuncao_);
+    break;
+
+  case is_BlocoFuncaoProcedimento:
+    free_Procedimento(p->u.blocofuncaoprocedimento_.procedimento_);
+    break;
+
+  case is_BlocoFuncao2:
+    free_Procedimento(p->u.blocofuncao2_.procedimento_);
+    free_BlocoFuncao(p->u.blocofuncao2_.blocofuncao_);
+    break;
+
+  case is_BlocoFuncao_:
+    break;
+
+  default:
+    fprintf(stderr, "Error: bad kind field when freeing BlocoFuncao!\n");
+    exit(1);
+  }
+  free(p);
+}
+
 void free_BlocoConstante(BlocoConstante p)
 {
   switch(p->kind)
@@ -2442,7 +2750,7 @@ void free_BlocoConstante(BlocoConstante p)
     free_RegraBlocoConstante(p->u.blococonstante1_.regrablococonstante_);
     break;
 
-  case is_BlocoConstante2:
+  case is_BlocoConstante_:
     break;
 
   default:
@@ -2522,7 +2830,7 @@ void free_BlocoVar(BlocoVar p)
     free_RegraBlocoVar(p->u.blocovar1_.regrablocovar_);
     break;
 
-  case is_BlocoVar2:
+  case is_BlocoVar_:
     break;
 
   default:
@@ -2547,6 +2855,11 @@ void free_RegraBlocoVar(RegraBlocoVar p)
     free_RegraBlocoVar(p->u.regrablocovar2_.regrablocovar_);
     break;
 
+  case is_RegraBlocoVar3:
+    free_ListaIdent(p->u.regrablocovar3_.listaident_);
+    free_RegraTipo(p->u.regrablocovar3_.regratipo_);
+    break;
+
   default:
     fprintf(stderr, "Error: bad kind field when freeing RegraBlocoVar!\n");
     exit(1);
@@ -2562,7 +2875,7 @@ void free_BlocoComando(BlocoComando p)
     free_RegraComando(p->u.blococomando1_.regracomando_);
     break;
 
-  case is_BlocoComando2:
+  case is_BlocoComando_:
     break;
 
   default:
@@ -2616,6 +2929,10 @@ void free_Comando(Comando p)
     free_Goto(p->u.comandogoto_.goto_);
     break;
 
+  case is_ComandoChamadaFuncao:
+    free_ChamadaFuncao(p->u.comandochamadafuncao_.chamadafuncao_);
+    break;
+
   default:
     fprintf(stderr, "Error: bad kind field when freeing Comando!\n");
     exit(1);
@@ -2633,18 +2950,28 @@ void free_Atribuicao(Atribuicao p)
     break;
 
   case is_Atribuicao2:
-    free(p->u.atribuicao2_.ident_);
-    free_SubEscrito(p->u.atribuicao2_.subescrito_);
-    free_Valor(p->u.atribuicao2_.valor_);
+    free(p->u.atribuicao2_.ident_1);
+    free(p->u.atribuicao2_.ident_2);
     break;
 
   case is_Atribuicao3:
     free(p->u.atribuicao3_.ident_);
+    free_SubEscrito(p->u.atribuicao3_.subescrito_);
     free_Valor(p->u.atribuicao3_.valor_);
+    break;
+
+  case is_Atribuicao4:
+    free(p->u.atribuicao4_.ident_);
+    free_Valor(p->u.atribuicao4_.valor_);
     break;
 
   case is_AtribuicaoAtribuicaoStruct:
     free_AtribuicaoStruct(p->u.atribuicaoatribuicaostruct_.atribuicaostruct_);
+    break;
+
+  case is_Atribuicao5:
+    free(p->u.atribuicao5_.ident_);
+    free_ChamadaFuncao(p->u.atribuicao5_.chamadafuncao_);
     break;
 
   default:
@@ -3081,6 +3408,42 @@ void free_Seletor(Seletor p)
 
   default:
     fprintf(stderr, "Error: bad kind field when freeing Seletor!\n");
+    exit(1);
+  }
+  free(p);
+}
+
+void free_ChamadaFuncao(ChamadaFuncao p)
+{
+  switch(p->kind)
+  {
+  case is_L33:
+    free(p->u.l33_.ident_);
+    free_ListaIdent(p->u.l33_.listaident_);
+    break;
+
+  default:
+    fprintf(stderr, "Error: bad kind field when freeing ChamadaFuncao!\n");
+    exit(1);
+  }
+  free(p);
+}
+
+void free_ListaIdent(ListaIdent p)
+{
+  switch(p->kind)
+  {
+  case is_ListaIdentIdent:
+    free(p->u.listaidentident_.ident_);
+    break;
+
+  case is_ListaIdent1:
+    free(p->u.listaident1_.ident_);
+    free_ListaIdent(p->u.listaident1_.listaident_);
+    break;
+
+  default:
+    fprintf(stderr, "Error: bad kind field when freeing ListaIdent!\n");
     exit(1);
   }
   free(p);

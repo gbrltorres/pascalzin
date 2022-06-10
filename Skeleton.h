@@ -8,6 +8,7 @@
 
 
 void visitEntry(Entry p);
+void visitBlocoFuncao(BlocoFuncao p);
 void visitBlocoConstante(BlocoConstante p);
 void visitRegraBlocoConstante(RegraBlocoConstante p);
 void visitBlocoTipo(BlocoTipo p);
@@ -39,6 +40,8 @@ void visitOperadorAritmetico(OperadorAritmetico p);
 void visitCase(Case p);
 void visitRegraSeletor(RegraSeletor p);
 void visitSeletor(Seletor p);
+void visitChamadaFuncao(ChamadaFuncao p);
+void visitListaIdent(ListaIdent p);
 void visitFuncao(Funcao p);
 void visitProcedimento(Procedimento p);
 void visitExpressaoAritmetica(ExpressaoAritmetica p);

@@ -1,5 +1,4 @@
 programa esqueleto:
-const;
 tipo
 	livro_struct = registro
 		nome: char;

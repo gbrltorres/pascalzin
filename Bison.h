@@ -62,53 +62,54 @@ extern int pascalzin_debug;
     _RPAREN = 263,                 /* _RPAREN  */
     _STAR = 264,                   /* _STAR  */
     _PLUS = 265,                   /* _PLUS  */
-    _MINUS = 266,                  /* _MINUS  */
-    _DOT = 267,                    /* _DOT  */
-    _DDOT = 268,                   /* _DDOT  */
-    _SLASH = 269,                  /* _SLASH  */
-    _COLON = 270,                  /* _COLON  */
-    _COLONEQ = 271,                /* _COLONEQ  */
-    _SEMI = 272,                   /* _SEMI  */
-    _LT = 273,                     /* _LT  */
-    _LDARROW = 274,                /* _LDARROW  */
-    _LTGT = 275,                   /* _LTGT  */
-    _EQ = 276,                     /* _EQ  */
-    _GT = 277,                     /* _GT  */
-    _GTEQ = 278,                   /* _GTEQ  */
-    _LBRACK = 279,                 /* _LBRACK  */
-    _RBRACK = 280,                 /* _RBRACK  */
-    _CARET = 281,                  /* _CARET  */
-    _KW_ate = 282,                 /* _KW_ate  */
-    _KW_caso = 283,                /* _KW_caso  */
-    _KW_char = 284,                /* _KW_char  */
-    _KW_const = 285,               /* _KW_const  */
-    _KW_de = 286,                  /* _KW_de  */
-    _KW_enquanto = 287,            /* _KW_enquanto  */
-    _KW_entao = 288,               /* _KW_entao  */
-    _KW_faca = 289,                /* _KW_faca  */
-    _KW_falso = 290,               /* _KW_falso  */
-    _KW_fim = 291,                 /* _KW_fim  */
-    _KW_funcao = 292,              /* _KW_funcao  */
-    _KW_inicio = 293,              /* _KW_inicio  */
-    _KW_int = 294,                 /* _KW_int  */
-    _KW_para = 295,                /* _KW_para  */
-    _KW_procedimento = 296,        /* _KW_procedimento  */
-    _KW_programa = 297,            /* _KW_programa  */
-    _KW_real = 298,                /* _KW_real  */
-    _KW_registro = 299,            /* _KW_registro  */
-    _KW_se = 300,                  /* _KW_se  */
-    _KW_senao = 301,               /* _KW_senao  */
-    _KW_sovai = 302,               /* _KW_sovai  */
-    _KW_tipo = 303,                /* _KW_tipo  */
-    _KW_var = 304,                 /* _KW_var  */
-    _KW_verdadeiro = 305,          /* _KW_verdadeiro  */
-    _KW_vetor = 306,               /* _KW_vetor  */
-    _DBAR = 307,                   /* _DBAR  */
-    _STRING_ = 308,                /* _STRING_  */
-    _CHAR_ = 309,                  /* _CHAR_  */
-    _INTEGER_ = 310,               /* _INTEGER_  */
-    _DOUBLE_ = 311,                /* _DOUBLE_  */
-    _IDENT_ = 312                  /* _IDENT_  */
+    _COMMA = 266,                  /* _COMMA  */
+    _MINUS = 267,                  /* _MINUS  */
+    _DOT = 268,                    /* _DOT  */
+    _DDOT = 269,                   /* _DDOT  */
+    _SLASH = 270,                  /* _SLASH  */
+    _COLON = 271,                  /* _COLON  */
+    _COLONEQ = 272,                /* _COLONEQ  */
+    _SEMI = 273,                   /* _SEMI  */
+    _LT = 274,                     /* _LT  */
+    _LDARROW = 275,                /* _LDARROW  */
+    _LTGT = 276,                   /* _LTGT  */
+    _EQ = 277,                     /* _EQ  */
+    _GT = 278,                     /* _GT  */
+    _GTEQ = 279,                   /* _GTEQ  */
+    _LBRACK = 280,                 /* _LBRACK  */
+    _RBRACK = 281,                 /* _RBRACK  */
+    _CARET = 282,                  /* _CARET  */
+    _KW_ate = 283,                 /* _KW_ate  */
+    _KW_caso = 284,                /* _KW_caso  */
+    _KW_char = 285,                /* _KW_char  */
+    _KW_const = 286,               /* _KW_const  */
+    _KW_de = 287,                  /* _KW_de  */
+    _KW_enquanto = 288,            /* _KW_enquanto  */
+    _KW_entao = 289,               /* _KW_entao  */
+    _KW_faca = 290,                /* _KW_faca  */
+    _KW_falso = 291,               /* _KW_falso  */
+    _KW_fim = 292,                 /* _KW_fim  */
+    _KW_funcao = 293,              /* _KW_funcao  */
+    _KW_inicio = 294,              /* _KW_inicio  */
+    _KW_int = 295,                 /* _KW_int  */
+    _KW_para = 296,                /* _KW_para  */
+    _KW_procedimento = 297,        /* _KW_procedimento  */
+    _KW_programa = 298,            /* _KW_programa  */
+    _KW_real = 299,                /* _KW_real  */
+    _KW_registro = 300,            /* _KW_registro  */
+    _KW_se = 301,                  /* _KW_se  */
+    _KW_senao = 302,               /* _KW_senao  */
+    _KW_sovai = 303,               /* _KW_sovai  */
+    _KW_tipo = 304,                /* _KW_tipo  */
+    _KW_var = 305,                 /* _KW_var  */
+    _KW_verdadeiro = 306,          /* _KW_verdadeiro  */
+    _KW_vetor = 307,               /* _KW_vetor  */
+    _DBAR = 308,                   /* _DBAR  */
+    _STRING_ = 309,                /* _STRING_  */
+    _CHAR_ = 310,                  /* _CHAR_  */
+    _INTEGER_ = 311,               /* _INTEGER_  */
+    _DOUBLE_ = 312,                /* _DOUBLE_  */
+    _IDENT_ = 313                  /* _IDENT_  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -124,6 +125,7 @@ union YYSTYPE
   double _double;
   char*  _string;
   Entry entry_;
+  BlocoFuncao blocofuncao_;
   BlocoConstante blococonstante_;
   RegraBlocoConstante regrablococonstante_;
   BlocoTipo blocotipo_;
@@ -155,6 +157,8 @@ union YYSTYPE
   Case case_;
   RegraSeletor regraseletor_;
   Seletor seletor_;
+  ChamadaFuncao chamadafuncao_;
+  ListaIdent listaident_;
   Funcao funcao_;
   Procedimento procedimento_;
   ExpressaoAritmetica expressaoaritmetica_;
@@ -165,7 +169,7 @@ union YYSTYPE
   ExpressaoLogica expressaologica_;
   RegraLogico regralogico_;
 
-#line 169 "Bison.h"
+#line 173 "Bison.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

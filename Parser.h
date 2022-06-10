@@ -8,6 +8,8 @@
 
 Entry  pEntry(FILE *inp);
 Entry psEntry(const char *str);
+BlocoFuncao  pBlocoFuncao(FILE *inp);
+BlocoFuncao psBlocoFuncao(const char *str);
 BlocoConstante  pBlocoConstante(FILE *inp);
 BlocoConstante psBlocoConstante(const char *str);
 RegraBlocoConstante  pRegraBlocoConstante(FILE *inp);
@@ -70,6 +72,10 @@ RegraSeletor  pRegraSeletor(FILE *inp);
 RegraSeletor psRegraSeletor(const char *str);
 Seletor  pSeletor(FILE *inp);
 Seletor psSeletor(const char *str);
+ChamadaFuncao  pChamadaFuncao(FILE *inp);
+ChamadaFuncao psChamadaFuncao(const char *str);
+ListaIdent  pListaIdent(FILE *inp);
+ListaIdent psListaIdent(const char *str);
 Funcao  pFuncao(FILE *inp);
 Funcao psFuncao(const char *str);
 Procedimento  pProcedimento(FILE *inp);

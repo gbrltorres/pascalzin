@@ -99,6 +99,7 @@ IDENT [a-zA-Z0-9'_]
 <INITIAL>"/"      	 return _SLASH;
 <INITIAL>"("      	 return _LPAREN;
 <INITIAL>")"      	 return _RPAREN;
+<INITIAL>","      	 return _COMMA;
 <INITIAL>"ate"      	 return _KW_ate;
 <INITIAL>"caso"      	 return _KW_caso;
 <INITIAL>"char"      	 return _KW_char;

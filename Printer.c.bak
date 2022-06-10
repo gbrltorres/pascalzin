@@ -125,6 +125,13 @@ char *printEntry(Entry p)
   ppEntry(p, 0);
   return buf_;
 }
+char *printBlocoFuncao(BlocoFuncao p)
+{
+  _n_ = 0;
+  bufReset();
+  ppBlocoFuncao(p, 0);
+  return buf_;
+}
 char *printBlocoConstante(BlocoConstante p)
 {
   _n_ = 0;
@@ -342,6 +349,20 @@ char *printSeletor(Seletor p)
   ppSeletor(p, 0);
   return buf_;
 }
+char *printChamadaFuncao(ChamadaFuncao p)
+{
+  _n_ = 0;
+  bufReset();
+  ppChamadaFuncao(p, 0);
+  return buf_;
+}
+char *printListaIdent(ListaIdent p)
+{
+  _n_ = 0;
+  bufReset();
+  ppListaIdent(p, 0);
+  return buf_;
+}
 char *printFuncao(Funcao p)
 {
   _n_ = 0;
@@ -410,6 +431,13 @@ char *showEntry(Entry p)
   _n_ = 0;
   bufReset();
   shEntry(p);
+  return buf_;
+}
+char *showBlocoFuncao(BlocoFuncao p)
+{
+  _n_ = 0;
+  bufReset();
+  shBlocoFuncao(p);
   return buf_;
 }
 char *showBlocoConstante(BlocoConstante p)
@@ -629,6 +657,20 @@ char *showSeletor(Seletor p)
   shSeletor(p);
   return buf_;
 }
+char *showChamadaFuncao(ChamadaFuncao p)
+{
+  _n_ = 0;
+  bufReset();
+  shChamadaFuncao(p);
+  return buf_;
+}
+char *showListaIdent(ListaIdent p)
+{
+  _n_ = 0;
+  bufReset();
+  shListaIdent(p);
+  return buf_;
+}
 char *showFuncao(Funcao p)
 {
   _n_ = 0;
@@ -701,6 +743,7 @@ void ppEntry(Entry p, int _i_)
     renderS("programa");
     ppIdent(p->u.l1_.ident_, 0);
     renderC(':');
+    ppBlocoFuncao(p->u.l1_.blocofuncao_, 0);
     ppBlocoConstante(p->u.l1_.blococonstante_, 0);
     ppBlocoTipo(p->u.l1_.blocotipo_, 0);
     ppBlocoVar(p->u.l1_.blocovar_, 0);
@@ -711,6 +754,47 @@ void ppEntry(Entry p, int _i_)
 
   default:
     fprintf(stderr, "Error: bad kind field when printing Entry!\n");
+    exit(1);
+  }
+}
+
+void ppBlocoFuncao(BlocoFuncao p, int _i_)
+{
+  switch(p->kind)
+  {
+  case is_BlocoFuncaoFuncao:
+    if (_i_ > 0) renderC(_L_PAREN);
+    ppFuncao(p->u.blocofuncaofuncao_.funcao_, 0);
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
+  case is_BlocoFuncao1:
+    if (_i_ > 0) renderC(_L_PAREN);
+    ppFuncao(p->u.blocofuncao1_.funcao_, 0);
+    ppBlocoFuncao(p->u.blocofuncao1_.blocofuncao_, 0);
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
+  case is_BlocoFuncaoProcedimento:
+    if (_i_ > 0) renderC(_L_PAREN);
+    ppProcedimento(p->u.blocofuncaoprocedimento_.procedimento_, 0);
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
+  case is_BlocoFuncao2:
+    if (_i_ > 0) renderC(_L_PAREN);
+    ppProcedimento(p->u.blocofuncao2_.procedimento_, 0);
+    ppBlocoFuncao(p->u.blocofuncao2_.blocofuncao_, 0);
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
+  case is_BlocoFuncao_:
+    if (_i_ > 0) renderC(_L_PAREN);
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
+  default:
+    fprintf(stderr, "Error: bad kind field when printing BlocoFuncao!\n");
     exit(1);
   }
 }
@@ -726,10 +810,8 @@ void ppBlocoConstante(BlocoConstante p, int _i_)
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
-  case is_BlocoConstante2:
+  case is_BlocoConstante_:
     if (_i_ > 0) renderC(_L_PAREN);
-    renderS("const");
-    renderC(';');
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
@@ -830,10 +912,8 @@ void ppBlocoVar(BlocoVar p, int _i_)
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
-  case is_BlocoVar2:
+  case is_BlocoVar_:
     if (_i_ > 0) renderC(_L_PAREN);
-    renderS("var");
-    renderC(';');
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
@@ -866,6 +946,25 @@ void ppRegraBlocoVar(RegraBlocoVar p, int _i_)
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
+  case is_RegraBlocoVar3:
+    if (_i_ > 0) renderC(_L_PAREN);
+    ppListaIdent(p->u.regrablocovar3_.listaident_, 0);
+    renderC(':');
+    ppRegraTipo(p->u.regrablocovar3_.regratipo_, 0);
+    renderC(';');
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
+  case is_RegraBlocoVar4:
+    if (_i_ > 0) renderC(_L_PAREN);
+    ppListaIdent(p->u.regrablocovar4_.listaident_, 0);
+    renderC('.');
+    ppRegraTipo(p->u.regrablocovar4_.regratipo_, 0);
+    renderC(';');
+    ppRegraBlocoVar(p->u.regrablocovar4_.regrablocovar_, 0);
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
   default:
     fprintf(stderr, "Error: bad kind field when printing RegraBlocoVar!\n");
     exit(1);
@@ -884,10 +983,8 @@ void ppBlocoComando(BlocoComando p, int _i_)
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
-  case is_BlocoComando2:
+  case is_BlocoComando_:
     if (_i_ > 0) renderC(_L_PAREN);
-    renderS("inicio");
-    renderS("fim");
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
@@ -956,6 +1053,12 @@ void ppComando(Comando p, int _i_)
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
+  case is_ComandoChamadaFuncao:
+    if (_i_ > 0) renderC(_L_PAREN);
+    ppChamadaFuncao(p->u.comandochamadafuncao_.chamadafuncao_, 0);
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
   default:
     fprintf(stderr, "Error: bad kind field when printing Comando!\n");
     exit(1);
@@ -976,27 +1079,43 @@ void ppAtribuicao(Atribuicao p, int _i_)
 
   case is_Atribuicao2:
     if (_i_ > 0) renderC(_L_PAREN);
-    ppIdent(p->u.atribuicao2_.ident_, 0);
-    renderC('[');
-    ppSubEscrito(p->u.atribuicao2_.subescrito_, 0);
-    renderC(']');
+    ppIdent(p->u.atribuicao2_.ident_1, 0);
     renderS(":=");
-    ppValor(p->u.atribuicao2_.valor_, 0);
+    ppIdent(p->u.atribuicao2_.ident_2, 0);
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
   case is_Atribuicao3:
     if (_i_ > 0) renderC(_L_PAREN);
     ppIdent(p->u.atribuicao3_.ident_, 0);
-    renderC('^');
+    renderC('[');
+    ppSubEscrito(p->u.atribuicao3_.subescrito_, 0);
+    renderC(']');
     renderS(":=");
     ppValor(p->u.atribuicao3_.valor_, 0);
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
+  case is_Atribuicao4:
+    if (_i_ > 0) renderC(_L_PAREN);
+    ppIdent(p->u.atribuicao4_.ident_, 0);
+    renderC('^');
+    renderS(":=");
+    ppValor(p->u.atribuicao4_.valor_, 0);
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
   case is_AtribuicaoAtribuicaoStruct:
     if (_i_ > 0) renderC(_L_PAREN);
     ppAtribuicaoStruct(p->u.atribuicaoatribuicaostruct_.atribuicaostruct_, 0);
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
+  case is_Atribuicao5:
+    if (_i_ > 0) renderC(_L_PAREN);
+    ppIdent(p->u.atribuicao5_.ident_, 0);
+    renderS(":=");
+    ppChamadaFuncao(p->u.atribuicao5_.chamadafuncao_, 0);
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
@@ -1584,6 +1703,49 @@ void ppSeletor(Seletor p, int _i_)
   }
 }
 
+void ppChamadaFuncao(ChamadaFuncao p, int _i_)
+{
+  switch(p->kind)
+  {
+  case is_L33:
+    if (_i_ > 0) renderC(_L_PAREN);
+    ppIdent(p->u.l33_.ident_, 0);
+    renderC('(');
+    ppListaIdent(p->u.l33_.listaident_, 0);
+    renderC(')');
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
+  default:
+    fprintf(stderr, "Error: bad kind field when printing ChamadaFuncao!\n");
+    exit(1);
+  }
+}
+
+void ppListaIdent(ListaIdent p, int _i_)
+{
+  switch(p->kind)
+  {
+  case is_ListaIdentIdent:
+    if (_i_ > 0) renderC(_L_PAREN);
+    ppIdent(p->u.listaidentident_.ident_, 0);
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
+  case is_ListaIdent1:
+    if (_i_ > 0) renderC(_L_PAREN);
+    ppIdent(p->u.listaident1_.ident_, 0);
+    renderC(',');
+    ppListaIdent(p->u.listaident1_.listaident_, 0);
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
+  default:
+    fprintf(stderr, "Error: bad kind field when printing ListaIdent!\n");
+    exit(1);
+  }
+}
+
 void ppFuncao(Funcao p, int _i_)
 {
   switch(p->kind)
@@ -1599,6 +1761,7 @@ void ppFuncao(Funcao p, int _i_)
     ppRegraTipo(p->u.l13_.regratipo_, 0);
     ppBlocoVar(p->u.l13_.blocovar_, 0);
     ppBlocoComando(p->u.l13_.blococomando_, 0);
+    renderC(';');
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
@@ -1891,6 +2054,8 @@ void shEntry(Entry p)
 
     shIdent(p->u.l1_.ident_);
   bufAppendC(' ');
+    shBlocoFuncao(p->u.l1_.blocofuncao_);
+  bufAppendC(' ');
     shBlocoConstante(p->u.l1_.blococonstante_);
   bufAppendC(' ');
     shBlocoTipo(p->u.l1_.blocotipo_);
@@ -1905,6 +2070,77 @@ void shEntry(Entry p)
 
   default:
     fprintf(stderr, "Error: bad kind field when showing Entry!\n");
+    exit(1);
+  }
+}
+
+void shBlocoFuncao(BlocoFuncao p)
+{
+  switch(p->kind)
+  {
+  case is_BlocoFuncaoFuncao:
+    bufAppendC('(');
+
+    bufAppendS("BlocoFuncaoFuncao");
+
+    bufAppendC(' ');
+
+    shFuncao(p->u.blocofuncaofuncao_.funcao_);
+
+    bufAppendC(')');
+
+    break;
+  case is_BlocoFuncao1:
+    bufAppendC('(');
+
+    bufAppendS("BlocoFuncao1");
+
+    bufAppendC(' ');
+
+    shFuncao(p->u.blocofuncao1_.funcao_);
+  bufAppendC(' ');
+    shBlocoFuncao(p->u.blocofuncao1_.blocofuncao_);
+
+    bufAppendC(')');
+
+    break;
+  case is_BlocoFuncaoProcedimento:
+    bufAppendC('(');
+
+    bufAppendS("BlocoFuncaoProcedimento");
+
+    bufAppendC(' ');
+
+    shProcedimento(p->u.blocofuncaoprocedimento_.procedimento_);
+
+    bufAppendC(')');
+
+    break;
+  case is_BlocoFuncao2:
+    bufAppendC('(');
+
+    bufAppendS("BlocoFuncao2");
+
+    bufAppendC(' ');
+
+    shProcedimento(p->u.blocofuncao2_.procedimento_);
+  bufAppendC(' ');
+    shBlocoFuncao(p->u.blocofuncao2_.blocofuncao_);
+
+    bufAppendC(')');
+
+    break;
+  case is_BlocoFuncao_:
+
+    bufAppendS("BlocoFuncao_");
+
+
+
+
+    break;
+
+  default:
+    fprintf(stderr, "Error: bad kind field when showing BlocoFuncao!\n");
     exit(1);
   }
 }
@@ -1925,9 +2161,9 @@ void shBlocoConstante(BlocoConstante p)
     bufAppendC(')');
 
     break;
-  case is_BlocoConstante2:
+  case is_BlocoConstante_:
 
-    bufAppendS("BlocoConstante2");
+    bufAppendS("BlocoConstante_");
 
 
 
@@ -2069,9 +2305,9 @@ void shBlocoVar(BlocoVar p)
     bufAppendC(')');
 
     break;
-  case is_BlocoVar2:
+  case is_BlocoVar_:
 
-    bufAppendS("BlocoVar2");
+    bufAppendS("BlocoVar_");
 
 
 
@@ -2118,6 +2354,36 @@ void shRegraBlocoVar(RegraBlocoVar p)
     bufAppendC(')');
 
     break;
+  case is_RegraBlocoVar3:
+    bufAppendC('(');
+
+    bufAppendS("RegraBlocoVar3");
+
+    bufAppendC(' ');
+
+    shListaIdent(p->u.regrablocovar3_.listaident_);
+  bufAppendC(' ');
+    shRegraTipo(p->u.regrablocovar3_.regratipo_);
+
+    bufAppendC(')');
+
+    break;
+  case is_RegraBlocoVar4:
+    bufAppendC('(');
+
+    bufAppendS("RegraBlocoVar4");
+
+    bufAppendC(' ');
+
+    shListaIdent(p->u.regrablocovar4_.listaident_);
+  bufAppendC(' ');
+    shRegraTipo(p->u.regrablocovar4_.regratipo_);
+  bufAppendC(' ');
+    shRegraBlocoVar(p->u.regrablocovar4_.regrablocovar_);
+
+    bufAppendC(')');
+
+    break;
 
   default:
     fprintf(stderr, "Error: bad kind field when showing RegraBlocoVar!\n");
@@ -2141,9 +2407,9 @@ void shBlocoComando(BlocoComando p)
     bufAppendC(')');
 
     break;
-  case is_BlocoComando2:
+  case is_BlocoComando_:
 
-    bufAppendS("BlocoComando2");
+    bufAppendS("BlocoComando_");
 
 
 
@@ -2257,6 +2523,18 @@ void shComando(Comando p)
     bufAppendC(')');
 
     break;
+  case is_ComandoChamadaFuncao:
+    bufAppendC('(');
+
+    bufAppendS("ComandoChamadaFuncao");
+
+    bufAppendC(' ');
+
+    shChamadaFuncao(p->u.comandochamadafuncao_.chamadafuncao_);
+
+    bufAppendC(')');
+
+    break;
 
   default:
     fprintf(stderr, "Error: bad kind field when showing Comando!\n");
@@ -2289,11 +2567,9 @@ void shAtribuicao(Atribuicao p)
 
     bufAppendC(' ');
 
-    shIdent(p->u.atribuicao2_.ident_);
+    shIdent(p->u.atribuicao2_.ident_1);
   bufAppendC(' ');
-    shSubEscrito(p->u.atribuicao2_.subescrito_);
-  bufAppendC(' ');
-    shValor(p->u.atribuicao2_.valor_);
+    shIdent(p->u.atribuicao2_.ident_2);
 
     bufAppendC(')');
 
@@ -2307,7 +2583,23 @@ void shAtribuicao(Atribuicao p)
 
     shIdent(p->u.atribuicao3_.ident_);
   bufAppendC(' ');
+    shSubEscrito(p->u.atribuicao3_.subescrito_);
+  bufAppendC(' ');
     shValor(p->u.atribuicao3_.valor_);
+
+    bufAppendC(')');
+
+    break;
+  case is_Atribuicao4:
+    bufAppendC('(');
+
+    bufAppendS("Atribuicao4");
+
+    bufAppendC(' ');
+
+    shIdent(p->u.atribuicao4_.ident_);
+  bufAppendC(' ');
+    shValor(p->u.atribuicao4_.valor_);
 
     bufAppendC(')');
 
@@ -2320,6 +2612,20 @@ void shAtribuicao(Atribuicao p)
     bufAppendC(' ');
 
     shAtribuicaoStruct(p->u.atribuicaoatribuicaostruct_.atribuicaostruct_);
+
+    bufAppendC(')');
+
+    break;
+  case is_Atribuicao5:
+    bufAppendC('(');
+
+    bufAppendS("Atribuicao5");
+
+    bufAppendC(' ');
+
+    shIdent(p->u.atribuicao5_.ident_);
+  bufAppendC(' ');
+    shChamadaFuncao(p->u.atribuicao5_.chamadafuncao_);
 
     bufAppendC(')');
 
@@ -3148,6 +3454,68 @@ void shSeletor(Seletor p)
 
   default:
     fprintf(stderr, "Error: bad kind field when showing Seletor!\n");
+    exit(1);
+  }
+}
+
+void shChamadaFuncao(ChamadaFuncao p)
+{
+  switch(p->kind)
+  {
+  case is_L33:
+    bufAppendC('(');
+
+    bufAppendS("L33");
+
+    bufAppendC(' ');
+
+    shIdent(p->u.l33_.ident_);
+  bufAppendC(' ');
+    shListaIdent(p->u.l33_.listaident_);
+
+    bufAppendC(')');
+
+    break;
+
+  default:
+    fprintf(stderr, "Error: bad kind field when showing ChamadaFuncao!\n");
+    exit(1);
+  }
+}
+
+void shListaIdent(ListaIdent p)
+{
+  switch(p->kind)
+  {
+  case is_ListaIdentIdent:
+    bufAppendC('(');
+
+    bufAppendS("ListaIdentIdent");
+
+    bufAppendC(' ');
+
+    shIdent(p->u.listaidentident_.ident_);
+
+    bufAppendC(')');
+
+    break;
+  case is_ListaIdent1:
+    bufAppendC('(');
+
+    bufAppendS("ListaIdent1");
+
+    bufAppendC(' ');
+
+    shIdent(p->u.listaident1_.ident_);
+  bufAppendC(' ');
+    shListaIdent(p->u.listaident1_.listaident_);
+
+    bufAppendC(')');
+
+    break;
+
+  default:
+    fprintf(stderr, "Error: bad kind field when showing ListaIdent!\n");
     exit(1);
   }
 }

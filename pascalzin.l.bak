@@ -77,8 +77,8 @@ IDENT [a-zA-Z0-9'_]
 
 <INITIAL>":"      	 return _COLON;
 <INITIAL>"."      	 return _DOT;
-<INITIAL>";"      	 return _SEMI;
 <INITIAL>"="      	 return _EQ;
+<INITIAL>";"      	 return _SEMI;
 <INITIAL>":="      	 return _COLONEQ;
 <INITIAL>"["      	 return _LBRACK;
 <INITIAL>"]"      	 return _RBRACK;
