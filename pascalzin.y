@@ -54,7 +54,8 @@ extern yyscan_t pascalzin__initialize_lexer(FILE * inp);
   double _double;
   char*  _string;
   Entry entry_;
-  BlocoFuncao blocofuncao_;
+  BlocoDefinicoes blocodefinicoes_;
+  BlocoFuncaoEProc blocofuncaoeproc_;
   BlocoConstante blococonstante_;
   RegraBlocoConstante regrablococonstante_;
   BlocoTipo blocotipo_;
@@ -169,7 +170,8 @@ extern int yylex(YYSTYPE *lvalp, YYLTYPE *llocp, yyscan_t scanner);
 %token<_string> _IDENT_
 
 %type <entry_> Entry
-%type <blocofuncao_> BlocoFuncao
+%type <blocodefinicoes_> BlocoDefinicoes
+%type <blocofuncaoeproc_> BlocoFuncaoEProc
 %type <blococonstante_> BlocoConstante
 %type <regrablococonstante_> RegraBlocoConstante
 %type <blocotipo_> BlocoTipo
@@ -217,13 +219,19 @@ extern int yylex(YYSTYPE *lvalp, YYLTYPE *llocp, yyscan_t scanner);
 
 %%
 
-Entry : _KW_programa _IDENT_ _COLON BlocoFuncao BlocoConstante BlocoTipo BlocoVar BlocoComando _DOT { $$ = make_L1($2, $4, $5, $6, $7, $8); result->entry_ = $$; }
+Entry : _KW_programa _IDENT_ _COLON BlocoDefinicoes BlocoComando _DOT { $$ = make_L1($2, $4, $5); result->entry_ = $$; }
 ;
-BlocoFuncao : Funcao { $$ = make_BlocoFuncaoFuncao($1); result->blocofuncao_ = $$; }
-  | Funcao BlocoFuncao { $$ = make_BlocoFuncao1($1, $2); result->blocofuncao_ = $$; }
-  | Procedimento { $$ = make_BlocoFuncaoProcedimento($1); result->blocofuncao_ = $$; }
-  | Procedimento BlocoFuncao { $$ = make_BlocoFuncao2($1, $2); result->blocofuncao_ = $$; }
-  | /* empty */ { $$ = make_BlocoFuncao_(); result->blocofuncao_ = $$; }
+BlocoDefinicoes : BlocoFuncaoEProc BlocoDefinicoes { $$ = make_BlocoDefinicoes1($1, $2); result->blocodefinicoes_ = $$; }
+  | BlocoConstante BlocoDefinicoes { $$ = make_BlocoDefinicoes2($1, $2); result->blocodefinicoes_ = $$; }
+  | BlocoTipo BlocoDefinicoes { $$ = make_BlocoDefinicoes3($1, $2); result->blocodefinicoes_ = $$; }
+  | BlocoVar BlocoDefinicoes { $$ = make_BlocoDefinicoes4($1, $2); result->blocodefinicoes_ = $$; }
+  | /* empty */ { $$ = make_BlocoDefinicoes_(); result->blocodefinicoes_ = $$; }
+;
+BlocoFuncaoEProc : Funcao { $$ = make_BlocoFuncaoEProcFuncao($1); result->blocofuncaoeproc_ = $$; }
+  | Funcao BlocoFuncaoEProc { $$ = make_BlocoFuncaoEProc1($1, $2); result->blocofuncaoeproc_ = $$; }
+  | Procedimento { $$ = make_BlocoFuncaoEProcProcedimento($1); result->blocofuncaoeproc_ = $$; }
+  | Procedimento BlocoFuncaoEProc { $$ = make_BlocoFuncaoEProc2($1, $2); result->blocofuncaoeproc_ = $$; }
+  | /* empty */ { $$ = make_BlocoFuncaoEProc_(); result->blocofuncaoeproc_ = $$; }
 ;
 BlocoConstante : _KW_const RegraBlocoConstante { $$ = make_BlocoConstante1($2); result->blococonstante_ = $$; }
   | /* empty */ { $$ = make_BlocoConstante_(); result->blococonstante_ = $$; }
@@ -256,6 +264,7 @@ Comando : Atribuicao { $$ = make_ComandoAtribuicao($1); result->comando_ = $$; }
   | While { $$ = make_ComandoWhile($1); result->comando_ = $$; }
   | For { $$ = make_ComandoFor($1); result->comando_ = $$; }
   | Goto { $$ = make_ComandoGoto($1); result->comando_ = $$; }
+  | Case { $$ = make_ComandoCase($1); result->comando_ = $$; }
   | ChamadaFuncao { $$ = make_ComandoChamadaFuncao($1); result->comando_ = $$; }
 ;
 Atribuicao : _IDENT_ _COLONEQ Valor { $$ = make_Atribuicao1($1, $3); result->atribuicao_ = $$; }
@@ -330,8 +339,8 @@ OperadorAritmetico : _PLUS { $$ = make_OperadorAritmetico1(); result->operadorar
 ;
 Case : _KW_caso _LPAREN Seletor _RPAREN _KW_de RegraSeletor _KW_fim { $$ = make_L12($3, $6); result->case_ = $$; }
 ;
-RegraSeletor : Seletor _COLON Comando { $$ = make_RegraSeletor1($1, $3); result->regraseletor_ = $$; }
-  | Seletor _COLON Comando RegraSeletor { $$ = make_RegraSeletor2($1, $3, $4); result->regraseletor_ = $$; }
+RegraSeletor : Seletor _COLON Comando _SEMI { $$ = make_RegraSeletor1($1, $3); result->regraseletor_ = $$; }
+  | Seletor _COLON Comando _SEMI RegraSeletor { $$ = make_RegraSeletor2($1, $3, $5); result->regraseletor_ = $$; }
 ;
 Seletor : _INTEGER_ { $$ = make_SeletorInteger($1); result->seletor_ = $$; }
   | _CHAR_ { $$ = make_SeletorChar($1); result->seletor_ = $$; }
@@ -422,8 +431,8 @@ Entry psEntry(const char *str)
   }
 }
 
-/* Entrypoint: parse BlocoFuncao from file. */
-BlocoFuncao pBlocoFuncao(FILE *inp)
+/* Entrypoint: parse BlocoDefinicoes from file. */
+BlocoDefinicoes pBlocoDefinicoes(FILE *inp)
 {
   YYSTYPE result;
   yyscan_t scanner = pascalzin__initialize_lexer(inp);
@@ -439,12 +448,12 @@ BlocoFuncao pBlocoFuncao(FILE *inp)
   }
   else
   { /* Success */
-    return result.blocofuncao_;
+    return result.blocodefinicoes_;
   }
 }
 
-/* Entrypoint: parse BlocoFuncao from string. */
-BlocoFuncao psBlocoFuncao(const char *str)
+/* Entrypoint: parse BlocoDefinicoes from string. */
+BlocoDefinicoes psBlocoDefinicoes(const char *str)
 {
   YYSTYPE result;
   yyscan_t scanner = pascalzin__initialize_lexer(0);
@@ -462,7 +471,51 @@ BlocoFuncao psBlocoFuncao(const char *str)
   }
   else
   { /* Success */
-    return result.blocofuncao_;
+    return result.blocodefinicoes_;
+  }
+}
+
+/* Entrypoint: parse BlocoFuncaoEProc from file. */
+BlocoFuncaoEProc pBlocoFuncaoEProc(FILE *inp)
+{
+  YYSTYPE result;
+  yyscan_t scanner = pascalzin__initialize_lexer(inp);
+  if (!scanner) {
+    fprintf(stderr, "Failed to initialize lexer.\n");
+    return 0;
+  }
+  int error = yyparse(scanner, &result);
+  pascalzin_lex_destroy(scanner);
+  if (error)
+  { /* Failure */
+    return 0;
+  }
+  else
+  { /* Success */
+    return result.blocofuncaoeproc_;
+  }
+}
+
+/* Entrypoint: parse BlocoFuncaoEProc from string. */
+BlocoFuncaoEProc psBlocoFuncaoEProc(const char *str)
+{
+  YYSTYPE result;
+  yyscan_t scanner = pascalzin__initialize_lexer(0);
+  if (!scanner) {
+    fprintf(stderr, "Failed to initialize lexer.\n");
+    return 0;
+  }
+  YY_BUFFER_STATE buf = pascalzin__scan_string(str, scanner);
+  int error = yyparse(scanner, &result);
+  pascalzin__delete_buffer(buf, scanner);
+  pascalzin_lex_destroy(scanner);
+  if (error)
+  { /* Failure */
+    return 0;
+  }
+  else
+  { /* Success */
+    return result.blocofuncaoeproc_;
   }
 }
 

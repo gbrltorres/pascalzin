@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 3.7.6.  */
+/* A Bison parser, made by GNU Bison 3.8.2.  */
 
 /* Bison interface for Yacc-like parsers in C
 
@@ -125,7 +125,8 @@ union YYSTYPE
   double _double;
   char*  _string;
   Entry entry_;
-  BlocoFuncao blocofuncao_;
+  BlocoDefinicoes blocodefinicoes_;
+  BlocoFuncaoEProc blocofuncaoeproc_;
   BlocoConstante blococonstante_;
   RegraBlocoConstante regrablococonstante_;
   BlocoTipo blocotipo_;
@@ -169,7 +170,7 @@ union YYSTYPE
   ExpressaoLogica expressaologica_;
   RegraLogico regralogico_;
 
-#line 173 "Bison.h"
+#line 174 "Bison.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -193,6 +194,8 @@ struct YYLTYPE
 
 
 
+
 int pascalzin_parse (yyscan_t scanner, YYSTYPE *result);
+
 
 #endif /* !YY_PASCALZIN_BISON_H_INCLUDED  */

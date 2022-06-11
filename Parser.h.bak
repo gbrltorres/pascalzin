@@ -8,8 +8,10 @@
 
 Entry  pEntry(FILE *inp);
 Entry psEntry(const char *str);
-BlocoFuncao  pBlocoFuncao(FILE *inp);
-BlocoFuncao psBlocoFuncao(const char *str);
+BlocoDefinicao  pBlocoDefinicao(FILE *inp);
+BlocoDefinicao psBlocoDefinicao(const char *str);
+BlocoFuncaoEProc  pBlocoFuncaoEProc(FILE *inp);
+BlocoFuncaoEProc psBlocoFuncaoEProc(const char *str);
 BlocoConstante  pBlocoConstante(FILE *inp);
 BlocoConstante psBlocoConstante(const char *str);
 RegraBlocoConstante  pRegraBlocoConstante(FILE *inp);
@@ -72,8 +74,8 @@ RegraSeletor  pRegraSeletor(FILE *inp);
 RegraSeletor psRegraSeletor(const char *str);
 Seletor  pSeletor(FILE *inp);
 Seletor psSeletor(const char *str);
-ChamandaFuncao  pChamandaFuncao(FILE *inp);
-ChamandaFuncao psChamandaFuncao(const char *str);
+ChamadaFuncao  pChamadaFuncao(FILE *inp);
+ChamadaFuncao psChamadaFuncao(const char *str);
 ListaIdent  pListaIdent(FILE *inp);
 ListaIdent psListaIdent(const char *str);
 Funcao  pFuncao(FILE *inp);

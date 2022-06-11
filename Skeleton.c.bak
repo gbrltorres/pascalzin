@@ -17,7 +17,7 @@ void visitEntry(Entry p)
   case is_L1:
     /* Code for L1 Goes Here */
     visitIdent(p->u.l1_.ident_);
-    visitBlocoFuncao(p->u.l1_.blocofuncao_);
+    visitBlocoFuncaoEProc(p->u.l1_.blocofuncaoeproc_);
     visitBlocoConstante(p->u.l1_.blococonstante_);
     visitBlocoTipo(p->u.l1_.blocotipo_);
     visitBlocoVar(p->u.l1_.blocovar_);
@@ -30,34 +30,68 @@ void visitEntry(Entry p)
   }
 }
 
-void visitBlocoFuncao(BlocoFuncao p)
+void visitBlocoDefinicao(BlocoDefinicao p)
 {
   switch(p->kind)
   {
-  case is_BlocoFuncaoFuncao:
-    /* Code for BlocoFuncaoFuncao Goes Here */
-    visitFuncao(p->u.blocofuncaofuncao_.funcao_);
+  case is_BlocoDefinicao1:
+    /* Code for BlocoDefinicao1 Goes Here */
+    visitBlocoFuncaoEProc(p->u.blocodefinicao1_.blocofuncaoeproc_);
+    visitBlocoDefinicao(p->u.blocodefinicao1_.blocodefinicao_);
     break;
-  case is_BlocoFuncao1:
-    /* Code for BlocoFuncao1 Goes Here */
-    visitFuncao(p->u.blocofuncao1_.funcao_);
-    visitBlocoFuncao(p->u.blocofuncao1_.blocofuncao_);
+  case is_BlocoDefinicao2:
+    /* Code for BlocoDefinicao2 Goes Here */
+    visitBlocoConstante(p->u.blocodefinicao2_.blococonstante_);
+    visitBlocoDefinicao(p->u.blocodefinicao2_.blocodefinicao_);
     break;
-  case is_BlocoFuncaoProcedimento:
-    /* Code for BlocoFuncaoProcedimento Goes Here */
-    visitProcedimento(p->u.blocofuncaoprocedimento_.procedimento_);
+  case is_BlocoDefinicao3:
+    /* Code for BlocoDefinicao3 Goes Here */
+    visitBlocoTipo(p->u.blocodefinicao3_.blocotipo_);
+    visitBlocoDefinicao(p->u.blocodefinicao3_.blocodefinicao_);
     break;
-  case is_BlocoFuncao2:
-    /* Code for BlocoFuncao2 Goes Here */
-    visitProcedimento(p->u.blocofuncao2_.procedimento_);
-    visitBlocoFuncao(p->u.blocofuncao2_.blocofuncao_);
+  case is_BlocoDefinicao4:
+    /* Code for BlocoDefinicao4 Goes Here */
+    visitBlocoVar(p->u.blocodefinicao4_.blocovar_);
+    visitBlocoDefinicao(p->u.blocodefinicao4_.blocodefinicao_);
     break;
-  case is_BlocoFuncao_:
-    /* Code for BlocoFuncao_ Goes Here */
+  case is_BlocoDefinicao_:
+    /* Code for BlocoDefinicao_ Goes Here */
     break;
 
   default:
-    fprintf(stderr, "Error: bad kind field when printing BlocoFuncao!\n");
+    fprintf(stderr, "Error: bad kind field when printing BlocoDefinicao!\n");
+    exit(1);
+  }
+}
+
+void visitBlocoFuncaoEProc(BlocoFuncaoEProc p)
+{
+  switch(p->kind)
+  {
+  case is_BlocoFuncaoEProcFuncao:
+    /* Code for BlocoFuncaoEProcFuncao Goes Here */
+    visitFuncao(p->u.blocofuncaoeprocfuncao_.funcao_);
+    break;
+  case is_BlocoFuncaoEProc1:
+    /* Code for BlocoFuncaoEProc1 Goes Here */
+    visitFuncao(p->u.blocofuncaoeproc1_.funcao_);
+    visitBlocoFuncaoEProc(p->u.blocofuncaoeproc1_.blocofuncaoeproc_);
+    break;
+  case is_BlocoFuncaoEProcProcedimento:
+    /* Code for BlocoFuncaoEProcProcedimento Goes Here */
+    visitProcedimento(p->u.blocofuncaoeprocprocedimento_.procedimento_);
+    break;
+  case is_BlocoFuncaoEProc2:
+    /* Code for BlocoFuncaoEProc2 Goes Here */
+    visitProcedimento(p->u.blocofuncaoeproc2_.procedimento_);
+    visitBlocoFuncaoEProc(p->u.blocofuncaoeproc2_.blocofuncaoeproc_);
+    break;
+  case is_BlocoFuncaoEProc_:
+    /* Code for BlocoFuncaoEProc_ Goes Here */
+    break;
+
+  default:
+    fprintf(stderr, "Error: bad kind field when printing BlocoFuncaoEProc!\n");
     exit(1);
   }
 }
@@ -180,6 +214,12 @@ void visitRegraBlocoVar(RegraBlocoVar p)
     visitListaIdent(p->u.regrablocovar3_.listaident_);
     visitRegraTipo(p->u.regrablocovar3_.regratipo_);
     break;
+  case is_RegraBlocoVar4:
+    /* Code for RegraBlocoVar4 Goes Here */
+    visitListaIdent(p->u.regrablocovar4_.listaident_);
+    visitRegraTipo(p->u.regrablocovar4_.regratipo_);
+    visitRegraBlocoVar(p->u.regrablocovar4_.regrablocovar_);
+    break;
 
   default:
     fprintf(stderr, "Error: bad kind field when printing RegraBlocoVar!\n");
@@ -248,6 +288,10 @@ void visitComando(Comando p)
   case is_ComandoGoto:
     /* Code for ComandoGoto Goes Here */
     visitGoto(p->u.comandogoto_.goto_);
+    break;
+  case is_ComandoCase:
+    /* Code for ComandoCase Goes Here */
+    visitCase(p->u.comandocase_.case_);
     break;
   case is_ComandoChamadaFuncao:
     /* Code for ComandoChamadaFuncao Goes Here */

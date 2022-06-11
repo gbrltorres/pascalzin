@@ -17,10 +17,7 @@ void visitEntry(Entry p)
   case is_L1:
     /* Code for L1 Goes Here */
     visitIdent(p->u.l1_.ident_);
-    visitBlocoFuncao(p->u.l1_.blocofuncao_);
-    visitBlocoConstante(p->u.l1_.blococonstante_);
-    visitBlocoTipo(p->u.l1_.blocotipo_);
-    visitBlocoVar(p->u.l1_.blocovar_);
+    visitBlocoDefinicoes(p->u.l1_.blocodefinicoes_);
     visitBlocoComando(p->u.l1_.blococomando_);
     break;
 
@@ -30,34 +27,68 @@ void visitEntry(Entry p)
   }
 }
 
-void visitBlocoFuncao(BlocoFuncao p)
+void visitBlocoDefinicoes(BlocoDefinicoes p)
 {
   switch(p->kind)
   {
-  case is_BlocoFuncaoFuncao:
-    /* Code for BlocoFuncaoFuncao Goes Here */
-    visitFuncao(p->u.blocofuncaofuncao_.funcao_);
+  case is_BlocoDefinicoes1:
+    /* Code for BlocoDefinicoes1 Goes Here */
+    visitBlocoFuncaoEProc(p->u.blocodefinicoes1_.blocofuncaoeproc_);
+    visitBlocoDefinicoes(p->u.blocodefinicoes1_.blocodefinicoes_);
     break;
-  case is_BlocoFuncao1:
-    /* Code for BlocoFuncao1 Goes Here */
-    visitFuncao(p->u.blocofuncao1_.funcao_);
-    visitBlocoFuncao(p->u.blocofuncao1_.blocofuncao_);
+  case is_BlocoDefinicoes2:
+    /* Code for BlocoDefinicoes2 Goes Here */
+    visitBlocoConstante(p->u.blocodefinicoes2_.blococonstante_);
+    visitBlocoDefinicoes(p->u.blocodefinicoes2_.blocodefinicoes_);
     break;
-  case is_BlocoFuncaoProcedimento:
-    /* Code for BlocoFuncaoProcedimento Goes Here */
-    visitProcedimento(p->u.blocofuncaoprocedimento_.procedimento_);
+  case is_BlocoDefinicoes3:
+    /* Code for BlocoDefinicoes3 Goes Here */
+    visitBlocoTipo(p->u.blocodefinicoes3_.blocotipo_);
+    visitBlocoDefinicoes(p->u.blocodefinicoes3_.blocodefinicoes_);
     break;
-  case is_BlocoFuncao2:
-    /* Code for BlocoFuncao2 Goes Here */
-    visitProcedimento(p->u.blocofuncao2_.procedimento_);
-    visitBlocoFuncao(p->u.blocofuncao2_.blocofuncao_);
+  case is_BlocoDefinicoes4:
+    /* Code for BlocoDefinicoes4 Goes Here */
+    visitBlocoVar(p->u.blocodefinicoes4_.blocovar_);
+    visitBlocoDefinicoes(p->u.blocodefinicoes4_.blocodefinicoes_);
     break;
-  case is_BlocoFuncao_:
-    /* Code for BlocoFuncao_ Goes Here */
+  case is_BlocoDefinicoes_:
+    /* Code for BlocoDefinicoes_ Goes Here */
     break;
 
   default:
-    fprintf(stderr, "Error: bad kind field when printing BlocoFuncao!\n");
+    fprintf(stderr, "Error: bad kind field when printing BlocoDefinicoes!\n");
+    exit(1);
+  }
+}
+
+void visitBlocoFuncaoEProc(BlocoFuncaoEProc p)
+{
+  switch(p->kind)
+  {
+  case is_BlocoFuncaoEProcFuncao:
+    /* Code for BlocoFuncaoEProcFuncao Goes Here */
+    visitFuncao(p->u.blocofuncaoeprocfuncao_.funcao_);
+    break;
+  case is_BlocoFuncaoEProc1:
+    /* Code for BlocoFuncaoEProc1 Goes Here */
+    visitFuncao(p->u.blocofuncaoeproc1_.funcao_);
+    visitBlocoFuncaoEProc(p->u.blocofuncaoeproc1_.blocofuncaoeproc_);
+    break;
+  case is_BlocoFuncaoEProcProcedimento:
+    /* Code for BlocoFuncaoEProcProcedimento Goes Here */
+    visitProcedimento(p->u.blocofuncaoeprocprocedimento_.procedimento_);
+    break;
+  case is_BlocoFuncaoEProc2:
+    /* Code for BlocoFuncaoEProc2 Goes Here */
+    visitProcedimento(p->u.blocofuncaoeproc2_.procedimento_);
+    visitBlocoFuncaoEProc(p->u.blocofuncaoeproc2_.blocofuncaoeproc_);
+    break;
+  case is_BlocoFuncaoEProc_:
+    /* Code for BlocoFuncaoEProc_ Goes Here */
+    break;
+
+  default:
+    fprintf(stderr, "Error: bad kind field when printing BlocoFuncaoEProc!\n");
     exit(1);
   }
 }
@@ -254,6 +285,10 @@ void visitComando(Comando p)
   case is_ComandoGoto:
     /* Code for ComandoGoto Goes Here */
     visitGoto(p->u.comandogoto_.goto_);
+    break;
+  case is_ComandoCase:
+    /* Code for ComandoCase Goes Here */
+    visitCase(p->u.comandocase_.case_);
     break;
   case is_ComandoChamadaFuncao:
     /* Code for ComandoChamadaFuncao Goes Here */

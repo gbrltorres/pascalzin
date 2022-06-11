@@ -12,7 +12,8 @@ inicio
       result := num2;
    fim;
 fim;
-
+var
+   foo: char;
 inicio
    ret := foo(a, b);
 fim.

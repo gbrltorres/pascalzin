@@ -26,8 +26,11 @@ typedef char* Ident;
 struct Entry_;
 typedef struct Entry_ *Entry;
 
-struct BlocoFuncao_;
-typedef struct BlocoFuncao_ *BlocoFuncao;
+struct BlocoDefinicoes_;
+typedef struct BlocoDefinicoes_ *BlocoDefinicoes;
+
+struct BlocoFuncaoEProc_;
+typedef struct BlocoFuncaoEProc_ *BlocoFuncaoEProc;
 
 struct BlocoConstante_;
 typedef struct BlocoConstante_ *BlocoConstante;
@@ -162,29 +165,47 @@ struct Entry_
   enum { is_L1 } kind;
   union
   {
-    struct { BlocoComando blococomando_; BlocoConstante blococonstante_; BlocoFuncao blocofuncao_; BlocoTipo blocotipo_; BlocoVar blocovar_; Ident ident_; } l1_;
+    struct { BlocoComando blococomando_; BlocoDefinicoes blocodefinicoes_; Ident ident_; } l1_;
   } u;
 };
 
-Entry make_L1(Ident p0, BlocoFuncao p1, BlocoConstante p2, BlocoTipo p3, BlocoVar p4, BlocoComando p5);
+Entry make_L1(Ident p0, BlocoDefinicoes p1, BlocoComando p2);
 
-struct BlocoFuncao_
+struct BlocoDefinicoes_
 {
-  enum { is_BlocoFuncaoFuncao, is_BlocoFuncao1, is_BlocoFuncaoProcedimento, is_BlocoFuncao2, is_BlocoFuncao_ } kind;
+  enum { is_BlocoDefinicoes1, is_BlocoDefinicoes2, is_BlocoDefinicoes3, is_BlocoDefinicoes4, is_BlocoDefinicoes_ } kind;
   union
   {
-    struct { Funcao funcao_; } blocofuncaofuncao_;
-    struct { BlocoFuncao blocofuncao_; Funcao funcao_; } blocofuncao1_;
-    struct { Procedimento procedimento_; } blocofuncaoprocedimento_;
-    struct { BlocoFuncao blocofuncao_; Procedimento procedimento_; } blocofuncao2_;
+    struct { BlocoDefinicoes blocodefinicoes_; BlocoFuncaoEProc blocofuncaoeproc_; } blocodefinicoes1_;
+    struct { BlocoConstante blococonstante_; BlocoDefinicoes blocodefinicoes_; } blocodefinicoes2_;
+    struct { BlocoDefinicoes blocodefinicoes_; BlocoTipo blocotipo_; } blocodefinicoes3_;
+    struct { BlocoDefinicoes blocodefinicoes_; BlocoVar blocovar_; } blocodefinicoes4_;
   } u;
 };
 
-BlocoFuncao make_BlocoFuncaoFuncao(Funcao p0);
-BlocoFuncao make_BlocoFuncao1(Funcao p0, BlocoFuncao p1);
-BlocoFuncao make_BlocoFuncaoProcedimento(Procedimento p0);
-BlocoFuncao make_BlocoFuncao2(Procedimento p0, BlocoFuncao p1);
-BlocoFuncao make_BlocoFuncao_(void);
+BlocoDefinicoes make_BlocoDefinicoes1(BlocoFuncaoEProc p0, BlocoDefinicoes p1);
+BlocoDefinicoes make_BlocoDefinicoes2(BlocoConstante p0, BlocoDefinicoes p1);
+BlocoDefinicoes make_BlocoDefinicoes3(BlocoTipo p0, BlocoDefinicoes p1);
+BlocoDefinicoes make_BlocoDefinicoes4(BlocoVar p0, BlocoDefinicoes p1);
+BlocoDefinicoes make_BlocoDefinicoes_(void);
+
+struct BlocoFuncaoEProc_
+{
+  enum { is_BlocoFuncaoEProcFuncao, is_BlocoFuncaoEProc1, is_BlocoFuncaoEProcProcedimento, is_BlocoFuncaoEProc2, is_BlocoFuncaoEProc_ } kind;
+  union
+  {
+    struct { Funcao funcao_; } blocofuncaoeprocfuncao_;
+    struct { BlocoFuncaoEProc blocofuncaoeproc_; Funcao funcao_; } blocofuncaoeproc1_;
+    struct { Procedimento procedimento_; } blocofuncaoeprocprocedimento_;
+    struct { BlocoFuncaoEProc blocofuncaoeproc_; Procedimento procedimento_; } blocofuncaoeproc2_;
+  } u;
+};
+
+BlocoFuncaoEProc make_BlocoFuncaoEProcFuncao(Funcao p0);
+BlocoFuncaoEProc make_BlocoFuncaoEProc1(Funcao p0, BlocoFuncaoEProc p1);
+BlocoFuncaoEProc make_BlocoFuncaoEProcProcedimento(Procedimento p0);
+BlocoFuncaoEProc make_BlocoFuncaoEProc2(Procedimento p0, BlocoFuncaoEProc p1);
+BlocoFuncaoEProc make_BlocoFuncaoEProc_(void);
 
 struct BlocoConstante_
 {
@@ -292,7 +313,7 @@ RegraComando make_RegraComando2(Comando p0, RegraComando p1);
 
 struct Comando_
 {
-  enum { is_ComandoAtribuicao, is_ComandoIf, is_ComandoWhile, is_ComandoFor, is_ComandoGoto, is_ComandoChamadaFuncao } kind;
+  enum { is_ComandoAtribuicao, is_ComandoIf, is_ComandoWhile, is_ComandoFor, is_ComandoGoto, is_ComandoCase, is_ComandoChamadaFuncao } kind;
   union
   {
     struct { Atribuicao atribuicao_; } comandoatribuicao_;
@@ -300,6 +321,7 @@ struct Comando_
     struct { While while_; } comandowhile_;
     struct { For for_; } comandofor_;
     struct { Goto goto_; } comandogoto_;
+    struct { Case case_; } comandocase_;
     struct { ChamadaFuncao chamadafuncao_; } comandochamadafuncao_;
   } u;
 };
@@ -309,6 +331,7 @@ Comando make_ComandoIf(If p0);
 Comando make_ComandoWhile(While p0);
 Comando make_ComandoFor(For p0);
 Comando make_ComandoGoto(Goto p0);
+Comando make_ComandoCase(Case p0);
 Comando make_ComandoChamadaFuncao(ChamadaFuncao p0);
 
 struct Atribuicao_
@@ -758,7 +781,8 @@ RegraLogico make_RegraLogico2(OperadorLogico p0, ExpressaoLogica p1, RegraLogico
 /***************************   Cloning   ******************************/
 
 Entry clone_Entry(Entry p);
-BlocoFuncao clone_BlocoFuncao(BlocoFuncao p);
+BlocoDefinicoes clone_BlocoDefinicoes(BlocoDefinicoes p);
+BlocoFuncaoEProc clone_BlocoFuncaoEProc(BlocoFuncaoEProc p);
 BlocoConstante clone_BlocoConstante(BlocoConstante p);
 RegraBlocoConstante clone_RegraBlocoConstante(RegraBlocoConstante p);
 BlocoTipo clone_BlocoTipo(BlocoTipo p);
@@ -813,7 +837,8 @@ RegraLogico clone_RegraLogico(RegraLogico p);
  */
 
 void free_Entry(Entry p);
-void free_BlocoFuncao(BlocoFuncao p);
+void free_BlocoDefinicoes(BlocoDefinicoes p);
+void free_BlocoFuncaoEProc(BlocoFuncaoEProc p);
 void free_BlocoConstante(BlocoConstante p);
 void free_RegraBlocoConstante(RegraBlocoConstante p);
 void free_BlocoTipo(BlocoTipo p);
