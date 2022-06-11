@@ -1,4 +1,4 @@
-programa L1:
+programa L1;
 const
 	A = 10;
 tipo

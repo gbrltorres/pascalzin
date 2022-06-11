@@ -87,7 +87,7 @@ extern yyscan_t pascalzin__initialize_lexer(FILE * inp);
   Case case_;
   RegraSeletor regraseletor_;
   Seletor seletor_;
-  ChamadaFuncao chamadafuncao_;
+  ChamadaFuncaoEProc chamadafuncaoeproc_;
   ListaIdent listaident_;
   Funcao funcao_;
   Procedimento procedimento_;
@@ -115,7 +115,7 @@ extern int yylex(YYSTYPE *lvalp, YYLTYPE *llocp, yyscan_t scanner);
 %token          _ERROR_
 %token          _BANG             /* ! */
 %token          _DAMP             /* && */
-%token          _SYMB_17          /* &| */
+%token          _SYMB_19          /* &| */
 %token          _LPAREN           /* ( */
 %token          _RPAREN           /* ) */
 %token          _STAR             /* * */
@@ -203,7 +203,7 @@ extern int yylex(YYSTYPE *lvalp, YYLTYPE *llocp, yyscan_t scanner);
 %type <case_> Case
 %type <regraseletor_> RegraSeletor
 %type <seletor_> Seletor
-%type <chamadafuncao_> ChamadaFuncao
+%type <chamadafuncaoeproc_> ChamadaFuncaoEProc
 %type <listaident_> ListaIdent
 %type <funcao_> Funcao
 %type <procedimento_> Procedimento
@@ -219,7 +219,7 @@ extern int yylex(YYSTYPE *lvalp, YYLTYPE *llocp, yyscan_t scanner);
 
 %%
 
-Entry : _KW_programa _IDENT_ _COLON BlocoDefinicoes BlocoComando _DOT { $$ = make_L1($2, $4, $5); result->entry_ = $$; }
+Entry : _KW_programa _IDENT_ _SEMI BlocoDefinicoes BlocoComando _DOT { $$ = make_L1($2, $4, $5); result->entry_ = $$; }
 ;
 BlocoDefinicoes : BlocoFuncaoEProc BlocoDefinicoes { $$ = make_BlocoDefinicoes1($1, $2); result->blocodefinicoes_ = $$; }
   | BlocoConstante BlocoDefinicoes { $$ = make_BlocoDefinicoes2($1, $2); result->blocodefinicoes_ = $$; }
@@ -265,14 +265,14 @@ Comando : Atribuicao { $$ = make_ComandoAtribuicao($1); result->comando_ = $$; }
   | For { $$ = make_ComandoFor($1); result->comando_ = $$; }
   | Goto { $$ = make_ComandoGoto($1); result->comando_ = $$; }
   | Case { $$ = make_ComandoCase($1); result->comando_ = $$; }
-  | ChamadaFuncao { $$ = make_ComandoChamadaFuncao($1); result->comando_ = $$; }
+  | ChamadaFuncaoEProc { $$ = make_ComandoChamadaFuncaoEProc($1); result->comando_ = $$; }
 ;
 Atribuicao : _IDENT_ _COLONEQ Valor { $$ = make_Atribuicao1($1, $3); result->atribuicao_ = $$; }
   | _IDENT_ _COLONEQ _IDENT_ { $$ = make_Atribuicao2($1, $3); result->atribuicao_ = $$; }
   | _IDENT_ _LBRACK SubEscrito _RBRACK _COLONEQ Valor { $$ = make_Atribuicao3($1, $3, $6); result->atribuicao_ = $$; }
   | _IDENT_ _CARET _COLONEQ Valor { $$ = make_Atribuicao4($1, $4); result->atribuicao_ = $$; }
   | AtribuicaoStruct { $$ = make_AtribuicaoAtribuicaoStruct($1); result->atribuicao_ = $$; }
-  | _IDENT_ _COLONEQ ChamadaFuncao { $$ = make_Atribuicao5($1, $3); result->atribuicao_ = $$; }
+  | _IDENT_ _COLONEQ ChamadaFuncaoEProc { $$ = make_Atribuicao5($1, $3); result->atribuicao_ = $$; }
 ;
 SubEscrito : _IDENT_ { $$ = make_SubEscritoIdent($1); result->subescrito_ = $$; }
   | _INTEGER_ { $$ = make_SubEscritoInteger($1); result->subescrito_ = $$; }
@@ -300,10 +300,10 @@ Ponteiro : _CARET TipoPrimitivo { $$ = make_Ponteiro1($2); result->ponteiro_ = $
 ;
 Vetor : _KW_vetor _LBRACK _INTEGER_ _DDOT _INTEGER_ _RBRACK _KW_de TipoPrimitivo { $$ = make_L7($3, $5, $8); result->vetor_ = $$; }
 ;
-If : _KW_se ExpressaoLogica _KW_entao BlocoComando { $$ = make_If1($2, $4); result->if_ = $$; }
-  | _KW_se ExpressaoLogica _KW_entao BlocoComando _KW_senao BlocoComando { $$ = make_If2($2, $4, $6); result->if_ = $$; }
+If : _KW_se _LPAREN ExpressaoLogica _RPAREN _KW_entao BlocoComando { $$ = make_If1($3, $6); result->if_ = $$; }
+  | _KW_se _LPAREN ExpressaoLogica _RPAREN _KW_entao BlocoComando _KW_senao BlocoComando { $$ = make_If2($3, $6, $8); result->if_ = $$; }
 ;
-While : _KW_enquanto ExpressaoLogica _KW_faca BlocoComando { $$ = make_L8($2, $4); result->while_ = $$; }
+While : _KW_enquanto _LPAREN ExpressaoLogica _RPAREN _KW_faca BlocoComando { $$ = make_L8($3, $6); result->while_ = $$; }
 ;
 For : _KW_para Atribuicao _KW_ate _INTEGER_ _KW_faca BlocoComando { $$ = make_For1($2, $4, $6); result->for_ = $$; }
   | _KW_para Atribuicao _KW_ate _IDENT_ _KW_faca BlocoComando { $$ = make_For2($2, $4, $6); result->for_ = $$; }
@@ -330,7 +330,7 @@ OperadorRelacional : _GT { $$ = make_OperadorRelacional1(); result->operadorrela
 OperadorLogico : _BANG { $$ = make_OperadorLogico1(); result->operadorlogico_ = $$; }
   | _DAMP { $$ = make_OperadorLogico2(); result->operadorlogico_ = $$; }
   | _DBAR { $$ = make_OperadorLogico3(); result->operadorlogico_ = $$; }
-  | _SYMB_17 { $$ = make_OperadorLogico4(); result->operadorlogico_ = $$; }
+  | _SYMB_19 { $$ = make_OperadorLogico4(); result->operadorlogico_ = $$; }
 ;
 OperadorAritmetico : _PLUS { $$ = make_OperadorAritmetico1(); result->operadoraritmetico_ = $$; }
   | _MINUS { $$ = make_OperadorAritmetico2(); result->operadoraritmetico_ = $$; }
@@ -346,7 +346,7 @@ Seletor : _INTEGER_ { $$ = make_SeletorInteger($1); result->seletor_ = $$; }
   | _CHAR_ { $$ = make_SeletorChar($1); result->seletor_ = $$; }
   | _IDENT_ { $$ = make_SeletorIdent($1); result->seletor_ = $$; }
 ;
-ChamadaFuncao : _IDENT_ _LPAREN ListaIdent _RPAREN { $$ = make_L33($1, $3); result->chamadafuncao_ = $$; }
+ChamadaFuncaoEProc : _IDENT_ _LPAREN ListaIdent _RPAREN { $$ = make_L33($1, $3); result->chamadafuncaoeproc_ = $$; }
 ;
 ListaIdent : _IDENT_ { $$ = make_ListaIdentIdent($1); result->listaident_ = $$; }
   | _IDENT_ _COMMA ListaIdent { $$ = make_ListaIdent1($1, $3); result->listaident_ = $$; }
@@ -1883,8 +1883,8 @@ Seletor psSeletor(const char *str)
   }
 }
 
-/* Entrypoint: parse ChamadaFuncao from file. */
-ChamadaFuncao pChamadaFuncao(FILE *inp)
+/* Entrypoint: parse ChamadaFuncaoEProc from file. */
+ChamadaFuncaoEProc pChamadaFuncaoEProc(FILE *inp)
 {
   YYSTYPE result;
   yyscan_t scanner = pascalzin__initialize_lexer(inp);
@@ -1900,12 +1900,12 @@ ChamadaFuncao pChamadaFuncao(FILE *inp)
   }
   else
   { /* Success */
-    return result.chamadafuncao_;
+    return result.chamadafuncaoeproc_;
   }
 }
 
-/* Entrypoint: parse ChamadaFuncao from string. */
-ChamadaFuncao psChamadaFuncao(const char *str)
+/* Entrypoint: parse ChamadaFuncaoEProc from string. */
+ChamadaFuncaoEProc psChamadaFuncaoEProc(const char *str)
 {
   YYSTYPE result;
   yyscan_t scanner = pascalzin__initialize_lexer(0);
@@ -1923,7 +1923,7 @@ ChamadaFuncao psChamadaFuncao(const char *str)
   }
   else
   { /* Success */
-    return result.chamadafuncao_;
+    return result.chamadafuncaoeproc_;
   }
 }
 

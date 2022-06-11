@@ -41,7 +41,7 @@ void visitOperadorAritmetico(OperadorAritmetico p);
 void visitCase(Case p);
 void visitRegraSeletor(RegraSeletor p);
 void visitSeletor(Seletor p);
-void visitChamadaFuncao(ChamadaFuncao p);
+void visitChamadaFuncaoEProc(ChamadaFuncaoEProc p);
 void visitListaIdent(ListaIdent p);
 void visitFuncao(Funcao p);
 void visitProcedimento(Procedimento p);

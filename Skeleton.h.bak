@@ -8,7 +8,7 @@
 
 
 void visitEntry(Entry p);
-void visitBlocoDefinicao(BlocoDefinicao p);
+void visitBlocoDefinicoes(BlocoDefinicoes p);
 void visitBlocoFuncaoEProc(BlocoFuncaoEProc p);
 void visitBlocoConstante(BlocoConstante p);
 void visitRegraBlocoConstante(RegraBlocoConstante p);

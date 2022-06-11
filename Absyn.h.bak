@@ -26,8 +26,8 @@ typedef char* Ident;
 struct Entry_;
 typedef struct Entry_ *Entry;
 
-struct BlocoDefinicao_;
-typedef struct BlocoDefinicao_ *BlocoDefinicao;
+struct BlocoDefinicoes_;
+typedef struct BlocoDefinicoes_ *BlocoDefinicoes;
 
 struct BlocoFuncaoEProc_;
 typedef struct BlocoFuncaoEProc_ *BlocoFuncaoEProc;
@@ -165,29 +165,29 @@ struct Entry_
   enum { is_L1 } kind;
   union
   {
-    struct { BlocoComando blococomando_; BlocoConstante blococonstante_; BlocoFuncaoEProc blocofuncaoeproc_; BlocoTipo blocotipo_; BlocoVar blocovar_; Ident ident_; } l1_;
+    struct { BlocoComando blococomando_; BlocoDefinicoes blocodefinicoes_; Ident ident_; } l1_;
   } u;
 };
 
-Entry make_L1(Ident p0, BlocoFuncaoEProc p1, BlocoConstante p2, BlocoTipo p3, BlocoVar p4, BlocoComando p5);
+Entry make_L1(Ident p0, BlocoDefinicoes p1, BlocoComando p2);
 
-struct BlocoDefinicao_
+struct BlocoDefinicoes_
 {
-  enum { is_BlocoDefinicao1, is_BlocoDefinicao2, is_BlocoDefinicao3, is_BlocoDefinicao4, is_BlocoDefinicao_ } kind;
+  enum { is_BlocoDefinicoes1, is_BlocoDefinicoes2, is_BlocoDefinicoes3, is_BlocoDefinicoes4, is_BlocoDefinicoes_ } kind;
   union
   {
-    struct { BlocoDefinicao blocodefinicao_; BlocoFuncaoEProc blocofuncaoeproc_; } blocodefinicao1_;
-    struct { BlocoConstante blococonstante_; BlocoDefinicao blocodefinicao_; } blocodefinicao2_;
-    struct { BlocoDefinicao blocodefinicao_; BlocoTipo blocotipo_; } blocodefinicao3_;
-    struct { BlocoDefinicao blocodefinicao_; BlocoVar blocovar_; } blocodefinicao4_;
+    struct { BlocoDefinicoes blocodefinicoes_; BlocoFuncaoEProc blocofuncaoeproc_; } blocodefinicoes1_;
+    struct { BlocoConstante blococonstante_; BlocoDefinicoes blocodefinicoes_; } blocodefinicoes2_;
+    struct { BlocoDefinicoes blocodefinicoes_; BlocoTipo blocotipo_; } blocodefinicoes3_;
+    struct { BlocoDefinicoes blocodefinicoes_; BlocoVar blocovar_; } blocodefinicoes4_;
   } u;
 };
 
-BlocoDefinicao make_BlocoDefinicao1(BlocoFuncaoEProc p0, BlocoDefinicao p1);
-BlocoDefinicao make_BlocoDefinicao2(BlocoConstante p0, BlocoDefinicao p1);
-BlocoDefinicao make_BlocoDefinicao3(BlocoTipo p0, BlocoDefinicao p1);
-BlocoDefinicao make_BlocoDefinicao4(BlocoVar p0, BlocoDefinicao p1);
-BlocoDefinicao make_BlocoDefinicao_(void);
+BlocoDefinicoes make_BlocoDefinicoes1(BlocoFuncaoEProc p0, BlocoDefinicoes p1);
+BlocoDefinicoes make_BlocoDefinicoes2(BlocoConstante p0, BlocoDefinicoes p1);
+BlocoDefinicoes make_BlocoDefinicoes3(BlocoTipo p0, BlocoDefinicoes p1);
+BlocoDefinicoes make_BlocoDefinicoes4(BlocoVar p0, BlocoDefinicoes p1);
+BlocoDefinicoes make_BlocoDefinicoes_(void);
 
 struct BlocoFuncaoEProc_
 {
@@ -781,7 +781,7 @@ RegraLogico make_RegraLogico2(OperadorLogico p0, ExpressaoLogica p1, RegraLogico
 /***************************   Cloning   ******************************/
 
 Entry clone_Entry(Entry p);
-BlocoDefinicao clone_BlocoDefinicao(BlocoDefinicao p);
+BlocoDefinicoes clone_BlocoDefinicoes(BlocoDefinicoes p);
 BlocoFuncaoEProc clone_BlocoFuncaoEProc(BlocoFuncaoEProc p);
 BlocoConstante clone_BlocoConstante(BlocoConstante p);
 RegraBlocoConstante clone_RegraBlocoConstante(RegraBlocoConstante p);
@@ -837,7 +837,7 @@ RegraLogico clone_RegraLogico(RegraLogico p);
  */
 
 void free_Entry(Entry p);
-void free_BlocoDefinicao(BlocoDefinicao p);
+void free_BlocoDefinicoes(BlocoDefinicoes p);
 void free_BlocoFuncaoEProc(BlocoFuncaoEProc p);
 void free_BlocoConstante(BlocoConstante p);
 void free_RegraBlocoConstante(RegraBlocoConstante p);

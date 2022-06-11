@@ -356,11 +356,11 @@ char *printSeletor(Seletor p)
   ppSeletor(p, 0);
   return buf_;
 }
-char *printChamadaFuncao(ChamadaFuncao p)
+char *printChamadaFuncaoEProc(ChamadaFuncaoEProc p)
 {
   _n_ = 0;
   bufReset();
-  ppChamadaFuncao(p, 0);
+  ppChamadaFuncaoEProc(p, 0);
   return buf_;
 }
 char *printListaIdent(ListaIdent p)
@@ -671,11 +671,11 @@ char *showSeletor(Seletor p)
   shSeletor(p);
   return buf_;
 }
-char *showChamadaFuncao(ChamadaFuncao p)
+char *showChamadaFuncaoEProc(ChamadaFuncaoEProc p)
 {
   _n_ = 0;
   bufReset();
-  shChamadaFuncao(p);
+  shChamadaFuncaoEProc(p);
   return buf_;
 }
 char *showListaIdent(ListaIdent p)
@@ -756,7 +756,7 @@ void ppEntry(Entry p, int _i_)
     if (_i_ > 0) renderC(_L_PAREN);
     renderS("programa");
     ppIdent(p->u.l1_.ident_, 0);
-    renderC(':');
+    renderC(';');
     ppBlocoDefinicoes(p->u.l1_.blocodefinicoes_, 0);
     ppBlocoComando(p->u.l1_.blococomando_, 0);
     renderC('.');
@@ -1113,9 +1113,9 @@ void ppComando(Comando p, int _i_)
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
-  case is_ComandoChamadaFuncao:
+  case is_ComandoChamadaFuncaoEProc:
     if (_i_ > 0) renderC(_L_PAREN);
-    ppChamadaFuncao(p->u.comandochamadafuncao_.chamadafuncao_, 0);
+    ppChamadaFuncaoEProc(p->u.comandochamadafuncaoeproc_.chamadafuncaoeproc_, 0);
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
@@ -1175,7 +1175,7 @@ void ppAtribuicao(Atribuicao p, int _i_)
     if (_i_ > 0) renderC(_L_PAREN);
     ppIdent(p->u.atribuicao5_.ident_, 0);
     renderS(":=");
-    ppChamadaFuncao(p->u.atribuicao5_.chamadafuncao_, 0);
+    ppChamadaFuncaoEProc(p->u.atribuicao5_.chamadafuncaoeproc_, 0);
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
@@ -1385,7 +1385,9 @@ void ppIf(If p, int _i_)
   case is_If1:
     if (_i_ > 0) renderC(_L_PAREN);
     renderS("se");
+    renderC('(');
     ppExpressaoLogica(p->u.if1_.expressaologica_, 0);
+    renderC(')');
     renderS("entao");
     ppBlocoComando(p->u.if1_.blococomando_, 0);
     if (_i_ > 0) renderC(_R_PAREN);
@@ -1394,7 +1396,9 @@ void ppIf(If p, int _i_)
   case is_If2:
     if (_i_ > 0) renderC(_L_PAREN);
     renderS("se");
+    renderC('(');
     ppExpressaoLogica(p->u.if2_.expressaologica_, 0);
+    renderC(')');
     renderS("entao");
     ppBlocoComando(p->u.if2_.blococomando_1, 0);
     renderS("senao");
@@ -1415,7 +1419,9 @@ void ppWhile(While p, int _i_)
   case is_L8:
     if (_i_ > 0) renderC(_L_PAREN);
     renderS("enquanto");
+    renderC('(');
     ppExpressaoLogica(p->u.l8_.expressaologica_, 0);
+    renderC(')');
     renderS("faca");
     ppBlocoComando(p->u.l8_.blococomando_, 0);
     if (_i_ > 0) renderC(_R_PAREN);
@@ -1765,7 +1771,7 @@ void ppSeletor(Seletor p, int _i_)
   }
 }
 
-void ppChamadaFuncao(ChamadaFuncao p, int _i_)
+void ppChamadaFuncaoEProc(ChamadaFuncaoEProc p, int _i_)
 {
   switch(p->kind)
   {
@@ -1779,7 +1785,7 @@ void ppChamadaFuncao(ChamadaFuncao p, int _i_)
     break;
 
   default:
-    fprintf(stderr, "Error: bad kind field when printing ChamadaFuncao!\n");
+    fprintf(stderr, "Error: bad kind field when printing ChamadaFuncaoEProc!\n");
     exit(1);
   }
 }
@@ -2666,14 +2672,14 @@ void shComando(Comando p)
     bufAppendC(')');
 
     break;
-  case is_ComandoChamadaFuncao:
+  case is_ComandoChamadaFuncaoEProc:
     bufAppendC('(');
 
-    bufAppendS("ComandoChamadaFuncao");
+    bufAppendS("ComandoChamadaFuncaoEProc");
 
     bufAppendC(' ');
 
-    shChamadaFuncao(p->u.comandochamadafuncao_.chamadafuncao_);
+    shChamadaFuncaoEProc(p->u.comandochamadafuncaoeproc_.chamadafuncaoeproc_);
 
     bufAppendC(')');
 
@@ -2768,7 +2774,7 @@ void shAtribuicao(Atribuicao p)
 
     shIdent(p->u.atribuicao5_.ident_);
   bufAppendC(' ');
-    shChamadaFuncao(p->u.atribuicao5_.chamadafuncao_);
+    shChamadaFuncaoEProc(p->u.atribuicao5_.chamadafuncaoeproc_);
 
     bufAppendC(')');
 
@@ -3601,7 +3607,7 @@ void shSeletor(Seletor p)
   }
 }
 
-void shChamadaFuncao(ChamadaFuncao p)
+void shChamadaFuncaoEProc(ChamadaFuncaoEProc p)
 {
   switch(p->kind)
   {
@@ -3621,7 +3627,7 @@ void shChamadaFuncao(ChamadaFuncao p)
     break;
 
   default:
-    fprintf(stderr, "Error: bad kind field when showing ChamadaFuncao!\n");
+    fprintf(stderr, "Error: bad kind field when showing ChamadaFuncaoEProc!\n");
     exit(1);
   }
 }

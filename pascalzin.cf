@@ -1,4 +1,4 @@
-L1.                   Entry ::= "programa" Ident ":" BlocoDefinicoes BlocoComando "." ;
+L1.                   Entry ::= "programa" Ident ";" BlocoDefinicoes BlocoComando "." ;
 
 rules       BlocoDefinicoes ::= BlocoFuncaoEProc BlocoDefinicoes |
                                 BlocoConstante BlocoDefinicoes |
@@ -42,14 +42,14 @@ rules               Comando ::= Atribuicao |
                                 For |
                                 Goto |
                                 Case |
-                                ChamadaFuncao ;
+                                ChamadaFuncaoEProc ;
 
 rules            Atribuicao ::= Ident ":=" Valor |
                                 Ident ":=" Ident |
                                 Ident "[" SubEscrito "]" ":=" Valor |
                                 Ident "^" ":=" Valor |
                                 AtribuicaoStruct |
-                                Ident ":=" ChamadaFuncao ;
+                                Ident ":=" ChamadaFuncaoEProc ;
                                 
 rules            SubEscrito ::= Ident |
                                 Integer ;
@@ -77,10 +77,10 @@ rules              Ponteiro ::= "^"TipoPrimitivo |
 
 L7.                   Vetor ::= "vetor" "[" Integer ".." Integer "]" "de" TipoPrimitivo ;
 
-rules                    If ::= "se" ExpressaoLogica "entao" BlocoComando |
-                                "se" ExpressaoLogica "entao" BlocoComando "senao" BlocoComando ;
+rules                    If ::= "se" "(" ExpressaoLogica ")" "entao" BlocoComando |
+                                "se" "(" ExpressaoLogica ")" "entao" BlocoComando "senao" BlocoComando ;
 
-L8.                   While ::= "enquanto" ExpressaoLogica "faca" BlocoComando ;
+L8.                   While ::= "enquanto" "(" ExpressaoLogica ")" "faca" BlocoComando ;
 
 rules                   For ::= "para" Atribuicao "ate" Integer "faca" BlocoComando |
                                 "para" Atribuicao "ate" Ident "faca" BlocoComando ;
@@ -122,7 +122,7 @@ rules               Seletor ::= Integer |
                                 Char |
                                 Ident ;
 
-L33.          ChamadaFuncao ::= Ident "(" ListaIdent ")" ;
+L33.          ChamadaFuncaoEProc ::= Ident "(" ListaIdent ")" ;
 
 rules            ListaIdent ::= Ident |
                                 Ident "," ListaIdent ;
@@ -155,6 +155,6 @@ rules       ExpressaoLogica ::= "falso" |
                                 ExpressaoRelacional RegraLogico |
                                 OperadorLogico ExpressaoLogica |
                                 OperadorLogico ExpressaoLogica RegraLogico;
-                                
+
 rules           RegraLogico ::= OperadorLogico ExpressaoLogica |
                                 OperadorLogico ExpressaoLogica RegraLogico;

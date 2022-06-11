@@ -546,18 +546,18 @@ Comando make_ComandoCase(Case p1)
     return tmp;
 }
 
-/********************   ComandoChamadaFuncao    ********************/
+/********************   ComandoChamadaFuncaoEProc    ********************/
 
-Comando make_ComandoChamadaFuncao(ChamadaFuncao p1)
+Comando make_ComandoChamadaFuncaoEProc(ChamadaFuncaoEProc p1)
 {
     Comando tmp = (Comando) malloc(sizeof(*tmp));
     if (!tmp)
     {
-        fprintf(stderr, "Error: out of memory when allocating ComandoChamadaFuncao!\n");
+        fprintf(stderr, "Error: out of memory when allocating ComandoChamadaFuncaoEProc!\n");
         exit(1);
     }
-    tmp->kind = is_ComandoChamadaFuncao;
-    tmp->u.comandochamadafuncao_.chamadafuncao_ = p1;
+    tmp->kind = is_ComandoChamadaFuncaoEProc;
+    tmp->u.comandochamadafuncaoeproc_.chamadafuncaoeproc_ = p1;
     return tmp;
 }
 
@@ -643,7 +643,7 @@ Atribuicao make_AtribuicaoAtribuicaoStruct(AtribuicaoStruct p1)
 
 /********************   Atribuicao5    ********************/
 
-Atribuicao make_Atribuicao5(Ident p1, ChamadaFuncao p2)
+Atribuicao make_Atribuicao5(Ident p1, ChamadaFuncaoEProc p2)
 {
     Atribuicao tmp = (Atribuicao) malloc(sizeof(*tmp));
     if (!tmp)
@@ -653,7 +653,7 @@ Atribuicao make_Atribuicao5(Ident p1, ChamadaFuncao p2)
     }
     tmp->kind = is_Atribuicao5;
     tmp->u.atribuicao5_.ident_ = p1;
-    tmp->u.atribuicao5_.chamadafuncao_ = p2;
+    tmp->u.atribuicao5_.chamadafuncaoeproc_ = p2;
     return tmp;
 }
 
@@ -1430,9 +1430,9 @@ Seletor make_SeletorIdent(Ident p1)
 
 /********************   L33    ********************/
 
-ChamadaFuncao make_L33(Ident p1, ListaIdent p2)
+ChamadaFuncaoEProc make_L33(Ident p1, ListaIdent p2)
 {
-    ChamadaFuncao tmp = (ChamadaFuncao) malloc(sizeof(*tmp));
+    ChamadaFuncaoEProc tmp = (ChamadaFuncaoEProc) malloc(sizeof(*tmp));
     if (!tmp)
     {
         fprintf(stderr, "Error: out of memory when allocating L33!\n");
@@ -2116,8 +2116,8 @@ Comando clone_Comando(Comando p)
   case is_ComandoCase:
     return make_ComandoCase (clone_Case(p->u.comandocase_.case_));
 
-  case is_ComandoChamadaFuncao:
-    return make_ComandoChamadaFuncao (clone_ChamadaFuncao(p->u.comandochamadafuncao_.chamadafuncao_));
+  case is_ComandoChamadaFuncaoEProc:
+    return make_ComandoChamadaFuncaoEProc (clone_ChamadaFuncaoEProc(p->u.comandochamadafuncaoeproc_.chamadafuncaoeproc_));
 
   default:
     fprintf(stderr, "Error: bad kind field when cloning Comando!\n");
@@ -2160,7 +2160,7 @@ Atribuicao clone_Atribuicao(Atribuicao p)
   case is_Atribuicao5:
     return make_Atribuicao5
       ( strdup(p->u.atribuicao5_.ident_)
-      , clone_ChamadaFuncao(p->u.atribuicao5_.chamadafuncao_)
+      , clone_ChamadaFuncaoEProc(p->u.atribuicao5_.chamadafuncaoeproc_)
       );
 
   default:
@@ -2583,7 +2583,7 @@ Seletor clone_Seletor(Seletor p)
   }
 }
 
-ChamadaFuncao clone_ChamadaFuncao(ChamadaFuncao p)
+ChamadaFuncaoEProc clone_ChamadaFuncaoEProc(ChamadaFuncaoEProc p)
 {
   switch(p->kind)
   {
@@ -2594,7 +2594,7 @@ ChamadaFuncao clone_ChamadaFuncao(ChamadaFuncao p)
       );
 
   default:
-    fprintf(stderr, "Error: bad kind field when cloning ChamadaFuncao!\n");
+    fprintf(stderr, "Error: bad kind field when cloning ChamadaFuncaoEProc!\n");
     exit(1);
   }
 }
@@ -3121,8 +3121,8 @@ void free_Comando(Comando p)
     free_Case(p->u.comandocase_.case_);
     break;
 
-  case is_ComandoChamadaFuncao:
-    free_ChamadaFuncao(p->u.comandochamadafuncao_.chamadafuncao_);
+  case is_ComandoChamadaFuncaoEProc:
+    free_ChamadaFuncaoEProc(p->u.comandochamadafuncaoeproc_.chamadafuncaoeproc_);
     break;
 
   default:
@@ -3163,7 +3163,7 @@ void free_Atribuicao(Atribuicao p)
 
   case is_Atribuicao5:
     free(p->u.atribuicao5_.ident_);
-    free_ChamadaFuncao(p->u.atribuicao5_.chamadafuncao_);
+    free_ChamadaFuncaoEProc(p->u.atribuicao5_.chamadafuncaoeproc_);
     break;
 
   default:
@@ -3605,7 +3605,7 @@ void free_Seletor(Seletor p)
   free(p);
 }
 
-void free_ChamadaFuncao(ChamadaFuncao p)
+void free_ChamadaFuncaoEProc(ChamadaFuncaoEProc p)
 {
   switch(p->kind)
   {
@@ -3615,7 +3615,7 @@ void free_ChamadaFuncao(ChamadaFuncao p)
     break;
 
   default:
-    fprintf(stderr, "Error: bad kind field when freeing ChamadaFuncao!\n");
+    fprintf(stderr, "Error: bad kind field when freeing ChamadaFuncaoEProc!\n");
     exit(1);
   }
   free(p);

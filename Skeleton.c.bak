@@ -17,10 +17,7 @@ void visitEntry(Entry p)
   case is_L1:
     /* Code for L1 Goes Here */
     visitIdent(p->u.l1_.ident_);
-    visitBlocoFuncaoEProc(p->u.l1_.blocofuncaoeproc_);
-    visitBlocoConstante(p->u.l1_.blococonstante_);
-    visitBlocoTipo(p->u.l1_.blocotipo_);
-    visitBlocoVar(p->u.l1_.blocovar_);
+    visitBlocoDefinicoes(p->u.l1_.blocodefinicoes_);
     visitBlocoComando(p->u.l1_.blococomando_);
     break;
 
@@ -30,36 +27,36 @@ void visitEntry(Entry p)
   }
 }
 
-void visitBlocoDefinicao(BlocoDefinicao p)
+void visitBlocoDefinicoes(BlocoDefinicoes p)
 {
   switch(p->kind)
   {
-  case is_BlocoDefinicao1:
-    /* Code for BlocoDefinicao1 Goes Here */
-    visitBlocoFuncaoEProc(p->u.blocodefinicao1_.blocofuncaoeproc_);
-    visitBlocoDefinicao(p->u.blocodefinicao1_.blocodefinicao_);
+  case is_BlocoDefinicoes1:
+    /* Code for BlocoDefinicoes1 Goes Here */
+    visitBlocoFuncaoEProc(p->u.blocodefinicoes1_.blocofuncaoeproc_);
+    visitBlocoDefinicoes(p->u.blocodefinicoes1_.blocodefinicoes_);
     break;
-  case is_BlocoDefinicao2:
-    /* Code for BlocoDefinicao2 Goes Here */
-    visitBlocoConstante(p->u.blocodefinicao2_.blococonstante_);
-    visitBlocoDefinicao(p->u.blocodefinicao2_.blocodefinicao_);
+  case is_BlocoDefinicoes2:
+    /* Code for BlocoDefinicoes2 Goes Here */
+    visitBlocoConstante(p->u.blocodefinicoes2_.blococonstante_);
+    visitBlocoDefinicoes(p->u.blocodefinicoes2_.blocodefinicoes_);
     break;
-  case is_BlocoDefinicao3:
-    /* Code for BlocoDefinicao3 Goes Here */
-    visitBlocoTipo(p->u.blocodefinicao3_.blocotipo_);
-    visitBlocoDefinicao(p->u.blocodefinicao3_.blocodefinicao_);
+  case is_BlocoDefinicoes3:
+    /* Code for BlocoDefinicoes3 Goes Here */
+    visitBlocoTipo(p->u.blocodefinicoes3_.blocotipo_);
+    visitBlocoDefinicoes(p->u.blocodefinicoes3_.blocodefinicoes_);
     break;
-  case is_BlocoDefinicao4:
-    /* Code for BlocoDefinicao4 Goes Here */
-    visitBlocoVar(p->u.blocodefinicao4_.blocovar_);
-    visitBlocoDefinicao(p->u.blocodefinicao4_.blocodefinicao_);
+  case is_BlocoDefinicoes4:
+    /* Code for BlocoDefinicoes4 Goes Here */
+    visitBlocoVar(p->u.blocodefinicoes4_.blocovar_);
+    visitBlocoDefinicoes(p->u.blocodefinicoes4_.blocodefinicoes_);
     break;
-  case is_BlocoDefinicao_:
-    /* Code for BlocoDefinicao_ Goes Here */
+  case is_BlocoDefinicoes_:
+    /* Code for BlocoDefinicoes_ Goes Here */
     break;
 
   default:
-    fprintf(stderr, "Error: bad kind field when printing BlocoDefinicao!\n");
+    fprintf(stderr, "Error: bad kind field when printing BlocoDefinicoes!\n");
     exit(1);
   }
 }

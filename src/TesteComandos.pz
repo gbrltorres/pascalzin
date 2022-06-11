@@ -1,13 +1,13 @@
-programa L1:
+programa L1;
 inicio
     	A := 10;
     	
-    	se verdadeiro entao
+    	se (verdadeiro) entao
     	inicio
     		B := 1;
     	fim;
     	
-    	se falso entao
+    	se (falso) entao
     	inicio
     		C := 2;
     	fim 
@@ -16,15 +16,15 @@ inicio
     		D := 3;
     	fim;
     	
-    	se verdadeiro entao
+    	se (verdadeiro) entao
     	inicio
-    		se verdadeiro entao
+    		se (verdadeiro) entao
     		inicio
     			B := 1;
     		fim;
     	fim;
     	
-    	enquanto verdadeiro faca
+    	enquanto (verdadeiro) faca
     	inicio
     		B := 1;
     	fim;	

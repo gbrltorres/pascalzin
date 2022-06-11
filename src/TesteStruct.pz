@@ -1,4 +1,4 @@
-programa esqueleto:
+programa esqueleto;
 tipo
 	livro_struct = registro
 		nome: char;

@@ -8,8 +8,8 @@
 
 Entry  pEntry(FILE *inp);
 Entry psEntry(const char *str);
-BlocoDefinicao  pBlocoDefinicao(FILE *inp);
-BlocoDefinicao psBlocoDefinicao(const char *str);
+BlocoDefinicoes  pBlocoDefinicoes(FILE *inp);
+BlocoDefinicoes psBlocoDefinicoes(const char *str);
 BlocoFuncaoEProc  pBlocoFuncaoEProc(FILE *inp);
 BlocoFuncaoEProc psBlocoFuncaoEProc(const char *str);
 BlocoConstante  pBlocoConstante(FILE *inp);

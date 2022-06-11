@@ -1,4 +1,4 @@
-programa pontero:
+programa pontero;
 tipo
 	pontero = ^char;
 var

@@ -1,10 +1,10 @@
-programa esqueleto:
+programa esqueleto;
 
 procedimento findMin(x, y, z: int; a, b: char;)
 var
    m: int; 
 inicio
-   se x < y entao
+   se (x < y) entao
    inicio
       m := x;
    fim
@@ -13,7 +13,7 @@ inicio
       m := y;
    fim;
    
-   se z < m entao
+   se (z < m) entao
    inicio
       m := z;
    fim;

@@ -1,4 +1,4 @@
-programa checkCase:
+programa checkCase;
 var
    grade: char;
    hasSufficientGrade: int;

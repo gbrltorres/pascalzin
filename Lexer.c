@@ -590,15 +590,15 @@ struct yy_trans_info
 static const flex_int16_t yy_accept[181] =
     {   0,
         0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-        0,    0,   77,   75,   74,   74,   15,   51,   75,   62,
-       23,   24,   21,   19,   25,   20,    2,   22,   72,    1,
-        4,   11,    3,   10,   73,    6,    7,    8,   73,   73,
+        0,    0,   77,   75,   74,   74,   17,   51,   75,   62,
+       10,   11,   23,   21,   25,   22,    2,   24,   72,    4,
+        1,   13,    3,   12,   73,    6,    7,    8,   73,   73,
        73,   73,   73,   73,   73,   73,   73,   73,   73,   75,
        64,   76,   63,   69,   65,   66,   67,   68,   70,   54,
-       53,   52,   61,   59,   60,   55,   56,   57,   58,   16,
-       18,    9,    0,   72,    5,   14,   12,   13,   73,   73,
+       53,   52,   61,   59,   60,   55,   56,   57,   58,   18,
+       20,    9,    0,   72,    5,   16,   14,   15,   73,   73,
        73,   73,   73,   30,   73,   73,   73,   73,   73,   73,
-       73,   73,   44,   73,   73,   73,   73,   17,   71,   26,
+       73,   73,   44,   73,   73,   73,   73,   19,   71,   26,
 
        73,   73,   73,   73,   73,   73,   73,   35,   73,   73,
        38,   73,   73,   73,   73,   73,   73,   73,   48,   73,
@@ -1175,7 +1175,7 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 78 "pascalzin.l"
-return _COLON;
+return _SEMI;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
@@ -1190,7 +1190,7 @@ return _EQ;
 case 4:
 YY_RULE_SETUP
 #line 81 "pascalzin.l"
-return _SEMI;
+return _COLON;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
@@ -1220,77 +1220,77 @@ return _DDOT;
 case 10:
 YY_RULE_SETUP
 #line 87 "pascalzin.l"
-return _GT;
+return _LPAREN;
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 88 "pascalzin.l"
-return _LT;
+return _RPAREN;
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 89 "pascalzin.l"
-return _LTGT;
+return _GT;
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 90 "pascalzin.l"
-return _GTEQ;
+return _LT;
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 91 "pascalzin.l"
-return _LDARROW;
+return _LTGT;
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 92 "pascalzin.l"
-return _BANG;
+return _GTEQ;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 93 "pascalzin.l"
-return _DAMP;
+return _LDARROW;
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 94 "pascalzin.l"
-return _DBAR;
+return _BANG;
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 95 "pascalzin.l"
-return _SYMB_17;
+return _DAMP;
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 96 "pascalzin.l"
-return _PLUS;
+return _DBAR;
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
 #line 97 "pascalzin.l"
-return _MINUS;
+return _SYMB_19;
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
 #line 98 "pascalzin.l"
-return _STAR;
+return _PLUS;
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
 #line 99 "pascalzin.l"
-return _SLASH;
+return _MINUS;
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
 #line 100 "pascalzin.l"
-return _LPAREN;
+return _STAR;
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
 #line 101 "pascalzin.l"
-return _RPAREN;
+return _SLASH;
 	YY_BREAK
 case 25:
 YY_RULE_SETUP

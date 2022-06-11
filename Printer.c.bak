@@ -125,11 +125,11 @@ char *printEntry(Entry p)
   ppEntry(p, 0);
   return buf_;
 }
-char *printBlocoDefinicao(BlocoDefinicao p)
+char *printBlocoDefinicoes(BlocoDefinicoes p)
 {
   _n_ = 0;
   bufReset();
-  ppBlocoDefinicao(p, 0);
+  ppBlocoDefinicoes(p, 0);
   return buf_;
 }
 char *printBlocoFuncaoEProc(BlocoFuncaoEProc p)
@@ -356,11 +356,11 @@ char *printSeletor(Seletor p)
   ppSeletor(p, 0);
   return buf_;
 }
-char *printChamadaFuncao(ChamadaFuncao p)
+char *printChamadaFuncaoEProc(ChamadaFuncaoEProc p)
 {
   _n_ = 0;
   bufReset();
-  ppChamadaFuncao(p, 0);
+  ppChamadaFuncaoEProc(p, 0);
   return buf_;
 }
 char *printListaIdent(ListaIdent p)
@@ -440,11 +440,11 @@ char *showEntry(Entry p)
   shEntry(p);
   return buf_;
 }
-char *showBlocoDefinicao(BlocoDefinicao p)
+char *showBlocoDefinicoes(BlocoDefinicoes p)
 {
   _n_ = 0;
   bufReset();
-  shBlocoDefinicao(p);
+  shBlocoDefinicoes(p);
   return buf_;
 }
 char *showBlocoFuncaoEProc(BlocoFuncaoEProc p)
@@ -671,11 +671,11 @@ char *showSeletor(Seletor p)
   shSeletor(p);
   return buf_;
 }
-char *showChamadaFuncao(ChamadaFuncao p)
+char *showChamadaFuncaoEProc(ChamadaFuncaoEProc p)
 {
   _n_ = 0;
   bufReset();
-  shChamadaFuncao(p);
+  shChamadaFuncaoEProc(p);
   return buf_;
 }
 char *showListaIdent(ListaIdent p)
@@ -756,11 +756,8 @@ void ppEntry(Entry p, int _i_)
     if (_i_ > 0) renderC(_L_PAREN);
     renderS("programa");
     ppIdent(p->u.l1_.ident_, 0);
-    renderC(':');
-    ppBlocoFuncaoEProc(p->u.l1_.blocofuncaoeproc_, 0);
-    ppBlocoConstante(p->u.l1_.blococonstante_, 0);
-    ppBlocoTipo(p->u.l1_.blocotipo_, 0);
-    ppBlocoVar(p->u.l1_.blocovar_, 0);
+    renderC(';');
+    ppBlocoDefinicoes(p->u.l1_.blocodefinicoes_, 0);
     ppBlocoComando(p->u.l1_.blococomando_, 0);
     renderC('.');
     if (_i_ > 0) renderC(_R_PAREN);
@@ -772,45 +769,45 @@ void ppEntry(Entry p, int _i_)
   }
 }
 
-void ppBlocoDefinicao(BlocoDefinicao p, int _i_)
+void ppBlocoDefinicoes(BlocoDefinicoes p, int _i_)
 {
   switch(p->kind)
   {
-  case is_BlocoDefinicao1:
+  case is_BlocoDefinicoes1:
     if (_i_ > 0) renderC(_L_PAREN);
-    ppBlocoFuncaoEProc(p->u.blocodefinicao1_.blocofuncaoeproc_, 0);
-    ppBlocoDefinicao(p->u.blocodefinicao1_.blocodefinicao_, 0);
+    ppBlocoFuncaoEProc(p->u.blocodefinicoes1_.blocofuncaoeproc_, 0);
+    ppBlocoDefinicoes(p->u.blocodefinicoes1_.blocodefinicoes_, 0);
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
-  case is_BlocoDefinicao2:
+  case is_BlocoDefinicoes2:
     if (_i_ > 0) renderC(_L_PAREN);
-    ppBlocoConstante(p->u.blocodefinicao2_.blococonstante_, 0);
-    ppBlocoDefinicao(p->u.blocodefinicao2_.blocodefinicao_, 0);
+    ppBlocoConstante(p->u.blocodefinicoes2_.blococonstante_, 0);
+    ppBlocoDefinicoes(p->u.blocodefinicoes2_.blocodefinicoes_, 0);
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
-  case is_BlocoDefinicao3:
+  case is_BlocoDefinicoes3:
     if (_i_ > 0) renderC(_L_PAREN);
-    ppBlocoTipo(p->u.blocodefinicao3_.blocotipo_, 0);
-    ppBlocoDefinicao(p->u.blocodefinicao3_.blocodefinicao_, 0);
+    ppBlocoTipo(p->u.blocodefinicoes3_.blocotipo_, 0);
+    ppBlocoDefinicoes(p->u.blocodefinicoes3_.blocodefinicoes_, 0);
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
-  case is_BlocoDefinicao4:
+  case is_BlocoDefinicoes4:
     if (_i_ > 0) renderC(_L_PAREN);
-    ppBlocoVar(p->u.blocodefinicao4_.blocovar_, 0);
-    ppBlocoDefinicao(p->u.blocodefinicao4_.blocodefinicao_, 0);
+    ppBlocoVar(p->u.blocodefinicoes4_.blocovar_, 0);
+    ppBlocoDefinicoes(p->u.blocodefinicoes4_.blocodefinicoes_, 0);
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
-  case is_BlocoDefinicao_:
+  case is_BlocoDefinicoes_:
     if (_i_ > 0) renderC(_L_PAREN);
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
   default:
-    fprintf(stderr, "Error: bad kind field when printing BlocoDefinicao!\n");
+    fprintf(stderr, "Error: bad kind field when printing BlocoDefinicoes!\n");
     exit(1);
   }
 }
@@ -1116,9 +1113,9 @@ void ppComando(Comando p, int _i_)
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
-  case is_ComandoChamadaFuncao:
+  case is_ComandoChamadaFuncaoEProc:
     if (_i_ > 0) renderC(_L_PAREN);
-    ppChamadaFuncao(p->u.comandochamadafuncao_.chamadafuncao_, 0);
+    ppChamadaFuncaoEProc(p->u.comandochamadafuncaoeproc_.chamadafuncaoeproc_, 0);
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
@@ -1178,7 +1175,7 @@ void ppAtribuicao(Atribuicao p, int _i_)
     if (_i_ > 0) renderC(_L_PAREN);
     ppIdent(p->u.atribuicao5_.ident_, 0);
     renderS(":=");
-    ppChamadaFuncao(p->u.atribuicao5_.chamadafuncao_, 0);
+    ppChamadaFuncaoEProc(p->u.atribuicao5_.chamadafuncaoeproc_, 0);
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
@@ -1388,7 +1385,9 @@ void ppIf(If p, int _i_)
   case is_If1:
     if (_i_ > 0) renderC(_L_PAREN);
     renderS("se");
+    renderC('(');
     ppExpressaoLogica(p->u.if1_.expressaologica_, 0);
+    renderC(')');
     renderS("entao");
     ppBlocoComando(p->u.if1_.blococomando_, 0);
     if (_i_ > 0) renderC(_R_PAREN);
@@ -1418,7 +1417,9 @@ void ppWhile(While p, int _i_)
   case is_L8:
     if (_i_ > 0) renderC(_L_PAREN);
     renderS("enquanto");
+    renderC('(');
     ppExpressaoLogica(p->u.l8_.expressaologica_, 0);
+    renderC(')');
     renderS("faca");
     ppBlocoComando(p->u.l8_.blococomando_, 0);
     if (_i_ > 0) renderC(_R_PAREN);
@@ -1768,7 +1769,7 @@ void ppSeletor(Seletor p, int _i_)
   }
 }
 
-void ppChamadaFuncao(ChamadaFuncao p, int _i_)
+void ppChamadaFuncaoEProc(ChamadaFuncaoEProc p, int _i_)
 {
   switch(p->kind)
   {
@@ -1782,7 +1783,7 @@ void ppChamadaFuncao(ChamadaFuncao p, int _i_)
     break;
 
   default:
-    fprintf(stderr, "Error: bad kind field when printing ChamadaFuncao!\n");
+    fprintf(stderr, "Error: bad kind field when printing ChamadaFuncaoEProc!\n");
     exit(1);
   }
 }
@@ -2119,13 +2120,7 @@ void shEntry(Entry p)
 
     shIdent(p->u.l1_.ident_);
   bufAppendC(' ');
-    shBlocoFuncaoEProc(p->u.l1_.blocofuncaoeproc_);
-  bufAppendC(' ');
-    shBlocoConstante(p->u.l1_.blococonstante_);
-  bufAppendC(' ');
-    shBlocoTipo(p->u.l1_.blocotipo_);
-  bufAppendC(' ');
-    shBlocoVar(p->u.l1_.blocovar_);
+    shBlocoDefinicoes(p->u.l1_.blocodefinicoes_);
   bufAppendC(' ');
     shBlocoComando(p->u.l1_.blococomando_);
 
@@ -2139,69 +2134,69 @@ void shEntry(Entry p)
   }
 }
 
-void shBlocoDefinicao(BlocoDefinicao p)
+void shBlocoDefinicoes(BlocoDefinicoes p)
 {
   switch(p->kind)
   {
-  case is_BlocoDefinicao1:
+  case is_BlocoDefinicoes1:
     bufAppendC('(');
 
-    bufAppendS("BlocoDefinicao1");
+    bufAppendS("BlocoDefinicoes1");
 
     bufAppendC(' ');
 
-    shBlocoFuncaoEProc(p->u.blocodefinicao1_.blocofuncaoeproc_);
+    shBlocoFuncaoEProc(p->u.blocodefinicoes1_.blocofuncaoeproc_);
   bufAppendC(' ');
-    shBlocoDefinicao(p->u.blocodefinicao1_.blocodefinicao_);
+    shBlocoDefinicoes(p->u.blocodefinicoes1_.blocodefinicoes_);
 
     bufAppendC(')');
 
     break;
-  case is_BlocoDefinicao2:
+  case is_BlocoDefinicoes2:
     bufAppendC('(');
 
-    bufAppendS("BlocoDefinicao2");
+    bufAppendS("BlocoDefinicoes2");
 
     bufAppendC(' ');
 
-    shBlocoConstante(p->u.blocodefinicao2_.blococonstante_);
+    shBlocoConstante(p->u.blocodefinicoes2_.blococonstante_);
   bufAppendC(' ');
-    shBlocoDefinicao(p->u.blocodefinicao2_.blocodefinicao_);
+    shBlocoDefinicoes(p->u.blocodefinicoes2_.blocodefinicoes_);
 
     bufAppendC(')');
 
     break;
-  case is_BlocoDefinicao3:
+  case is_BlocoDefinicoes3:
     bufAppendC('(');
 
-    bufAppendS("BlocoDefinicao3");
+    bufAppendS("BlocoDefinicoes3");
 
     bufAppendC(' ');
 
-    shBlocoTipo(p->u.blocodefinicao3_.blocotipo_);
+    shBlocoTipo(p->u.blocodefinicoes3_.blocotipo_);
   bufAppendC(' ');
-    shBlocoDefinicao(p->u.blocodefinicao3_.blocodefinicao_);
+    shBlocoDefinicoes(p->u.blocodefinicoes3_.blocodefinicoes_);
 
     bufAppendC(')');
 
     break;
-  case is_BlocoDefinicao4:
+  case is_BlocoDefinicoes4:
     bufAppendC('(');
 
-    bufAppendS("BlocoDefinicao4");
+    bufAppendS("BlocoDefinicoes4");
 
     bufAppendC(' ');
 
-    shBlocoVar(p->u.blocodefinicao4_.blocovar_);
+    shBlocoVar(p->u.blocodefinicoes4_.blocovar_);
   bufAppendC(' ');
-    shBlocoDefinicao(p->u.blocodefinicao4_.blocodefinicao_);
+    shBlocoDefinicoes(p->u.blocodefinicoes4_.blocodefinicoes_);
 
     bufAppendC(')');
 
     break;
-  case is_BlocoDefinicao_:
+  case is_BlocoDefinicoes_:
 
-    bufAppendS("BlocoDefinicao_");
+    bufAppendS("BlocoDefinicoes_");
 
 
 
@@ -2209,7 +2204,7 @@ void shBlocoDefinicao(BlocoDefinicao p)
     break;
 
   default:
-    fprintf(stderr, "Error: bad kind field when showing BlocoDefinicao!\n");
+    fprintf(stderr, "Error: bad kind field when showing BlocoDefinicoes!\n");
     exit(1);
   }
 }
@@ -2675,14 +2670,14 @@ void shComando(Comando p)
     bufAppendC(')');
 
     break;
-  case is_ComandoChamadaFuncao:
+  case is_ComandoChamadaFuncaoEProc:
     bufAppendC('(');
 
-    bufAppendS("ComandoChamadaFuncao");
+    bufAppendS("ComandoChamadaFuncaoEProc");
 
     bufAppendC(' ');
 
-    shChamadaFuncao(p->u.comandochamadafuncao_.chamadafuncao_);
+    shChamadaFuncaoEProc(p->u.comandochamadafuncaoeproc_.chamadafuncaoeproc_);
 
     bufAppendC(')');
 
@@ -2777,7 +2772,7 @@ void shAtribuicao(Atribuicao p)
 
     shIdent(p->u.atribuicao5_.ident_);
   bufAppendC(' ');
-    shChamadaFuncao(p->u.atribuicao5_.chamadafuncao_);
+    shChamadaFuncaoEProc(p->u.atribuicao5_.chamadafuncaoeproc_);
 
     bufAppendC(')');
 
@@ -3610,7 +3605,7 @@ void shSeletor(Seletor p)
   }
 }
 
-void shChamadaFuncao(ChamadaFuncao p)
+void shChamadaFuncaoEProc(ChamadaFuncaoEProc p)
 {
   switch(p->kind)
   {
@@ -3630,7 +3625,7 @@ void shChamadaFuncao(ChamadaFuncao p)
     break;
 
   default:
-    fprintf(stderr, "Error: bad kind field when showing ChamadaFuncao!\n");
+    fprintf(stderr, "Error: bad kind field when showing ChamadaFuncaoEProc!\n");
     exit(1);
   }
 }

@@ -1,9 +1,10 @@
-programa programa_func:
+programa programa_func;
+
 funcao foo(num, num2: double;): int
 var
    result: int;
 inicio
-   se num1 > num2 entao
+   se (num1 > num2) entao
    inicio
       result := num1;
    fim
@@ -12,8 +13,10 @@ inicio
       result := num2;
    fim;
 fim;
+
 var
    foo: char;
+
 inicio
    ret := foo(a, b);
 fim.

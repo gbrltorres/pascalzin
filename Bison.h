@@ -57,7 +57,7 @@ extern int pascalzin_debug;
     _ERROR_ = 258,                 /* _ERROR_  */
     _BANG = 259,                   /* _BANG  */
     _DAMP = 260,                   /* _DAMP  */
-    _SYMB_17 = 261,                /* _SYMB_17  */
+    _SYMB_19 = 261,                /* _SYMB_19  */
     _LPAREN = 262,                 /* _LPAREN  */
     _RPAREN = 263,                 /* _RPAREN  */
     _STAR = 264,                   /* _STAR  */
@@ -158,7 +158,7 @@ union YYSTYPE
   Case case_;
   RegraSeletor regraseletor_;
   Seletor seletor_;
-  ChamadaFuncao chamadafuncao_;
+  ChamadaFuncaoEProc chamadafuncaoeproc_;
   ListaIdent listaident_;
   Funcao funcao_;
   Procedimento procedimento_;

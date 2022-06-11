@@ -75,15 +75,17 @@ IDENT [a-zA-Z0-9'_]
 
 %%  /* Rules. */
 
-<INITIAL>":"      	 return _COLON;
+<INITIAL>";"      	 return _SEMI;
 <INITIAL>"."      	 return _DOT;
 <INITIAL>"="      	 return _EQ;
-<INITIAL>";"      	 return _SEMI;
+<INITIAL>":"      	 return _COLON;
 <INITIAL>":="      	 return _COLONEQ;
 <INITIAL>"["      	 return _LBRACK;
 <INITIAL>"]"      	 return _RBRACK;
 <INITIAL>"^"      	 return _CARET;
 <INITIAL>".."      	 return _DDOT;
+<INITIAL>"("      	 return _LPAREN;
+<INITIAL>")"      	 return _RPAREN;
 <INITIAL>">"      	 return _GT;
 <INITIAL>"<"      	 return _LT;
 <INITIAL>"<>"      	 return _LTGT;
@@ -92,13 +94,11 @@ IDENT [a-zA-Z0-9'_]
 <INITIAL>"!"      	 return _BANG;
 <INITIAL>"&&"      	 return _DAMP;
 <INITIAL>"||"      	 return _DBAR;
-<INITIAL>"&|"      	 return _SYMB_17;
+<INITIAL>"&|"      	 return _SYMB_19;
 <INITIAL>"+"      	 return _PLUS;
 <INITIAL>"-"      	 return _MINUS;
 <INITIAL>"*"      	 return _STAR;
 <INITIAL>"/"      	 return _SLASH;
-<INITIAL>"("      	 return _LPAREN;
-<INITIAL>")"      	 return _RPAREN;
 <INITIAL>","      	 return _COMMA;
 <INITIAL>"ate"      	 return _KW_ate;
 <INITIAL>"caso"      	 return _KW_caso;
