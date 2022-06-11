@@ -372,13 +372,15 @@ RegraRelacional : OperadorRelacional Operando { $$ = make_RegraRelacional1($1, $
   | OperadorRelacional ExpressaoAritmetica { $$ = make_RegraRelacional2($1, $2); result->regrarelacional_ = $$; }
 ;
 ExpressaoLogica : _KW_falso { $$ = make_ExpressaoLogica_falso(); result->expressaologica_ = $$; }
-  | _KW_verdadeiro { $$ = make_ExpressaoLogica_verdadeiro(); result->expressaologica_ = $$; }
-  | ExpressaoRelacional { $$ = make_ExpressaoLogicaExpressaoRelacional($1); result->expressaologica_ = $$; }
   | _KW_falso RegraLogico { $$ = make_ExpressaoLogica1($2); result->expressaologica_ = $$; }
+  | _KW_verdadeiro { $$ = make_ExpressaoLogica_verdadeiro(); result->expressaologica_ = $$; }
   | _KW_verdadeiro RegraLogico { $$ = make_ExpressaoLogica2($2); result->expressaologica_ = $$; }
+  | ExpressaoRelacional { $$ = make_ExpressaoLogicaExpressaoRelacional($1); result->expressaologica_ = $$; }
   | ExpressaoRelacional RegraLogico { $$ = make_ExpressaoLogica3($1, $2); result->expressaologica_ = $$; }
   | OperadorLogico ExpressaoLogica { $$ = make_ExpressaoLogica4($1, $2); result->expressaologica_ = $$; }
   | OperadorLogico ExpressaoLogica RegraLogico { $$ = make_ExpressaoLogica5($1, $2, $3); result->expressaologica_ = $$; }
+  | OperadorLogico _IDENT_ { $$ = make_ExpressaoLogica6($1, $2); result->expressaologica_ = $$; }
+  | OperadorLogico _IDENT_ RegraLogico { $$ = make_ExpressaoLogica7($1, $2, $3); result->expressaologica_ = $$; }
 ;
 RegraLogico : OperadorLogico ExpressaoLogica { $$ = make_RegraLogico1($1, $2); result->regralogico_ = $$; }
   | OperadorLogico ExpressaoLogica RegraLogico { $$ = make_RegraLogico2($1, $2, $3); result->regralogico_ = $$; }

@@ -125,8 +125,8 @@ typedef struct RegraSeletor_ *RegraSeletor;
 struct Seletor_;
 typedef struct Seletor_ *Seletor;
 
-struct ChamadaFuncao_;
-typedef struct ChamadaFuncao_ *ChamadaFuncao;
+struct ChamadaFuncaoEProc_;
+typedef struct ChamadaFuncaoEProc_ *ChamadaFuncaoEProc;
 
 struct ListaIdent_;
 typedef struct ListaIdent_ *ListaIdent;
@@ -313,7 +313,7 @@ RegraComando make_RegraComando2(Comando p0, RegraComando p1);
 
 struct Comando_
 {
-  enum { is_ComandoAtribuicao, is_ComandoIf, is_ComandoWhile, is_ComandoFor, is_ComandoGoto, is_ComandoCase, is_ComandoChamadaFuncao } kind;
+  enum { is_ComandoAtribuicao, is_ComandoIf, is_ComandoWhile, is_ComandoFor, is_ComandoGoto, is_ComandoCase, is_ComandoChamadaFuncaoEProc } kind;
   union
   {
     struct { Atribuicao atribuicao_; } comandoatribuicao_;
@@ -322,7 +322,7 @@ struct Comando_
     struct { For for_; } comandofor_;
     struct { Goto goto_; } comandogoto_;
     struct { Case case_; } comandocase_;
-    struct { ChamadaFuncao chamadafuncao_; } comandochamadafuncao_;
+    struct { ChamadaFuncaoEProc chamadafuncaoeproc_; } comandochamadafuncaoeproc_;
   } u;
 };
 
@@ -332,7 +332,7 @@ Comando make_ComandoWhile(While p0);
 Comando make_ComandoFor(For p0);
 Comando make_ComandoGoto(Goto p0);
 Comando make_ComandoCase(Case p0);
-Comando make_ComandoChamadaFuncao(ChamadaFuncao p0);
+Comando make_ComandoChamadaFuncaoEProc(ChamadaFuncaoEProc p0);
 
 struct Atribuicao_
 {
@@ -344,7 +344,7 @@ struct Atribuicao_
     struct { Ident ident_; SubEscrito subescrito_; Valor valor_; } atribuicao3_;
     struct { Ident ident_; Valor valor_; } atribuicao4_;
     struct { AtribuicaoStruct atribuicaostruct_; } atribuicaoatribuicaostruct_;
-    struct { ChamadaFuncao chamadafuncao_; Ident ident_; } atribuicao5_;
+    struct { ChamadaFuncaoEProc chamadafuncaoeproc_; Ident ident_; } atribuicao5_;
   } u;
 };
 
@@ -353,7 +353,7 @@ Atribuicao make_Atribuicao2(Ident p0, Ident p1);
 Atribuicao make_Atribuicao3(Ident p0, SubEscrito p1, Valor p2);
 Atribuicao make_Atribuicao4(Ident p0, Valor p1);
 Atribuicao make_AtribuicaoAtribuicaoStruct(AtribuicaoStruct p0);
-Atribuicao make_Atribuicao5(Ident p0, ChamadaFuncao p1);
+Atribuicao make_Atribuicao5(Ident p0, ChamadaFuncaoEProc p1);
 
 struct SubEscrito_
 {
@@ -629,7 +629,7 @@ Seletor make_SeletorInteger(Integer p0);
 Seletor make_SeletorChar(Char p0);
 Seletor make_SeletorIdent(Ident p0);
 
-struct ChamadaFuncao_
+struct ChamadaFuncaoEProc_
 {
   enum { is_L33 } kind;
   union
@@ -638,7 +638,7 @@ struct ChamadaFuncao_
   } u;
 };
 
-ChamadaFuncao make_L33(Ident p0, ListaIdent p1);
+ChamadaFuncaoEProc make_L33(Ident p0, ListaIdent p1);
 
 struct ListaIdent_
 {
@@ -814,7 +814,7 @@ OperadorAritmetico clone_OperadorAritmetico(OperadorAritmetico p);
 Case clone_Case(Case p);
 RegraSeletor clone_RegraSeletor(RegraSeletor p);
 Seletor clone_Seletor(Seletor p);
-ChamadaFuncao clone_ChamadaFuncao(ChamadaFuncao p);
+ChamadaFuncaoEProc clone_ChamadaFuncaoEProc(ChamadaFuncaoEProc p);
 ListaIdent clone_ListaIdent(ListaIdent p);
 Funcao clone_Funcao(Funcao p);
 Procedimento clone_Procedimento(Procedimento p);
@@ -870,7 +870,7 @@ void free_OperadorAritmetico(OperadorAritmetico p);
 void free_Case(Case p);
 void free_RegraSeletor(RegraSeletor p);
 void free_Seletor(Seletor p);
-void free_ChamadaFuncao(ChamadaFuncao p);
+void free_ChamadaFuncaoEProc(ChamadaFuncaoEProc p);
 void free_ListaIdent(ListaIdent p);
 void free_Funcao(Funcao p);
 void free_Procedimento(Procedimento p);

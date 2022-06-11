@@ -301,7 +301,7 @@ Ponteiro : _CARET TipoPrimitivo { $$ = make_Ponteiro1($2); result->ponteiro_ = $
 Vetor : _KW_vetor _LBRACK _INTEGER_ _DDOT _INTEGER_ _RBRACK _KW_de TipoPrimitivo { $$ = make_L7($3, $5, $8); result->vetor_ = $$; }
 ;
 If : _KW_se _LPAREN ExpressaoLogica _RPAREN _KW_entao BlocoComando { $$ = make_If1($3, $6); result->if_ = $$; }
-  | _KW_se ExpressaoLogica _KW_entao BlocoComando _KW_senao BlocoComando { $$ = make_If2($2, $4, $6); result->if_ = $$; }
+  | _KW_se _LPAREN ExpressaoLogica _RPAREN _KW_entao BlocoComando _KW_senao BlocoComando { $$ = make_If2($3, $6, $8); result->if_ = $$; }
 ;
 While : _KW_enquanto _LPAREN ExpressaoLogica _RPAREN _KW_faca BlocoComando { $$ = make_L8($3, $6); result->while_ = $$; }
 ;

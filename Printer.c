@@ -2000,18 +2000,6 @@ void ppExpressaoLogica(ExpressaoLogica p, int _i_)
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
-  case is_ExpressaoLogica_verdadeiro:
-    if (_i_ > 0) renderC(_L_PAREN);
-    renderS("verdadeiro");
-    if (_i_ > 0) renderC(_R_PAREN);
-    break;
-
-  case is_ExpressaoLogicaExpressaoRelacional:
-    if (_i_ > 0) renderC(_L_PAREN);
-    ppExpressaoRelacional(p->u.expressaologicaexpressaorelacional_.expressaorelacional_, 0);
-    if (_i_ > 0) renderC(_R_PAREN);
-    break;
-
   case is_ExpressaoLogica1:
     if (_i_ > 0) renderC(_L_PAREN);
     renderS("falso");
@@ -2019,10 +2007,22 @@ void ppExpressaoLogica(ExpressaoLogica p, int _i_)
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
+  case is_ExpressaoLogica_verdadeiro:
+    if (_i_ > 0) renderC(_L_PAREN);
+    renderS("verdadeiro");
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
   case is_ExpressaoLogica2:
     if (_i_ > 0) renderC(_L_PAREN);
     renderS("verdadeiro");
     ppRegraLogico(p->u.expressaologica2_.regralogico_, 0);
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
+  case is_ExpressaoLogicaExpressaoRelacional:
+    if (_i_ > 0) renderC(_L_PAREN);
+    ppExpressaoRelacional(p->u.expressaologicaexpressaorelacional_.expressaorelacional_, 0);
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
@@ -2045,6 +2045,21 @@ void ppExpressaoLogica(ExpressaoLogica p, int _i_)
     ppOperadorLogico(p->u.expressaologica5_.operadorlogico_, 0);
     ppExpressaoLogica(p->u.expressaologica5_.expressaologica_, 0);
     ppRegraLogico(p->u.expressaologica5_.regralogico_, 0);
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
+  case is_ExpressaoLogica6:
+    if (_i_ > 0) renderC(_L_PAREN);
+    ppOperadorLogico(p->u.expressaologica6_.operadorlogico_, 0);
+    ppIdent(p->u.expressaologica6_.ident_, 0);
+    if (_i_ > 0) renderC(_R_PAREN);
+    break;
+
+  case is_ExpressaoLogica7:
+    if (_i_ > 0) renderC(_L_PAREN);
+    ppOperadorLogico(p->u.expressaologica7_.operadorlogico_, 0);
+    ppIdent(p->u.expressaologica7_.ident_, 0);
+    ppRegraLogico(p->u.expressaologica7_.regralogico_, 0);
     if (_i_ > 0) renderC(_R_PAREN);
     break;
 
@@ -3948,26 +3963,6 @@ void shExpressaoLogica(ExpressaoLogica p)
 
 
     break;
-  case is_ExpressaoLogica_verdadeiro:
-
-    bufAppendS("ExpressaoLogica_verdadeiro");
-
-
-
-
-    break;
-  case is_ExpressaoLogicaExpressaoRelacional:
-    bufAppendC('(');
-
-    bufAppendS("ExpressaoLogicaExpressaoRelacional");
-
-    bufAppendC(' ');
-
-    shExpressaoRelacional(p->u.expressaologicaexpressaorelacional_.expressaorelacional_);
-
-    bufAppendC(')');
-
-    break;
   case is_ExpressaoLogica1:
     bufAppendC('(');
 
@@ -3980,6 +3975,14 @@ void shExpressaoLogica(ExpressaoLogica p)
     bufAppendC(')');
 
     break;
+  case is_ExpressaoLogica_verdadeiro:
+
+    bufAppendS("ExpressaoLogica_verdadeiro");
+
+
+
+
+    break;
   case is_ExpressaoLogica2:
     bufAppendC('(');
 
@@ -3988,6 +3991,18 @@ void shExpressaoLogica(ExpressaoLogica p)
     bufAppendC(' ');
 
     shRegraLogico(p->u.expressaologica2_.regralogico_);
+
+    bufAppendC(')');
+
+    break;
+  case is_ExpressaoLogicaExpressaoRelacional:
+    bufAppendC('(');
+
+    bufAppendS("ExpressaoLogicaExpressaoRelacional");
+
+    bufAppendC(' ');
+
+    shExpressaoRelacional(p->u.expressaologicaexpressaorelacional_.expressaorelacional_);
 
     bufAppendC(')');
 
@@ -4032,6 +4047,36 @@ void shExpressaoLogica(ExpressaoLogica p)
     shExpressaoLogica(p->u.expressaologica5_.expressaologica_);
   bufAppendC(' ');
     shRegraLogico(p->u.expressaologica5_.regralogico_);
+
+    bufAppendC(')');
+
+    break;
+  case is_ExpressaoLogica6:
+    bufAppendC('(');
+
+    bufAppendS("ExpressaoLogica6");
+
+    bufAppendC(' ');
+
+    shOperadorLogico(p->u.expressaologica6_.operadorlogico_);
+  bufAppendC(' ');
+    shIdent(p->u.expressaologica6_.ident_);
+
+    bufAppendC(')');
+
+    break;
+  case is_ExpressaoLogica7:
+    bufAppendC('(');
+
+    bufAppendS("ExpressaoLogica7");
+
+    bufAppendC(' ');
+
+    shOperadorLogico(p->u.expressaologica7_.operadorlogico_);
+  bufAppendC(' ');
+    shIdent(p->u.expressaologica7_.ident_);
+  bufAppendC(' ');
+    shRegraLogico(p->u.expressaologica7_.regralogico_);
 
     bufAppendC(')');
 

@@ -1396,7 +1396,9 @@ void ppIf(If p, int _i_)
   case is_If2:
     if (_i_ > 0) renderC(_L_PAREN);
     renderS("se");
+    renderC('(');
     ppExpressaoLogica(p->u.if2_.expressaologica_, 0);
+    renderC(')');
     renderS("entao");
     ppBlocoComando(p->u.if2_.blococomando_1, 0);
     renderS("senao");

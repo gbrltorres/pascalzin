@@ -972,20 +972,20 @@ void visitExpressaoLogica(ExpressaoLogica p)
   case is_ExpressaoLogica_falso:
     /* Code for ExpressaoLogica_falso Goes Here */
     break;
-  case is_ExpressaoLogica_verdadeiro:
-    /* Code for ExpressaoLogica_verdadeiro Goes Here */
-    break;
-  case is_ExpressaoLogicaExpressaoRelacional:
-    /* Code for ExpressaoLogicaExpressaoRelacional Goes Here */
-    visitExpressaoRelacional(p->u.expressaologicaexpressaorelacional_.expressaorelacional_);
-    break;
   case is_ExpressaoLogica1:
     /* Code for ExpressaoLogica1 Goes Here */
     visitRegraLogico(p->u.expressaologica1_.regralogico_);
     break;
+  case is_ExpressaoLogica_verdadeiro:
+    /* Code for ExpressaoLogica_verdadeiro Goes Here */
+    break;
   case is_ExpressaoLogica2:
     /* Code for ExpressaoLogica2 Goes Here */
     visitRegraLogico(p->u.expressaologica2_.regralogico_);
+    break;
+  case is_ExpressaoLogicaExpressaoRelacional:
+    /* Code for ExpressaoLogicaExpressaoRelacional Goes Here */
+    visitExpressaoRelacional(p->u.expressaologicaexpressaorelacional_.expressaorelacional_);
     break;
   case is_ExpressaoLogica3:
     /* Code for ExpressaoLogica3 Goes Here */
@@ -1002,6 +1002,17 @@ void visitExpressaoLogica(ExpressaoLogica p)
     visitOperadorLogico(p->u.expressaologica5_.operadorlogico_);
     visitExpressaoLogica(p->u.expressaologica5_.expressaologica_);
     visitRegraLogico(p->u.expressaologica5_.regralogico_);
+    break;
+  case is_ExpressaoLogica6:
+    /* Code for ExpressaoLogica6 Goes Here */
+    visitOperadorLogico(p->u.expressaologica6_.operadorlogico_);
+    visitIdent(p->u.expressaologica6_.ident_);
+    break;
+  case is_ExpressaoLogica7:
+    /* Code for ExpressaoLogica7 Goes Here */
+    visitOperadorLogico(p->u.expressaologica7_.operadorlogico_);
+    visitIdent(p->u.expressaologica7_.ident_);
+    visitRegraLogico(p->u.expressaologica7_.regralogico_);
     break;
 
   default:

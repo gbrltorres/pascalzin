@@ -290,9 +290,9 @@ void visitComando(Comando p)
     /* Code for ComandoCase Goes Here */
     visitCase(p->u.comandocase_.case_);
     break;
-  case is_ComandoChamadaFuncao:
-    /* Code for ComandoChamadaFuncao Goes Here */
-    visitChamadaFuncao(p->u.comandochamadafuncao_.chamadafuncao_);
+  case is_ComandoChamadaFuncaoEProc:
+    /* Code for ComandoChamadaFuncaoEProc Goes Here */
+    visitChamadaFuncaoEProc(p->u.comandochamadafuncaoeproc_.chamadafuncaoeproc_);
     break;
 
   default:
@@ -333,7 +333,7 @@ void visitAtribuicao(Atribuicao p)
   case is_Atribuicao5:
     /* Code for Atribuicao5 Goes Here */
     visitIdent(p->u.atribuicao5_.ident_);
-    visitChamadaFuncao(p->u.atribuicao5_.chamadafuncao_);
+    visitChamadaFuncaoEProc(p->u.atribuicao5_.chamadafuncaoeproc_);
     break;
 
   default:
@@ -783,7 +783,7 @@ void visitSeletor(Seletor p)
   }
 }
 
-void visitChamadaFuncao(ChamadaFuncao p)
+void visitChamadaFuncaoEProc(ChamadaFuncaoEProc p)
 {
   switch(p->kind)
   {
@@ -794,7 +794,7 @@ void visitChamadaFuncao(ChamadaFuncao p)
     break;
 
   default:
-    fprintf(stderr, "Error: bad kind field when printing ChamadaFuncao!\n");
+    fprintf(stderr, "Error: bad kind field when printing ChamadaFuncaoEProc!\n");
     exit(1);
   }
 }

@@ -21,7 +21,7 @@ rules             BlocoTipo ::= "tipo" RegraBlocoTipo |
                                 "" ;
 
 rules        RegraBlocoTipo ::= Ident "=" RegraTipo ";" |
-                                Ident "=" RegraTipo ";" RegraBlocoTipo;
+                                Ident "=" RegraTipo ";" RegraBlocoTipo ;
 
 rules              BlocoVar ::= "var" RegraBlocoVar |
                                 "" ;
@@ -66,7 +66,7 @@ rules                 Valor ::= Integer |
                                 Double |
                                 Char |
                                 String |
-                                ExpressaoAritmetica;
+                                ExpressaoAritmetica ;
 
 rules          TipoDerivado ::= Ponteiro |
                                 Vetor |
@@ -106,7 +106,7 @@ rules    OperadorRelacional ::= ">" |
 rules        OperadorLogico ::= "!" |
                                 "&&" |
                                 "||" |
-                                "&|";
+                                "&|" ;
 
 rules    OperadorAritmetico ::= "+" |
                                 "-" |
@@ -130,7 +130,7 @@ rules            ListaIdent ::= Ident |
 L13.                 Funcao ::= "funcao" Ident "(" RegraBlocoVar ")" ":" RegraTipo  BlocoVar BlocoComando ";" ;
 
 rules          Procedimento ::= "procedimento" Ident "(" RegraBlocoVar ")" BlocoVar BlocoComando |
-                                "procedimento" Ident "(" ")" BlocoVar BlocoComando;
+                                "procedimento" Ident "(" ")" BlocoVar BlocoComando ;
 
 L14.    ExpressaoAritmetica ::= Operando RegraAritmetica ;
 
@@ -148,13 +148,15 @@ rules       RegraRelacional ::= OperadorRelacional Operando |
                                 OperadorRelacional ExpressaoAritmetica ;
 
 rules       ExpressaoLogica ::= "falso" |
-                                "verdadeiro" |
-                                ExpressaoRelacional |
                                 "falso" RegraLogico |
+                                "verdadeiro" |
                                 "verdadeiro"  RegraLogico |
+                                ExpressaoRelacional |
                                 ExpressaoRelacional RegraLogico |
                                 OperadorLogico ExpressaoLogica |
-                                OperadorLogico ExpressaoLogica RegraLogico;
+                                OperadorLogico ExpressaoLogica RegraLogico |
+                                OperadorLogico Ident |
+                                OperadorLogico Ident RegraLogico ;
 
 rules           RegraLogico ::= OperadorLogico ExpressaoLogica |
-                                OperadorLogico ExpressaoLogica RegraLogico;
+                                OperadorLogico ExpressaoLogica RegraLogico ;

@@ -744,26 +744,30 @@ RegraRelacional make_RegraRelacional2(OperadorRelacional p0, ExpressaoAritmetica
 
 struct ExpressaoLogica_
 {
-  enum { is_ExpressaoLogica_falso, is_ExpressaoLogica_verdadeiro, is_ExpressaoLogicaExpressaoRelacional, is_ExpressaoLogica1, is_ExpressaoLogica2, is_ExpressaoLogica3, is_ExpressaoLogica4, is_ExpressaoLogica5 } kind;
+  enum { is_ExpressaoLogica_falso, is_ExpressaoLogica1, is_ExpressaoLogica_verdadeiro, is_ExpressaoLogica2, is_ExpressaoLogicaExpressaoRelacional, is_ExpressaoLogica3, is_ExpressaoLogica4, is_ExpressaoLogica5, is_ExpressaoLogica6, is_ExpressaoLogica7 } kind;
   union
   {
-    struct { ExpressaoRelacional expressaorelacional_; } expressaologicaexpressaorelacional_;
     struct { RegraLogico regralogico_; } expressaologica1_;
     struct { RegraLogico regralogico_; } expressaologica2_;
+    struct { ExpressaoRelacional expressaorelacional_; } expressaologicaexpressaorelacional_;
     struct { ExpressaoRelacional expressaorelacional_; RegraLogico regralogico_; } expressaologica3_;
     struct { ExpressaoLogica expressaologica_; OperadorLogico operadorlogico_; } expressaologica4_;
     struct { ExpressaoLogica expressaologica_; OperadorLogico operadorlogico_; RegraLogico regralogico_; } expressaologica5_;
+    struct { Ident ident_; OperadorLogico operadorlogico_; } expressaologica6_;
+    struct { Ident ident_; OperadorLogico operadorlogico_; RegraLogico regralogico_; } expressaologica7_;
   } u;
 };
 
 ExpressaoLogica make_ExpressaoLogica_falso(void);
-ExpressaoLogica make_ExpressaoLogica_verdadeiro(void);
-ExpressaoLogica make_ExpressaoLogicaExpressaoRelacional(ExpressaoRelacional p0);
 ExpressaoLogica make_ExpressaoLogica1(RegraLogico p0);
+ExpressaoLogica make_ExpressaoLogica_verdadeiro(void);
 ExpressaoLogica make_ExpressaoLogica2(RegraLogico p0);
+ExpressaoLogica make_ExpressaoLogicaExpressaoRelacional(ExpressaoRelacional p0);
 ExpressaoLogica make_ExpressaoLogica3(ExpressaoRelacional p0, RegraLogico p1);
 ExpressaoLogica make_ExpressaoLogica4(OperadorLogico p0, ExpressaoLogica p1);
 ExpressaoLogica make_ExpressaoLogica5(OperadorLogico p0, ExpressaoLogica p1, RegraLogico p2);
+ExpressaoLogica make_ExpressaoLogica6(OperadorLogico p0, Ident p1);
+ExpressaoLogica make_ExpressaoLogica7(OperadorLogico p0, Ident p1, RegraLogico p2);
 
 struct RegraLogico_
 {

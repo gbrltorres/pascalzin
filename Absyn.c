@@ -1701,35 +1701,6 @@ ExpressaoLogica make_ExpressaoLogica_falso()
     return tmp;
 }
 
-/********************   ExpressaoLogica_verdadeiro    ********************/
-
-ExpressaoLogica make_ExpressaoLogica_verdadeiro()
-{
-    ExpressaoLogica tmp = (ExpressaoLogica) malloc(sizeof(*tmp));
-    if (!tmp)
-    {
-        fprintf(stderr, "Error: out of memory when allocating ExpressaoLogica_verdadeiro!\n");
-        exit(1);
-    }
-    tmp->kind = is_ExpressaoLogica_verdadeiro;
-    return tmp;
-}
-
-/********************   ExpressaoLogicaExpressaoRelacional    ********************/
-
-ExpressaoLogica make_ExpressaoLogicaExpressaoRelacional(ExpressaoRelacional p1)
-{
-    ExpressaoLogica tmp = (ExpressaoLogica) malloc(sizeof(*tmp));
-    if (!tmp)
-    {
-        fprintf(stderr, "Error: out of memory when allocating ExpressaoLogicaExpressaoRelacional!\n");
-        exit(1);
-    }
-    tmp->kind = is_ExpressaoLogicaExpressaoRelacional;
-    tmp->u.expressaologicaexpressaorelacional_.expressaorelacional_ = p1;
-    return tmp;
-}
-
 /********************   ExpressaoLogica1    ********************/
 
 ExpressaoLogica make_ExpressaoLogica1(RegraLogico p1)
@@ -1745,6 +1716,20 @@ ExpressaoLogica make_ExpressaoLogica1(RegraLogico p1)
     return tmp;
 }
 
+/********************   ExpressaoLogica_verdadeiro    ********************/
+
+ExpressaoLogica make_ExpressaoLogica_verdadeiro()
+{
+    ExpressaoLogica tmp = (ExpressaoLogica) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating ExpressaoLogica_verdadeiro!\n");
+        exit(1);
+    }
+    tmp->kind = is_ExpressaoLogica_verdadeiro;
+    return tmp;
+}
+
 /********************   ExpressaoLogica2    ********************/
 
 ExpressaoLogica make_ExpressaoLogica2(RegraLogico p1)
@@ -1757,6 +1742,21 @@ ExpressaoLogica make_ExpressaoLogica2(RegraLogico p1)
     }
     tmp->kind = is_ExpressaoLogica2;
     tmp->u.expressaologica2_.regralogico_ = p1;
+    return tmp;
+}
+
+/********************   ExpressaoLogicaExpressaoRelacional    ********************/
+
+ExpressaoLogica make_ExpressaoLogicaExpressaoRelacional(ExpressaoRelacional p1)
+{
+    ExpressaoLogica tmp = (ExpressaoLogica) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating ExpressaoLogicaExpressaoRelacional!\n");
+        exit(1);
+    }
+    tmp->kind = is_ExpressaoLogicaExpressaoRelacional;
+    tmp->u.expressaologicaexpressaorelacional_.expressaorelacional_ = p1;
     return tmp;
 }
 
@@ -1806,6 +1806,39 @@ ExpressaoLogica make_ExpressaoLogica5(OperadorLogico p1, ExpressaoLogica p2, Reg
     tmp->u.expressaologica5_.operadorlogico_ = p1;
     tmp->u.expressaologica5_.expressaologica_ = p2;
     tmp->u.expressaologica5_.regralogico_ = p3;
+    return tmp;
+}
+
+/********************   ExpressaoLogica6    ********************/
+
+ExpressaoLogica make_ExpressaoLogica6(OperadorLogico p1, Ident p2)
+{
+    ExpressaoLogica tmp = (ExpressaoLogica) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating ExpressaoLogica6!\n");
+        exit(1);
+    }
+    tmp->kind = is_ExpressaoLogica6;
+    tmp->u.expressaologica6_.operadorlogico_ = p1;
+    tmp->u.expressaologica6_.ident_ = p2;
+    return tmp;
+}
+
+/********************   ExpressaoLogica7    ********************/
+
+ExpressaoLogica make_ExpressaoLogica7(OperadorLogico p1, Ident p2, RegraLogico p3)
+{
+    ExpressaoLogica tmp = (ExpressaoLogica) malloc(sizeof(*tmp));
+    if (!tmp)
+    {
+        fprintf(stderr, "Error: out of memory when allocating ExpressaoLogica7!\n");
+        exit(1);
+    }
+    tmp->kind = is_ExpressaoLogica7;
+    tmp->u.expressaologica7_.operadorlogico_ = p1;
+    tmp->u.expressaologica7_.ident_ = p2;
+    tmp->u.expressaologica7_.regralogico_ = p3;
     return tmp;
 }
 
@@ -2771,17 +2804,17 @@ ExpressaoLogica clone_ExpressaoLogica(ExpressaoLogica p)
   case is_ExpressaoLogica_falso:
     return make_ExpressaoLogica_falso ();
 
-  case is_ExpressaoLogica_verdadeiro:
-    return make_ExpressaoLogica_verdadeiro ();
-
-  case is_ExpressaoLogicaExpressaoRelacional:
-    return make_ExpressaoLogicaExpressaoRelacional (clone_ExpressaoRelacional(p->u.expressaologicaexpressaorelacional_.expressaorelacional_));
-
   case is_ExpressaoLogica1:
     return make_ExpressaoLogica1 (clone_RegraLogico(p->u.expressaologica1_.regralogico_));
 
+  case is_ExpressaoLogica_verdadeiro:
+    return make_ExpressaoLogica_verdadeiro ();
+
   case is_ExpressaoLogica2:
     return make_ExpressaoLogica2 (clone_RegraLogico(p->u.expressaologica2_.regralogico_));
+
+  case is_ExpressaoLogicaExpressaoRelacional:
+    return make_ExpressaoLogicaExpressaoRelacional (clone_ExpressaoRelacional(p->u.expressaologicaexpressaorelacional_.expressaorelacional_));
 
   case is_ExpressaoLogica3:
     return make_ExpressaoLogica3
@@ -2800,6 +2833,19 @@ ExpressaoLogica clone_ExpressaoLogica(ExpressaoLogica p)
       ( clone_OperadorLogico(p->u.expressaologica5_.operadorlogico_)
       , clone_ExpressaoLogica(p->u.expressaologica5_.expressaologica_)
       , clone_RegraLogico(p->u.expressaologica5_.regralogico_)
+      );
+
+  case is_ExpressaoLogica6:
+    return make_ExpressaoLogica6
+      ( clone_OperadorLogico(p->u.expressaologica6_.operadorlogico_)
+      , strdup(p->u.expressaologica6_.ident_)
+      );
+
+  case is_ExpressaoLogica7:
+    return make_ExpressaoLogica7
+      ( clone_OperadorLogico(p->u.expressaologica7_.operadorlogico_)
+      , strdup(p->u.expressaologica7_.ident_)
+      , clone_RegraLogico(p->u.expressaologica7_.regralogico_)
       );
 
   default:
@@ -3792,19 +3838,19 @@ void free_ExpressaoLogica(ExpressaoLogica p)
   case is_ExpressaoLogica_falso:
     break;
 
-  case is_ExpressaoLogica_verdadeiro:
-    break;
-
-  case is_ExpressaoLogicaExpressaoRelacional:
-    free_ExpressaoRelacional(p->u.expressaologicaexpressaorelacional_.expressaorelacional_);
-    break;
-
   case is_ExpressaoLogica1:
     free_RegraLogico(p->u.expressaologica1_.regralogico_);
     break;
 
+  case is_ExpressaoLogica_verdadeiro:
+    break;
+
   case is_ExpressaoLogica2:
     free_RegraLogico(p->u.expressaologica2_.regralogico_);
+    break;
+
+  case is_ExpressaoLogicaExpressaoRelacional:
+    free_ExpressaoRelacional(p->u.expressaologicaexpressaorelacional_.expressaorelacional_);
     break;
 
   case is_ExpressaoLogica3:
@@ -3821,6 +3867,17 @@ void free_ExpressaoLogica(ExpressaoLogica p)
     free_OperadorLogico(p->u.expressaologica5_.operadorlogico_);
     free_ExpressaoLogica(p->u.expressaologica5_.expressaologica_);
     free_RegraLogico(p->u.expressaologica5_.regralogico_);
+    break;
+
+  case is_ExpressaoLogica6:
+    free_OperadorLogico(p->u.expressaologica6_.operadorlogico_);
+    free(p->u.expressaologica6_.ident_);
+    break;
+
+  case is_ExpressaoLogica7:
+    free_OperadorLogico(p->u.expressaologica7_.operadorlogico_);
+    free(p->u.expressaologica7_.ident_);
+    free_RegraLogico(p->u.expressaologica7_.regralogico_);
     break;
 
   default:
