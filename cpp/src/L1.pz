@@ -1,0 +1,10 @@
+programa L1;
+const
+	A = 10;
+tipo
+	B = char;
+var
+	Z : int;
+inicio
+    	X := 10;
+fim.

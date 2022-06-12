@@ -1,0 +1,163 @@
+LEntry.               Entry ::= "programa" Ident ";" BlocoDefinicoes BlocoComando "." ;
+
+rules       BlocoDefinicoes ::= BlocoFuncaoEProc BlocoDefinicoes |
+                                BlocoConstante BlocoDefinicoes |
+                                BlocoTipo BlocoDefinicoes |
+                                BlocoVar BlocoDefinicoes |
+                                "" ;
+
+rules      BlocoFuncaoEProc ::= Funcao |
+                                Funcao BlocoFuncaoEProc |
+                                Procedimento |
+                                Procedimento BlocoFuncaoEProc |
+                                "" ;
+
+rules        BlocoConstante ::= "const" RegraBlocoConstante | "" ;
+
+rules   RegraBlocoConstante ::= Ident "=" Valor ";" |
+                                Ident "=" Valor ";" RegraBlocoConstante ;
+
+rules             BlocoTipo ::= "tipo" RegraBlocoTipo |
+                                "" ;
+
+rules        RegraBlocoTipo ::= Ident "=" RegraTipo ";" |
+                                Ident "=" RegraTipo ";" RegraBlocoTipo ;
+
+rules              BlocoVar ::= "var" RegraBlocoVar |
+                                "" ;
+
+rules         RegraBlocoVar ::= Ident ":" RegraTipo ";" |
+                                Ident ":" RegraTipo ";" RegraBlocoVar |
+                                ListaIdent ":" RegraTipo ";" |
+                                ListaIdent ":" RegraTipo ";" RegraBlocoVar ;
+
+rules          BlocoComando ::= "inicio" RegraComando "fim" | "" ;
+
+rules          RegraComando ::= Comando ";" |
+                                Comando ";" RegraComando ;
+
+rules               Comando ::= Atribuicao |
+                                If |
+                                While |
+                                For |
+                                Goto |
+                                Case |
+                                ChamadaFuncaoEProc ;
+
+rules            Atribuicao ::= Ident ":=" Valor |
+                                Ident ":=" Ident |
+                                Ident "[" SubEscrito "]" ":=" Valor |
+                                Ident "^" ":=" Valor |
+                                AtribuicaoStruct |
+                                Ident ":=" ChamadaFuncaoEProc ;
+                                
+rules            SubEscrito ::= Ident |
+                                Integer ;
+
+rules             RegraTipo ::= TipoPrimitivo |
+                                TipoDerivado |
+                                Ident ;
+
+rules         TipoPrimitivo ::= "int" |
+                                "real" |
+                                "char" ;
+
+rules                 Valor ::= Integer |
+                                Double |
+                                Char |
+                                String |
+                                ExpressaoAritmetica ;
+
+rules          TipoDerivado ::= Ponteiro |
+                                Vetor |
+                                Struct ;
+
+rules              Ponteiro ::= "^"TipoPrimitivo |
+                                "^"TipoDerivado ;
+
+LVetor.               Vetor ::= "vetor" "[" Integer ".." Integer "]" "de" TipoPrimitivo ;
+
+rules                    If ::= "se" "(" ExpressaoLogica ")" "entao" BlocoComando |
+                                "se" "(" ExpressaoLogica ")" "entao" BlocoComando "senao" BlocoComando ;
+
+LWhile.               While ::= "enquanto" "(" ExpressaoLogica ")" "faca" BlocoComando ;
+
+rules                   For ::= "para" Atribuicao "ate" Integer "faca" BlocoComando |
+                                "para" Atribuicao "ate" Ident "faca" BlocoComando ;
+
+LGoto.                 Goto ::= "sovai" Ident ;
+
+LRotulo.             Rotulo ::= Ident ":" RegraComando ;
+
+LStruct.             Struct ::= "registro" DefinicaoCampoStruct "fim" ;
+
+rules  DefinicaoCampoStruct ::= Ident ":" RegraTipo ";" | Ident ":" RegraTipo ";" DefinicaoCampoStruct ;
+
+rules      AtribuicaoStruct ::= Ident "." Ident ":=" Valor |
+                                Ident "." Ident ":=" Valor AtribuicaoStruct ;
+
+rules    OperadorRelacional ::= ">" |
+                                "<" |
+                                "<>" |
+                                ">=" |
+                                "<=" |
+                                "=" ;
+
+rules        OperadorLogico ::= "&&" |
+                                "||" |
+                                "&|" |
+                                Negacao ;
+
+LNegacao.           Negacao ::= "!" ;
+
+rules    OperadorAritmetico ::= "+" |
+                                "-" |
+                                "*" |
+                                "/" ;
+
+LCase.                 Case ::= "caso" "(" Seletor ")" "de"  RegraSeletor "fim";
+
+rules          RegraSeletor ::= Seletor ":" Comando ";" |
+                                Seletor ":" Comando ";" RegraSeletor ;
+
+rules               Seletor ::= Integer |
+                                Char |
+                                Ident ;
+
+LChamad. ChamadaFuncaoEProc ::= Ident "(" ListaIdent ")" ;
+
+rules            ListaIdent ::= Ident |
+                                Ident "," ListaIdent ;
+
+LFuncao.             Funcao ::= "funcao" Ident "(" RegraBlocoVar ")" ":" RegraTipo  BlocoVar BlocoComando ";" ;
+
+rules          Procedimento ::= "procedimento" Ident "(" RegraBlocoVar ")" BlocoVar BlocoComando |
+                                "procedimento" Ident "(" ")" BlocoVar BlocoComando ;
+
+ExpAr.  ExpressaoAritmetica ::= Operando RegraAritmetica ;
+
+rules              Operando ::= Integer |
+                                Double |
+                                Ident ;
+
+rules       RegraAritmetica ::= OperadorAritmetico Operando |
+                                OperadorAritmetico Operando RegraAritmetica ;
+
+rules   ExpressaoRelacional ::= Operando |
+                                Operando RegraRelacional |
+                                ExpressaoAritmetica RegraRelacional ;
+
+rules       RegraRelacional ::= OperadorRelacional Operando |
+                                OperadorRelacional ExpressaoAritmetica ;
+
+rules       ExpressaoLogica ::= "falso" |
+                                "falso" RegraLogico |
+                                "verdadeiro" |
+                                "verdadeiro"  RegraLogico |
+                                ExpressaoRelacional |
+                                ExpressaoRelacional RegraLogico |
+                                Negacao ExpressaoLogica |
+                                Negacao ExpressaoLogica RegraLogico ;
+
+rules           RegraLogico ::= OperadorLogico ExpressaoLogica |
+                                OperadorLogico ExpressaoLogica RegraLogico ;
