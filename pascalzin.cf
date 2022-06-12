@@ -1,4 +1,4 @@
-L1.                   Entry ::= "programa" Ident ";" BlocoDefinicoes BlocoComando "." ;
+LEntry.               Entry ::= "programa" Ident ";" BlocoDefinicoes BlocoComando "." ;
 
 rules       BlocoDefinicoes ::= BlocoFuncaoEProc BlocoDefinicoes |
                                 BlocoConstante BlocoDefinicoes |
@@ -75,21 +75,21 @@ rules          TipoDerivado ::= Ponteiro |
 rules              Ponteiro ::= "^"TipoPrimitivo |
                                 "^"TipoDerivado ;
 
-L7.                   Vetor ::= "vetor" "[" Integer ".." Integer "]" "de" TipoPrimitivo ;
+LVetor.               Vetor ::= "vetor" "[" Integer ".." Integer "]" "de" TipoPrimitivo ;
 
 rules                    If ::= "se" "(" ExpressaoLogica ")" "entao" BlocoComando |
                                 "se" "(" ExpressaoLogica ")" "entao" BlocoComando "senao" BlocoComando ;
 
-L8.                   While ::= "enquanto" "(" ExpressaoLogica ")" "faca" BlocoComando ;
+LWhile.               While ::= "enquanto" "(" ExpressaoLogica ")" "faca" BlocoComando ;
 
 rules                   For ::= "para" Atribuicao "ate" Integer "faca" BlocoComando |
                                 "para" Atribuicao "ate" Ident "faca" BlocoComando ;
 
-L9.                    Goto ::= "sovai" Ident ;
+LGoto.                 Goto ::= "sovai" Ident ;
 
-L10.                 Rotulo ::= Ident ":" RegraComando ;
+LRotulo.             Rotulo ::= Ident ":" RegraComando ;
 
-L11.                 Struct ::= "registro" DefinicaoCampoStruct "fim" ;
+LStruct.             Struct ::= "registro" DefinicaoCampoStruct "fim" ;
 
 rules  DefinicaoCampoStruct ::= Ident ":" RegraTipo ";" | Ident ":" RegraTipo ";" DefinicaoCampoStruct ;
 
@@ -103,17 +103,19 @@ rules    OperadorRelacional ::= ">" |
                                 "<=" |
                                 "=" ;
 
-rules        OperadorLogico ::= "!" |
-                                "&&" |
+rules        OperadorLogico ::= "&&" |
                                 "||" |
-                                "&|" ;
+                                "&|" |
+                                Negacao ;
+
+LNegacao.           Negacao ::= "!" ;
 
 rules    OperadorAritmetico ::= "+" |
                                 "-" |
                                 "*" |
                                 "/" ;
 
-L12.                   Case ::= "caso" "(" Seletor ")" "de"  RegraSeletor "fim";
+LCase.                 Case ::= "caso" "(" Seletor ")" "de"  RegraSeletor "fim";
 
 rules          RegraSeletor ::= Seletor ":" Comando ";" |
                                 Seletor ":" Comando ";" RegraSeletor ;
@@ -122,17 +124,17 @@ rules               Seletor ::= Integer |
                                 Char |
                                 Ident ;
 
-L33.          ChamadaFuncaoEProc ::= Ident "(" ListaIdent ")" ;
+LChamad. ChamadaFuncaoEProc ::= Ident "(" ListaIdent ")" ;
 
 rules            ListaIdent ::= Ident |
                                 Ident "," ListaIdent ;
 
-L13.                 Funcao ::= "funcao" Ident "(" RegraBlocoVar ")" ":" RegraTipo  BlocoVar BlocoComando ";" ;
+LFuncao.             Funcao ::= "funcao" Ident "(" RegraBlocoVar ")" ":" RegraTipo  BlocoVar BlocoComando ";" ;
 
 rules          Procedimento ::= "procedimento" Ident "(" RegraBlocoVar ")" BlocoVar BlocoComando |
                                 "procedimento" Ident "(" ")" BlocoVar BlocoComando ;
 
-L14.    ExpressaoAritmetica ::= Operando RegraAritmetica ;
+ExpAr.  ExpressaoAritmetica ::= Operando RegraAritmetica ;
 
 rules              Operando ::= Integer |
                                 Double |
@@ -141,7 +143,8 @@ rules              Operando ::= Integer |
 rules       RegraAritmetica ::= OperadorAritmetico Operando |
                                 OperadorAritmetico Operando RegraAritmetica ;
 
-rules   ExpressaoRelacional ::= Operando RegraRelacional |
+rules   ExpressaoRelacional ::= Operando |
+                                Operando RegraRelacional |
                                 ExpressaoAritmetica RegraRelacional ;
 
 rules       RegraRelacional ::= OperadorRelacional Operando |
@@ -153,10 +156,8 @@ rules       ExpressaoLogica ::= "falso" |
                                 "verdadeiro"  RegraLogico |
                                 ExpressaoRelacional |
                                 ExpressaoRelacional RegraLogico |
-                                OperadorLogico ExpressaoLogica |
-                                OperadorLogico ExpressaoLogica RegraLogico |
-                                OperadorLogico Ident |
-                                OperadorLogico Ident RegraLogico ;
+                                Negacao ExpressaoLogica |
+                                Negacao ExpressaoLogica RegraLogico ;
 
 rules           RegraLogico ::= OperadorLogico ExpressaoLogica |
                                 OperadorLogico ExpressaoLogica RegraLogico ;
