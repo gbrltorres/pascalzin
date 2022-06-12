@@ -1,4 +1,4 @@
-programa L1;
+programa TesteComandos;
 inicio
     	A := 10;
     	
