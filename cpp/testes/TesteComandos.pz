@@ -1,0 +1,43 @@
+programa TesteComandos;
+inicio
+    	A := 10;
+    	
+    	se (verdadeiro) entao
+    	inicio
+    		B := 1;
+    	fim;
+    	
+    	se (falso) entao
+    	inicio
+    		C := 2;
+    	fim 
+    	senao
+    	inicio
+    		D := 3;
+    	fim;
+    	
+    	se (verdadeiro) entao
+    	inicio
+    		se (verdadeiro) entao
+    		inicio
+    			B := 1;
+    		fim;
+    	fim;
+    	
+    	enquanto (verdadeiro) faca
+    	inicio
+    		B := 1;
+    	fim;	
+    	
+    	para C := 2 ate 3 faca
+    	inicio
+    		D := 1;
+    	fim;
+    	
+    	para C := 2 ate B faca
+    	inicio
+    		D := 1;
+    	fim;
+    	
+    	sovai B;
+fim.

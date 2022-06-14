@@ -1,0 +1,15 @@
+programa checkCase;
+var
+   grade: char;
+   hasSufficientGrade: int;
+inicio
+	   grade := 'A';
+
+   caso (grade) de
+      'A': hasSufficientGrade := 1;
+      'B': hasSufficientGrade := 1;
+      'C': hasSufficientGrade := 1;
+      'D': hasSufficientGrade := 0;
+      'F': hasSufficientGrade := 0;
+   fim;     
+fim.
