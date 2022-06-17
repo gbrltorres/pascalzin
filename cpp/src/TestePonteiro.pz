@@ -1,9 +1,0 @@
-programa pontero;
-tipo
-	pontero = ^char;
-var
-	p: ^int;
-	s: pontero;
-inicio
-	p^ := 1 + A; 
-fim.

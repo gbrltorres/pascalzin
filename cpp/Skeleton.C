@@ -7,8 +7,13 @@
    algorithms to use context information differently. */
 
 #include "Skeleton.H"
+#include <map>
 
+using namespace std;
 
+map<string, string> symbolicTable;
+
+vector<string> errors;
 
 void Skeleton::visitEntry(Entry *t) {} //abstract class
 void Skeleton::visitBlocoDefinicoes(BlocoDefinicoes *t) {} //abstract class
@@ -237,6 +242,13 @@ void Skeleton::visitBlocoVar_(BlocoVar_ *bloco_var)
 void Skeleton::visitRegraBlocoVar1(RegraBlocoVar1 *regra_bloco_var)
 {
   /* Code For RegraBlocoVar1 Goes Here */
+  map<string, string>::iterator it;
+  it = symbolicTable.find(regra_bloco_var->ident_);
+
+  if (it != symbolicTable.end()) {
+    errors.push_back(regra_bloco_var->ident_ + " already declared");
+    return;
+  }
 
   visitIdent(regra_bloco_var->ident_);
   if (regra_bloco_var->regratipo_) regra_bloco_var->regratipo_->accept(this);

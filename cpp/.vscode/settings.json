@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "Skeleton.C": "cpp",
+        "Absyn.C": "cpp",
+        "Parser.C": "cpp",
+        "Bison.H": "cpp",
+        "Buffer.C": "cpp",
+        "Lexer.C": "cpp",
+        "Parser.H": "cpp",
+        "ParserError.H": "cpp",
+        "Printer.C": "cpp"
+    }
+}
