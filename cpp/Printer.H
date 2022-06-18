@@ -88,8 +88,9 @@ class PrintAbsyn : public Visitor
   void visitAtribuicao2(Atribuicao2 *p);
   void visitAtribuicao3(Atribuicao3 *p);
   void visitAtribuicao4(Atribuicao4 *p);
-  void visitAtribuicaoAtribuicaoStruct(AtribuicaoAtribuicaoStruct *p);
   void visitAtribuicao5(Atribuicao5 *p);
+  void visitAtribuicaoAtribuicaoStruct(AtribuicaoAtribuicaoStruct *p);
+  void visitAtribuicao6(Atribuicao6 *p);
   void visitSubEscrito(SubEscrito *p); /* abstract class */
   void visitSubEscritoIdent(SubEscritoIdent *p);
   void visitSubEscritoInteger(SubEscritoInteger *p);
@@ -106,7 +107,6 @@ class PrintAbsyn : public Visitor
   void visitValorDouble(ValorDouble *p);
   void visitValorChar(ValorChar *p);
   void visitValorString(ValorString *p);
-  void visitValorExpressaoAritmetica(ValorExpressaoAritmetica *p);
   void visitTipoDerivado(TipoDerivado *p); /* abstract class */
   void visitTipoDerivadoPonteiro(TipoDerivadoPonteiro *p);
   void visitTipoDerivadoVetor(TipoDerivadoVetor *p);
@@ -323,8 +323,9 @@ class ShowAbsyn : public Visitor
   void visitAtribuicao2(Atribuicao2 *p);
   void visitAtribuicao3(Atribuicao3 *p);
   void visitAtribuicao4(Atribuicao4 *p);
-  void visitAtribuicaoAtribuicaoStruct(AtribuicaoAtribuicaoStruct *p);
   void visitAtribuicao5(Atribuicao5 *p);
+  void visitAtribuicaoAtribuicaoStruct(AtribuicaoAtribuicaoStruct *p);
+  void visitAtribuicao6(Atribuicao6 *p);
   void visitSubEscrito(SubEscrito *p); /* abstract class */
   void visitSubEscritoIdent(SubEscritoIdent *p);
   void visitSubEscritoInteger(SubEscritoInteger *p);
@@ -341,7 +342,6 @@ class ShowAbsyn : public Visitor
   void visitValorDouble(ValorDouble *p);
   void visitValorChar(ValorChar *p);
   void visitValorString(ValorString *p);
-  void visitValorExpressaoAritmetica(ValorExpressaoAritmetica *p);
   void visitTipoDerivado(TipoDerivado *p); /* abstract class */
   void visitTipoDerivadoPonteiro(TipoDerivadoPonteiro *p);
   void visitTipoDerivadoVetor(TipoDerivadoVetor *p);

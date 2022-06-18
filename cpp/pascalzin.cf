@@ -45,6 +45,7 @@ rules               Comando ::= Atribuicao |
                                 ChamadaFuncaoEProc ;
 
 rules            Atribuicao ::= Ident ":=" Valor |
+                                Ident ":=" ExpressaoAritmetica |
                                 Ident ":=" Ident |
                                 Ident "[" SubEscrito "]" ":=" Valor |
                                 Ident "^" ":=" Valor |
@@ -65,8 +66,7 @@ rules         TipoPrimitivo ::= "int" |
 rules                 Valor ::= Integer |
                                 Double |
                                 Char |
-                                String |
-                                ExpressaoAritmetica ;
+                                String ;
 
 rules          TipoDerivado ::= Ponteiro |
                                 Vetor |

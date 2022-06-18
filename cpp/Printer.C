@@ -615,6 +615,19 @@ void PrintAbsyn::visitAtribuicao2(Atribuicao2 *p)
   int oldi = _i_;
   if (oldi > 0) render(_L_PAREN);
 
+  visitIdent(p->ident_);
+  render(":=");
+  _i_ = 0; p->expressaoaritmetica_->accept(this);
+
+  if (oldi > 0) render(_R_PAREN);
+  _i_ = oldi;
+}
+
+void PrintAbsyn::visitAtribuicao3(Atribuicao3 *p)
+{
+  int oldi = _i_;
+  if (oldi > 0) render(_L_PAREN);
+
   visitIdent(p->ident_1);
   render(":=");
   visitIdent(p->ident_2);
@@ -623,7 +636,7 @@ void PrintAbsyn::visitAtribuicao2(Atribuicao2 *p)
   _i_ = oldi;
 }
 
-void PrintAbsyn::visitAtribuicao3(Atribuicao3 *p)
+void PrintAbsyn::visitAtribuicao4(Atribuicao4 *p)
 {
   int oldi = _i_;
   if (oldi > 0) render(_L_PAREN);
@@ -639,7 +652,7 @@ void PrintAbsyn::visitAtribuicao3(Atribuicao3 *p)
   _i_ = oldi;
 }
 
-void PrintAbsyn::visitAtribuicao4(Atribuicao4 *p)
+void PrintAbsyn::visitAtribuicao5(Atribuicao5 *p)
 {
   int oldi = _i_;
   if (oldi > 0) render(_L_PAREN);
@@ -664,7 +677,7 @@ void PrintAbsyn::visitAtribuicaoAtribuicaoStruct(AtribuicaoAtribuicaoStruct *p)
   _i_ = oldi;
 }
 
-void PrintAbsyn::visitAtribuicao5(Atribuicao5 *p)
+void PrintAbsyn::visitAtribuicao6(Atribuicao6 *p)
 {
   int oldi = _i_;
   if (oldi > 0) render(_L_PAREN);
@@ -812,17 +825,6 @@ void PrintAbsyn::visitValorString(ValorString *p)
   if (oldi > 0) render(_L_PAREN);
 
   visitString(p->string_);
-
-  if (oldi > 0) render(_R_PAREN);
-  _i_ = oldi;
-}
-
-void PrintAbsyn::visitValorExpressaoAritmetica(ValorExpressaoAritmetica *p)
-{
-  int oldi = _i_;
-  if (oldi > 0) render(_L_PAREN);
-
-  _i_ = 0; p->expressaoaritmetica_->accept(this);
 
   if (oldi > 0) render(_R_PAREN);
   _i_ = oldi;
@@ -2219,15 +2221,27 @@ void ShowAbsyn::visitAtribuicao2(Atribuicao2 *p)
   bufAppend('(');
   bufAppend("Atribuicao2");
   bufAppend(' ');
-  visitIdent(p->ident_1);
+  visitIdent(p->ident_);
   bufAppend(' ');
-  visitIdent(p->ident_2);
+  bufAppend('[');
+  if (p->expressaoaritmetica_)  p->expressaoaritmetica_->accept(this);
+  bufAppend(']');
   bufAppend(')');
 }
 void ShowAbsyn::visitAtribuicao3(Atribuicao3 *p)
 {
   bufAppend('(');
   bufAppend("Atribuicao3");
+  bufAppend(' ');
+  visitIdent(p->ident_1);
+  bufAppend(' ');
+  visitIdent(p->ident_2);
+  bufAppend(')');
+}
+void ShowAbsyn::visitAtribuicao4(Atribuicao4 *p)
+{
+  bufAppend('(');
+  bufAppend("Atribuicao4");
   bufAppend(' ');
   visitIdent(p->ident_);
   bufAppend(' ');
@@ -2240,10 +2254,10 @@ void ShowAbsyn::visitAtribuicao3(Atribuicao3 *p)
   bufAppend(']');
   bufAppend(')');
 }
-void ShowAbsyn::visitAtribuicao4(Atribuicao4 *p)
+void ShowAbsyn::visitAtribuicao5(Atribuicao5 *p)
 {
   bufAppend('(');
-  bufAppend("Atribuicao4");
+  bufAppend("Atribuicao5");
   bufAppend(' ');
   visitIdent(p->ident_);
   bufAppend(' ');
@@ -2262,10 +2276,10 @@ void ShowAbsyn::visitAtribuicaoAtribuicaoStruct(AtribuicaoAtribuicaoStruct *p)
   bufAppend(']');
   bufAppend(')');
 }
-void ShowAbsyn::visitAtribuicao5(Atribuicao5 *p)
+void ShowAbsyn::visitAtribuicao6(Atribuicao6 *p)
 {
   bufAppend('(');
-  bufAppend("Atribuicao5");
+  bufAppend("Atribuicao6");
   bufAppend(' ');
   visitIdent(p->ident_);
   bufAppend(' ');
@@ -2368,16 +2382,6 @@ void ShowAbsyn::visitValorString(ValorString *p)
   bufAppend("ValorString");
   bufAppend(' ');
   visitString(p->string_);
-  bufAppend(')');
-}
-void ShowAbsyn::visitValorExpressaoAritmetica(ValorExpressaoAritmetica *p)
-{
-  bufAppend('(');
-  bufAppend("ValorExpressaoAritmetica");
-  bufAppend(' ');
-  bufAppend('[');
-  if (p->expressaoaritmetica_)  p->expressaoaritmetica_->accept(this);
-  bufAppend(']');
   bufAppend(')');
 }
 void ShowAbsyn::visitTipoDerivado(TipoDerivado *p) {} //abstract class

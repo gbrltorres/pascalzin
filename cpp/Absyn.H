@@ -107,8 +107,9 @@ class Atribuicao1;
 class Atribuicao2;
 class Atribuicao3;
 class Atribuicao4;
-class AtribuicaoAtribuicaoStruct;
 class Atribuicao5;
+class AtribuicaoAtribuicaoStruct;
+class Atribuicao6;
 class SubEscritoIdent;
 class SubEscritoInteger;
 class RegraTipoTipoPrimitivo;
@@ -121,7 +122,6 @@ class ValorInteger;
 class ValorDouble;
 class ValorChar;
 class ValorString;
-class ValorExpressaoAritmetica;
 class TipoDerivadoPonteiro;
 class TipoDerivadoVetor;
 class TipoDerivadoStruct;
@@ -281,8 +281,9 @@ public:
   virtual void visitAtribuicao2(Atribuicao2 *p) = 0;
   virtual void visitAtribuicao3(Atribuicao3 *p) = 0;
   virtual void visitAtribuicao4(Atribuicao4 *p) = 0;
-  virtual void visitAtribuicaoAtribuicaoStruct(AtribuicaoAtribuicaoStruct *p) = 0;
   virtual void visitAtribuicao5(Atribuicao5 *p) = 0;
+  virtual void visitAtribuicaoAtribuicaoStruct(AtribuicaoAtribuicaoStruct *p) = 0;
+  virtual void visitAtribuicao6(Atribuicao6 *p) = 0;
   virtual void visitSubEscritoIdent(SubEscritoIdent *p) = 0;
   virtual void visitSubEscritoInteger(SubEscritoInteger *p) = 0;
   virtual void visitRegraTipoTipoPrimitivo(RegraTipoTipoPrimitivo *p) = 0;
@@ -295,7 +296,6 @@ public:
   virtual void visitValorDouble(ValorDouble *p) = 0;
   virtual void visitValorChar(ValorChar *p) = 0;
   virtual void visitValorString(ValorString *p) = 0;
-  virtual void visitValorExpressaoAritmetica(ValorExpressaoAritmetica *p) = 0;
   virtual void visitTipoDerivadoPonteiro(TipoDerivadoPonteiro *p) = 0;
   virtual void visitTipoDerivadoVetor(TipoDerivadoVetor *p) = 0;
   virtual void visitTipoDerivadoStruct(TipoDerivadoStruct *p) = 0;
@@ -1244,12 +1244,12 @@ public:
 class Atribuicao2 : public Atribuicao
 {
 public:
-  Ident ident_1;
-  Ident ident_2;
+  Ident ident_;
+  ExpressaoAritmetica *expressaoaritmetica_;
 
   Atribuicao2(const Atribuicao2 &);
   Atribuicao2 &operator=(const Atribuicao2 &);
-  Atribuicao2(Ident p1, Ident p2);
+  Atribuicao2(Ident p1, ExpressaoAritmetica *p2);
   ~Atribuicao2();
   virtual void accept(Visitor *v);
   virtual Atribuicao2 *clone() const;
@@ -1259,13 +1259,12 @@ public:
 class Atribuicao3 : public Atribuicao
 {
 public:
-  Ident ident_;
-  SubEscrito *subescrito_;
-  Valor *valor_;
+  Ident ident_1;
+  Ident ident_2;
 
   Atribuicao3(const Atribuicao3 &);
   Atribuicao3 &operator=(const Atribuicao3 &);
-  Atribuicao3(Ident p1, SubEscrito *p2, Valor *p3);
+  Atribuicao3(Ident p1, Ident p2);
   ~Atribuicao3();
   virtual void accept(Visitor *v);
   virtual Atribuicao3 *clone() const;
@@ -1276,15 +1275,31 @@ class Atribuicao4 : public Atribuicao
 {
 public:
   Ident ident_;
+  SubEscrito *subescrito_;
   Valor *valor_;
 
   Atribuicao4(const Atribuicao4 &);
   Atribuicao4 &operator=(const Atribuicao4 &);
-  Atribuicao4(Ident p1, Valor *p2);
+  Atribuicao4(Ident p1, SubEscrito *p2, Valor *p3);
   ~Atribuicao4();
   virtual void accept(Visitor *v);
   virtual Atribuicao4 *clone() const;
   void swap(Atribuicao4 &);
+};
+
+class Atribuicao5 : public Atribuicao
+{
+public:
+  Ident ident_;
+  Valor *valor_;
+
+  Atribuicao5(const Atribuicao5 &);
+  Atribuicao5 &operator=(const Atribuicao5 &);
+  Atribuicao5(Ident p1, Valor *p2);
+  ~Atribuicao5();
+  virtual void accept(Visitor *v);
+  virtual Atribuicao5 *clone() const;
+  void swap(Atribuicao5 &);
 };
 
 class AtribuicaoAtribuicaoStruct : public Atribuicao
@@ -1301,19 +1316,19 @@ public:
   void swap(AtribuicaoAtribuicaoStruct &);
 };
 
-class Atribuicao5 : public Atribuicao
+class Atribuicao6 : public Atribuicao
 {
 public:
   Ident ident_;
   ChamadaFuncaoEProc *chamadafuncaoeproc_;
 
-  Atribuicao5(const Atribuicao5 &);
-  Atribuicao5 &operator=(const Atribuicao5 &);
-  Atribuicao5(Ident p1, ChamadaFuncaoEProc *p2);
-  ~Atribuicao5();
+  Atribuicao6(const Atribuicao6 &);
+  Atribuicao6 &operator=(const Atribuicao6 &);
+  Atribuicao6(Ident p1, ChamadaFuncaoEProc *p2);
+  ~Atribuicao6();
   virtual void accept(Visitor *v);
-  virtual Atribuicao5 *clone() const;
-  void swap(Atribuicao5 &);
+  virtual Atribuicao6 *clone() const;
+  void swap(Atribuicao6 &);
 };
 
 class SubEscritoIdent : public SubEscrito
@@ -1479,20 +1494,6 @@ public:
   virtual void accept(Visitor *v);
   virtual ValorString *clone() const;
   void swap(ValorString &);
-};
-
-class ValorExpressaoAritmetica : public Valor
-{
-public:
-  ExpressaoAritmetica *expressaoaritmetica_;
-
-  ValorExpressaoAritmetica(const ValorExpressaoAritmetica &);
-  ValorExpressaoAritmetica &operator=(const ValorExpressaoAritmetica &);
-  ValorExpressaoAritmetica(ExpressaoAritmetica *p1);
-  ~ValorExpressaoAritmetica();
-  virtual void accept(Visitor *v);
-  virtual ValorExpressaoAritmetica *clone() const;
-  void swap(ValorExpressaoAritmetica &);
 };
 
 class TipoDerivadoPonteiro : public TipoDerivado

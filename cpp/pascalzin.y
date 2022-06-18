@@ -269,11 +269,12 @@ Comando : Atribuicao { $$ = new ComandoAtribuicao($1); result->comando_ = $$; }
   | ChamadaFuncaoEProc { $$ = new ComandoChamadaFuncaoEProc($1); result->comando_ = $$; }
 ;
 Atribuicao : _IDENT_ _COLONEQ Valor { $$ = new Atribuicao1($1, $3); result->atribuicao_ = $$; }
-  | _IDENT_ _COLONEQ _IDENT_ { $$ = new Atribuicao2($1, $3); result->atribuicao_ = $$; }
-  | _IDENT_ _LBRACK SubEscrito _RBRACK _COLONEQ Valor { $$ = new Atribuicao3($1, $3, $6); result->atribuicao_ = $$; }
-  | _IDENT_ _CARET _COLONEQ Valor { $$ = new Atribuicao4($1, $4); result->atribuicao_ = $$; }
+  | _IDENT_ _COLONEQ ExpressaoAritmetica { $$ = new Atribuicao2($1, $3); result->atribuicao_ = $$; }
+  | _IDENT_ _COLONEQ _IDENT_ { $$ = new Atribuicao3($1, $3); result->atribuicao_ = $$; }
+  | _IDENT_ _LBRACK SubEscrito _RBRACK _COLONEQ Valor { $$ = new Atribuicao4($1, $3, $6); result->atribuicao_ = $$; }
+  | _IDENT_ _CARET _COLONEQ Valor { $$ = new Atribuicao5($1, $4); result->atribuicao_ = $$; }
   | AtribuicaoStruct { $$ = new AtribuicaoAtribuicaoStruct($1); result->atribuicao_ = $$; }
-  | _IDENT_ _COLONEQ ChamadaFuncaoEProc { $$ = new Atribuicao5($1, $3); result->atribuicao_ = $$; }
+  | _IDENT_ _COLONEQ ChamadaFuncaoEProc { $$ = new Atribuicao6($1, $3); result->atribuicao_ = $$; }
 ;
 SubEscrito : _IDENT_ { $$ = new SubEscritoIdent($1); result->subescrito_ = $$; }
   | _INTEGER_ { $$ = new SubEscritoInteger($1); result->subescrito_ = $$; }
@@ -290,7 +291,6 @@ Valor : _INTEGER_ { $$ = new ValorInteger($1); result->valor_ = $$; }
   | _DOUBLE_ { $$ = new ValorDouble($1); result->valor_ = $$; }
   | _CHAR_ { $$ = new ValorChar($1); result->valor_ = $$; }
   | _STRING_ { $$ = new ValorString($1); result->valor_ = $$; }
-  | ExpressaoAritmetica { $$ = new ValorExpressaoAritmetica($1); result->valor_ = $$; }
 ;
 TipoDerivado : Ponteiro { $$ = new TipoDerivadoPonteiro($1); result->tipoderivado_ = $$; }
   | Vetor { $$ = new TipoDerivadoVetor($1); result->tipoderivado_ = $$; }

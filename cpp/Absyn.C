@@ -1691,17 +1691,17 @@ Atribuicao1 *Atribuicao1::clone() const
 
 
 /********************   Atribuicao2    ********************/
-Atribuicao2::Atribuicao2(Ident p1, Ident p2)
+Atribuicao2::Atribuicao2(Ident p1, ExpressaoAritmetica *p2)
 {
-  ident_1 = p1;
-  ident_2 = p2;
+  ident_ = p1;
+  expressaoaritmetica_ = p2;
 
 }
 
 Atribuicao2::Atribuicao2(const Atribuicao2 & other)
 {
-  ident_1 = other.ident_1;
-  ident_2 = other.ident_2;
+  ident_ = other.ident_;
+  expressaoaritmetica_ = other.expressaoaritmetica_->clone();
 
 }
 
@@ -1714,13 +1714,14 @@ Atribuicao2 &Atribuicao2::operator=(const Atribuicao2 & other)
 
 void Atribuicao2::swap(Atribuicao2 & other)
 {
-  std::swap(ident_1, other.ident_1);
-  std::swap(ident_2, other.ident_2);
+  std::swap(ident_, other.ident_);
+  std::swap(expressaoaritmetica_, other.expressaoaritmetica_);
 
 }
 
 Atribuicao2::~Atribuicao2()
 {
+  delete(expressaoaritmetica_);
 
 }
 
@@ -1737,19 +1738,17 @@ Atribuicao2 *Atribuicao2::clone() const
 
 
 /********************   Atribuicao3    ********************/
-Atribuicao3::Atribuicao3(Ident p1, SubEscrito *p2, Valor *p3)
+Atribuicao3::Atribuicao3(Ident p1, Ident p2)
 {
-  ident_ = p1;
-  subescrito_ = p2;
-  valor_ = p3;
+  ident_1 = p1;
+  ident_2 = p2;
 
 }
 
 Atribuicao3::Atribuicao3(const Atribuicao3 & other)
 {
-  ident_ = other.ident_;
-  subescrito_ = other.subescrito_->clone();
-  valor_ = other.valor_->clone();
+  ident_1 = other.ident_1;
+  ident_2 = other.ident_2;
 
 }
 
@@ -1762,16 +1761,13 @@ Atribuicao3 &Atribuicao3::operator=(const Atribuicao3 & other)
 
 void Atribuicao3::swap(Atribuicao3 & other)
 {
-  std::swap(ident_, other.ident_);
-  std::swap(subescrito_, other.subescrito_);
-  std::swap(valor_, other.valor_);
+  std::swap(ident_1, other.ident_1);
+  std::swap(ident_2, other.ident_2);
 
 }
 
 Atribuicao3::~Atribuicao3()
 {
-  delete(subescrito_);
-  delete(valor_);
 
 }
 
@@ -1788,16 +1784,18 @@ Atribuicao3 *Atribuicao3::clone() const
 
 
 /********************   Atribuicao4    ********************/
-Atribuicao4::Atribuicao4(Ident p1, Valor *p2)
+Atribuicao4::Atribuicao4(Ident p1, SubEscrito *p2, Valor *p3)
 {
   ident_ = p1;
-  valor_ = p2;
+  subescrito_ = p2;
+  valor_ = p3;
 
 }
 
 Atribuicao4::Atribuicao4(const Atribuicao4 & other)
 {
   ident_ = other.ident_;
+  subescrito_ = other.subescrito_->clone();
   valor_ = other.valor_->clone();
 
 }
@@ -1812,12 +1810,14 @@ Atribuicao4 &Atribuicao4::operator=(const Atribuicao4 & other)
 void Atribuicao4::swap(Atribuicao4 & other)
 {
   std::swap(ident_, other.ident_);
+  std::swap(subescrito_, other.subescrito_);
   std::swap(valor_, other.valor_);
 
 }
 
 Atribuicao4::~Atribuicao4()
 {
+  delete(subescrito_);
   delete(valor_);
 
 }
@@ -1830,6 +1830,53 @@ void Atribuicao4::accept(Visitor *v)
 Atribuicao4 *Atribuicao4::clone() const
 {
   return new Atribuicao4(*this);
+}
+
+
+
+/********************   Atribuicao5    ********************/
+Atribuicao5::Atribuicao5(Ident p1, Valor *p2)
+{
+  ident_ = p1;
+  valor_ = p2;
+
+}
+
+Atribuicao5::Atribuicao5(const Atribuicao5 & other)
+{
+  ident_ = other.ident_;
+  valor_ = other.valor_->clone();
+
+}
+
+Atribuicao5 &Atribuicao5::operator=(const Atribuicao5 & other)
+{
+  Atribuicao5 tmp(other);
+  swap(tmp);
+  return *this;
+}
+
+void Atribuicao5::swap(Atribuicao5 & other)
+{
+  std::swap(ident_, other.ident_);
+  std::swap(valor_, other.valor_);
+
+}
+
+Atribuicao5::~Atribuicao5()
+{
+  delete(valor_);
+
+}
+
+void Atribuicao5::accept(Visitor *v)
+{
+  v->visitAtribuicao5(this);
+}
+
+Atribuicao5 *Atribuicao5::clone() const
+{
+  return new Atribuicao5(*this);
 }
 
 
@@ -1878,49 +1925,49 @@ AtribuicaoAtribuicaoStruct *AtribuicaoAtribuicaoStruct::clone() const
 
 
 
-/********************   Atribuicao5    ********************/
-Atribuicao5::Atribuicao5(Ident p1, ChamadaFuncaoEProc *p2)
+/********************   Atribuicao6    ********************/
+Atribuicao6::Atribuicao6(Ident p1, ChamadaFuncaoEProc *p2)
 {
   ident_ = p1;
   chamadafuncaoeproc_ = p2;
 
 }
 
-Atribuicao5::Atribuicao5(const Atribuicao5 & other)
+Atribuicao6::Atribuicao6(const Atribuicao6 & other)
 {
   ident_ = other.ident_;
   chamadafuncaoeproc_ = other.chamadafuncaoeproc_->clone();
 
 }
 
-Atribuicao5 &Atribuicao5::operator=(const Atribuicao5 & other)
+Atribuicao6 &Atribuicao6::operator=(const Atribuicao6 & other)
 {
-  Atribuicao5 tmp(other);
+  Atribuicao6 tmp(other);
   swap(tmp);
   return *this;
 }
 
-void Atribuicao5::swap(Atribuicao5 & other)
+void Atribuicao6::swap(Atribuicao6 & other)
 {
   std::swap(ident_, other.ident_);
   std::swap(chamadafuncaoeproc_, other.chamadafuncaoeproc_);
 
 }
 
-Atribuicao5::~Atribuicao5()
+Atribuicao6::~Atribuicao6()
 {
   delete(chamadafuncaoeproc_);
 
 }
 
-void Atribuicao5::accept(Visitor *v)
+void Atribuicao6::accept(Visitor *v)
 {
-  v->visitAtribuicao5(this);
+  v->visitAtribuicao6(this);
 }
 
-Atribuicao5 *Atribuicao5::clone() const
+Atribuicao6 *Atribuicao6::clone() const
 {
-  return new Atribuicao5(*this);
+  return new Atribuicao6(*this);
 }
 
 
@@ -2430,50 +2477,6 @@ void ValorString::accept(Visitor *v)
 ValorString *ValorString::clone() const
 {
   return new ValorString(*this);
-}
-
-
-
-/********************   ValorExpressaoAritmetica    ********************/
-ValorExpressaoAritmetica::ValorExpressaoAritmetica(ExpressaoAritmetica *p1)
-{
-  expressaoaritmetica_ = p1;
-
-}
-
-ValorExpressaoAritmetica::ValorExpressaoAritmetica(const ValorExpressaoAritmetica & other)
-{
-  expressaoaritmetica_ = other.expressaoaritmetica_->clone();
-
-}
-
-ValorExpressaoAritmetica &ValorExpressaoAritmetica::operator=(const ValorExpressaoAritmetica & other)
-{
-  ValorExpressaoAritmetica tmp(other);
-  swap(tmp);
-  return *this;
-}
-
-void ValorExpressaoAritmetica::swap(ValorExpressaoAritmetica & other)
-{
-  std::swap(expressaoaritmetica_, other.expressaoaritmetica_);
-
-}
-
-ValorExpressaoAritmetica::~ValorExpressaoAritmetica()
-{
-  delete(expressaoaritmetica_);
-
-}
-
-void ValorExpressaoAritmetica::accept(Visitor *v)
-{
-  v->visitValorExpressaoAritmetica(this);
-}
-
-ValorExpressaoAritmetica *ValorExpressaoAritmetica::clone() const
-{
-  return new ValorExpressaoAritmetica(*this);
 }
 
 

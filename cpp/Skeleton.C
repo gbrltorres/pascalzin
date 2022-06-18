@@ -7,8 +7,22 @@
    algorithms to use context information differently. */
 
 #include "Skeleton.H"
+#include <map>
+#include <vector>
+#include <stack>
+#include <iostream>
+#include <string>
 
+using namespace std;
 
+// key = ident; value = pair<tipo, valor>
+map<string, pair<string, string> > symbolicTable;
+
+string reservedWords[48] = {"ate","caso","char","const","de","enquanto","entao","faca","falso","fim","funcao","inicio","int","para","procedimento","programa","real","registro","se","senao","sovai","tipo","var","verdadeiro","vetor",";",":",".","=",":=","^","[","]","(",")",">","<","<>",">=","<=","&&","||","&|","!","+","-","*","/"};
+
+stack<string> piaDeIdent;
+
+stack<string> piaDeOperadores;
 
 void Skeleton::visitEntry(Entry *t) {} //abstract class
 void Skeleton::visitBlocoDefinicoes(BlocoDefinicoes *t) {} //abstract class
@@ -56,6 +70,16 @@ void Skeleton::visitExpressaoRelacional(ExpressaoRelacional *t) {} //abstract cl
 void Skeleton::visitRegraRelacional(RegraRelacional *t) {} //abstract class
 void Skeleton::visitExpressaoLogica(ExpressaoLogica *t) {} //abstract class
 void Skeleton::visitRegraLogico(RegraLogico *t) {} //abstract class
+
+void printSymbolicTable() {
+  map<string, pair<string,string> >::iterator itr;
+    cout << "\nTabela simbólica:\n";
+    cout << "\tKEY\tELEMENT\tVALUES\n";
+    for (itr = symbolicTable.begin(); itr != symbolicTable.end(); ++itr) {
+        cout << '\t' << itr->first << '\t' << itr->second.first << '\t' << itr->second.second << '\n';
+    }
+    cout << endl;
+}
 
 void Skeleton::visitLEntry(LEntry *l_entry)
 {
@@ -237,18 +261,29 @@ void Skeleton::visitBlocoVar_(BlocoVar_ *bloco_var)
 void Skeleton::visitRegraBlocoVar1(RegraBlocoVar1 *regra_bloco_var)
 {
   /* Code For RegraBlocoVar1 Goes Here */
+  string ident = regra_bloco_var->ident_;
+  cout << "Ident " << regra_bloco_var->ident_ << endl;
+  piaDeIdent.push(regra_bloco_var->ident_);
 
   visitIdent(regra_bloco_var->ident_);
   if (regra_bloco_var->regratipo_) regra_bloco_var->regratipo_->accept(this);
+
+  // printSymbolicTable();
 
 }
 
 void Skeleton::visitRegraBlocoVar2(RegraBlocoVar2 *regra_bloco_var)
 {
   /* Code For RegraBlocoVar2 Goes Here */
+  string ident = regra_bloco_var->ident_;
+  cout << "Ident " << regra_bloco_var->ident_ << endl;
+  piaDeIdent.push(regra_bloco_var->ident_);
 
   visitIdent(regra_bloco_var->ident_);
   if (regra_bloco_var->regratipo_) regra_bloco_var->regratipo_->accept(this);
+
+  // printSymbolicTable();
+
   if (regra_bloco_var->regrablocovar_) regra_bloco_var->regrablocovar_->accept(this);
 
 }
@@ -363,6 +398,11 @@ void Skeleton::visitComandoChamadaFuncaoEProc(ComandoChamadaFuncaoEProc *comando
 void Skeleton::visitAtribuicao1(Atribuicao1 *atribuicao)
 {
   /* Code For Atribuicao1 Goes Here */
+  if(symbolicTable.find(atribuicao->ident_) == symbolicTable.end()) {
+    return;
+  }
+  
+  piaDeIdent.push(atribuicao->ident_);
 
   visitIdent(atribuicao->ident_);
   if (atribuicao->valor_) atribuicao->valor_->accept(this);
@@ -373,8 +413,8 @@ void Skeleton::visitAtribuicao2(Atribuicao2 *atribuicao)
 {
   /* Code For Atribuicao2 Goes Here */
 
-  visitIdent(atribuicao->ident_1);
-  visitIdent(atribuicao->ident_2);
+  visitIdent(atribuicao->ident_);
+  if (atribuicao->expressaoaritmetica_) atribuicao->expressaoaritmetica_->accept(this);
 
 }
 
@@ -382,15 +422,24 @@ void Skeleton::visitAtribuicao3(Atribuicao3 *atribuicao)
 {
   /* Code For Atribuicao3 Goes Here */
 
-  visitIdent(atribuicao->ident_);
-  if (atribuicao->subescrito_) atribuicao->subescrito_->accept(this);
-  if (atribuicao->valor_) atribuicao->valor_->accept(this);
+  visitIdent(atribuicao->ident_1);
+  visitIdent(atribuicao->ident_2);
 
 }
 
 void Skeleton::visitAtribuicao4(Atribuicao4 *atribuicao)
 {
   /* Code For Atribuicao4 Goes Here */
+
+  visitIdent(atribuicao->ident_);
+  if (atribuicao->subescrito_) atribuicao->subescrito_->accept(this);
+  if (atribuicao->valor_) atribuicao->valor_->accept(this);
+
+}
+
+void Skeleton::visitAtribuicao5(Atribuicao5 *atribuicao)
+{
+  /* Code For Atribuicao5 Goes Here */
 
   visitIdent(atribuicao->ident_);
   if (atribuicao->valor_) atribuicao->valor_->accept(this);
@@ -405,9 +454,9 @@ void Skeleton::visitAtribuicaoAtribuicaoStruct(AtribuicaoAtribuicaoStruct *atrib
 
 }
 
-void Skeleton::visitAtribuicao5(Atribuicao5 *atribuicao)
+void Skeleton::visitAtribuicao6(Atribuicao6 *atribuicao)
 {
-  /* Code For Atribuicao5 Goes Here */
+  /* Code For Atribuicao6 Goes Here */
 
   visitIdent(atribuicao->ident_);
   if (atribuicao->chamadafuncaoeproc_) atribuicao->chamadafuncaoeproc_->accept(this);
@@ -457,8 +506,17 @@ void Skeleton::visitRegraTipoIdent(RegraTipoIdent *regra_tipo_ident)
 void Skeleton::visitTipoPrimitivo_int(TipoPrimitivo_int *tipo_primitivo_int)
 {
   /* Code For TipoPrimitivo_int Goes Here */
+  string ident = piaDeIdent.top();
+  piaDeIdent.pop();
 
+  pair<string, string> values;
+  values.first = "int";
+  values.second = "-";
 
+  pair<string, pair<string,string> > key;
+  key.first = ident;
+  key.second = values;
+  symbolicTable.insert(key);
 }
 
 void Skeleton::visitTipoPrimitivo_real(TipoPrimitivo_real *tipo_primitivo_real)
@@ -504,14 +562,6 @@ void Skeleton::visitValorString(ValorString *valor_string)
   /* Code For ValorString Goes Here */
 
   visitString(valor_string->string_);
-
-}
-
-void Skeleton::visitValorExpressaoAritmetica(ValorExpressaoAritmetica *valor_expressao_aritmetica)
-{
-  /* Code For ValorExpressaoAritmetica Goes Here */
-
-  if (valor_expressao_aritmetica->expressaoaritmetica_) valor_expressao_aritmetica->expressaoaritmetica_->accept(this);
 
 }
 
@@ -759,7 +809,7 @@ void Skeleton::visitLNegacao(LNegacao *l_negacao)
 void Skeleton::visitOperadorAritmetico1(OperadorAritmetico1 *operador_aritmetico)
 {
   /* Code For OperadorAritmetico1 Goes Here */
-
+  piaDeOperadores.push("+");
 
 }
 
@@ -923,6 +973,10 @@ void Skeleton::visitOperandoDouble(OperandoDouble *operando_double)
 void Skeleton::visitOperandoIdent(OperandoIdent *operando_ident)
 {
   /* Code For OperandoIdent Goes Here */
+  if(symbolicTable.find(operando_ident->ident_) == symbolicTable.end()) {
+    return;
+  }
+  piaDeIdent.push(operando_ident->ident_);
 
   visitIdent(operando_ident->ident_);
 
@@ -1081,6 +1135,17 @@ void Skeleton::visitRegraLogico2(RegraLogico2 *regra_logico)
 void Skeleton::visitInteger(Integer x)
 {
   /* Code for Integer Goes Here */
+  string ident = piaDeIdent.top();
+  piaDeIdent.pop();
+
+  string tipo = symbolicTable.find(ident)->second.first;
+  if (tipo == "int") {
+    char valor[10];
+    sprintf(valor, "%d", x);
+    symbolicTable[ident].second = valor;
+  }
+
+  // printSymbolicTable();
 }
 
 void Skeleton::visitChar(Char x)
