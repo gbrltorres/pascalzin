@@ -8,6 +8,8 @@
         "Lexer.C": "cpp",
         "Parser.H": "cpp",
         "ParserError.H": "cpp",
-        "Printer.C": "cpp"
+        "Printer.C": "cpp",
+        "Test.C": "cpp",
+        "iostream": "cpp"
     }
 }

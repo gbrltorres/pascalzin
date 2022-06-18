@@ -8,10 +8,19 @@
 
 #include "Skeleton.H"
 #include <map>
+#include <set>
+#include <iostream>
 
 using namespace std;
 
-map<string, string> symbolicTable;
+// key = ident; value = pair<tipo, valor>
+map<string, pair<string, string>> symbolicTable;
+
+set<string> reservedWords = {"ate", "caso", "char", "const", "de", "enquanto", "entao", "faca", "falso", "fim", "funcao", "inicio", "int","para",
+"procedimento", "programa", "real", "registro", "se", "senao", "sovai", "tipo", "var", "verdadeiro", "vetor", ";", ":", ".", "=", ":=", "^","[","]",
+"(",")",">","<","<>",">=","<=","&&","||","&|","!","+","-","*","/"};
+
+
 
 vector<string> errors;
 
@@ -242,14 +251,6 @@ void Skeleton::visitBlocoVar_(BlocoVar_ *bloco_var)
 void Skeleton::visitRegraBlocoVar1(RegraBlocoVar1 *regra_bloco_var)
 {
   /* Code For RegraBlocoVar1 Goes Here */
-  map<string, string>::iterator it;
-  it = symbolicTable.find(regra_bloco_var->ident_);
-
-  if (it != symbolicTable.end()) {
-    errors.push_back(regra_bloco_var->ident_ + " already declared");
-    return;
-  }
-
   visitIdent(regra_bloco_var->ident_);
   if (regra_bloco_var->regratipo_) regra_bloco_var->regratipo_->accept(this);
 
@@ -258,6 +259,9 @@ void Skeleton::visitRegraBlocoVar1(RegraBlocoVar1 *regra_bloco_var)
 void Skeleton::visitRegraBlocoVar2(RegraBlocoVar2 *regra_bloco_var)
 {
   /* Code For RegraBlocoVar2 Goes Here */
+  string ident = regra_bloco_var->ident_;
+  cout << "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA CARALHOOOOOOOOOOOOOOOOOO" << ident << endl;
+
 
   visitIdent(regra_bloco_var->ident_);
   if (regra_bloco_var->regratipo_) regra_bloco_var->regratipo_->accept(this);

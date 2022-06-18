@@ -1,0 +1,12 @@
+programa TesteComandos;
+var
+	A : int;
+	B : int;
+	C : int;
+	D : int;
+inicio
+	A := 10;
+	B := 20;
+	C := A + B;
+	D := C;
+fim.
