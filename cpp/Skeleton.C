@@ -7,22 +7,8 @@
    algorithms to use context information differently. */
 
 #include "Skeleton.H"
-#include <map>
-#include <set>
-#include <iostream>
-
-using namespace std;
-
-// key = ident; value = pair<tipo, valor>
-map<string, pair<string, string>> symbolicTable;
-
-set<string> reservedWords = {"ate", "caso", "char", "const", "de", "enquanto", "entao", "faca", "falso", "fim", "funcao", "inicio", "int","para",
-"procedimento", "programa", "real", "registro", "se", "senao", "sovai", "tipo", "var", "verdadeiro", "vetor", ";", ":", ".", "=", ":=", "^","[","]",
-"(",")",">","<","<>",">=","<=","&&","||","&|","!","+","-","*","/"};
 
 
-
-vector<string> errors;
 
 void Skeleton::visitEntry(Entry *t) {} //abstract class
 void Skeleton::visitBlocoDefinicoes(BlocoDefinicoes *t) {} //abstract class
@@ -251,6 +237,7 @@ void Skeleton::visitBlocoVar_(BlocoVar_ *bloco_var)
 void Skeleton::visitRegraBlocoVar1(RegraBlocoVar1 *regra_bloco_var)
 {
   /* Code For RegraBlocoVar1 Goes Here */
+
   visitIdent(regra_bloco_var->ident_);
   if (regra_bloco_var->regratipo_) regra_bloco_var->regratipo_->accept(this);
 
@@ -259,9 +246,6 @@ void Skeleton::visitRegraBlocoVar1(RegraBlocoVar1 *regra_bloco_var)
 void Skeleton::visitRegraBlocoVar2(RegraBlocoVar2 *regra_bloco_var)
 {
   /* Code For RegraBlocoVar2 Goes Here */
-  string ident = regra_bloco_var->ident_;
-  cout << "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA CARALHOOOOOOOOOOOOOOOOOO" << ident << endl;
-
 
   visitIdent(regra_bloco_var->ident_);
   if (regra_bloco_var->regratipo_) regra_bloco_var->regratipo_->accept(this);
