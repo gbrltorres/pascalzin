@@ -454,6 +454,28 @@ void Skeleton::visitAtribuicao2(Atribuicao2 *atribuicao)
       symbolicTable[atribuicao->ident_].second = somaString;
       break;
     }
+    case '-': {
+      int subtracao = valor1Numeric - valor2Numeric;
+      char subtracaoString[10];
+      sprintf(subtracaoString, "%d", subtracao);
+      symbolicTable[atribuicao->ident_].second = subtracaoString;
+      break;
+    }
+    case '*': {
+      int mult = valor1Numeric * valor2Numeric;
+      char multString[10];
+      sprintf(multString, "%d", mult);
+      symbolicTable[atribuicao->ident_].second = multString;
+      break;
+    }
+    case '/': {
+      
+      int mult = valor1Numeric * valor2Numeric;
+      char multString[10];
+      sprintf(multString, "%d", mult);
+      symbolicTable[atribuicao->ident_].second = multString;
+      break;
+    }
 
     default:
       break;
@@ -470,6 +492,19 @@ void Skeleton::visitAtribuicao3(Atribuicao3 *atribuicao)
   visitIdent(atribuicao->ident_1);
   visitIdent(atribuicao->ident_2);
 
+  string ident1 = atribuicao->ident_1;
+  string ident2 = atribuicao->ident_2;
+
+  string tipo1 = symbolicTable[ident1].first;
+  string tipo2 = symbolicTable[ident2].first;
+
+  if(tipo1 != tipo2) {
+    return;
+  }
+
+  symbolicTable[ident1].second = symbolicTable[ident2].second;
+
+  printSymbolicTable();
 }
 
 void Skeleton::visitAtribuicao4(Atribuicao4 *atribuicao)
