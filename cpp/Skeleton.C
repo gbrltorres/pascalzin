@@ -20,9 +20,11 @@ map<string, pair<string, string> > symbolicTable;
 
 string reservedWords[48] = {"ate","caso","char","const","de","enquanto","entao","faca","falso","fim","funcao","inicio","int","para","procedimento","programa","real","registro","se","senao","sovai","tipo","var","verdadeiro","vetor",";",":",".","=",":=","^","[","]","(",")",">","<","<>",">=","<=","&&","||","&|","!","+","-","*","/"};
 
-stack<string> piaDeIdent;
+stack<string> identStack;
 
-stack<char> piaDeOperadores;
+stack<char> operatorsStack;
+
+vector<string> errors;
 
 void Skeleton::visitEntry(Entry *t) {} //abstract class
 void Skeleton::visitBlocoDefinicoes(BlocoDefinicoes *t) {} //abstract class
@@ -81,7 +83,7 @@ void printSymbolicTable() {
     cout << endl;
 }
 
-int stringTointeger(string str)
+int stringToInteger(string str)
 {
     int temp = 0;
     for (int i = 0; i < str.length(); i++) {
@@ -271,7 +273,7 @@ void Skeleton::visitRegraBlocoVar1(RegraBlocoVar1 *regra_bloco_var)
 {
   /* Code For RegraBlocoVar1 Goes Here */
   string ident = regra_bloco_var->ident_;
-  piaDeIdent.push(regra_bloco_var->ident_);
+  identStack.push(regra_bloco_var->ident_);
 
   visitIdent(regra_bloco_var->ident_);
   if (regra_bloco_var->regratipo_) regra_bloco_var->regratipo_->accept(this);
@@ -284,7 +286,7 @@ void Skeleton::visitRegraBlocoVar2(RegraBlocoVar2 *regra_bloco_var)
 {
   /* Code For RegraBlocoVar2 Goes Here */
   string ident = regra_bloco_var->ident_;
-  piaDeIdent.push(regra_bloco_var->ident_);
+  identStack.push(ident);
 
   visitIdent(regra_bloco_var->ident_);
   if (regra_bloco_var->regratipo_) regra_bloco_var->regratipo_->accept(this);
@@ -409,10 +411,12 @@ void Skeleton::visitAtribuicao1(Atribuicao1 *atribuicao)
   /* Code For Atribuicao1 Goes Here */
 
   if(symbolicTable.find(atribuicao->ident_) == symbolicTable.end()) {
+    // ident inexistente na tabela simbólica
+    errors.push_back("Variável indefinida - a variável " + atribuicao->ident_ + " não foi definida no bloco de variáveis.");
     return;
   }
   
-  piaDeIdent.push(atribuicao->ident_);
+  identStack.push(atribuicao->ident_);
 
   visitIdent(atribuicao->ident_);
   if (atribuicao->valor_) atribuicao->valor_->accept(this);
@@ -423,6 +427,7 @@ void Skeleton::visitAtribuicao2(Atribuicao2 *atribuicao)
 {
   /* Code For Atribuicao2 Goes Here */
   if(symbolicTable.find(atribuicao->ident_) == symbolicTable.end()) {
+    errors.push_back("Variável indefinida - a variável " + atribuicao->ident_ + " não foi definida no bloco de variáveis.");
     return;
   }
 
@@ -431,55 +436,44 @@ void Skeleton::visitAtribuicao2(Atribuicao2 *atribuicao)
 
   printSymbolicTable();
 
-  while(!piaDeOperadores.empty() && !piaDeIdent.empty()) {
-    string operando1 = piaDeIdent.top();
-    piaDeIdent.pop();
-    string operando2 = piaDeIdent.top();
-    piaDeIdent.pop();
+  string operando1 = identStack.top();
+  identStack.pop();
+  string valor1 = symbolicTable.find(operando1)->second.second;
+  int resExpAr = stringToInteger(valor1);
+  while(!operatorsStack.empty() && !identStack.empty()) {
+    string operando2 = identStack.top();
+    identStack.pop();
 
-    char operador = piaDeOperadores.top();
-    piaDeOperadores.pop();
+    char operador = operatorsStack.top();
+    operatorsStack.pop();
 
-    string valor1 = symbolicTable.find(operando1)->second.second;
-    int valor1Numeric = stringTointeger(valor1);
     string valor2 = symbolicTable.find(operando2)->second.second;
-    int valor2Numeric = stringTointeger(valor2);
+    int valor2Numeric = stringToInteger(valor2);
 
     switch (operador)
     {
     case '+': {
-      int soma = valor1Numeric + valor2Numeric;
-      char somaString[10];
-      sprintf(somaString, "%d", soma);
-      symbolicTable[atribuicao->ident_].second = somaString;
+      resExpAr += valor2Numeric;
       break;
     }
     case '-': {
-      int subtracao = valor1Numeric - valor2Numeric;
-      char subtracaoString[10];
-      sprintf(subtracaoString, "%d", subtracao);
-      symbolicTable[atribuicao->ident_].second = subtracaoString;
+      resExpAr -= valor2Numeric;
       break;
     }
     case '*': {
-      int mult = valor1Numeric * valor2Numeric;
-      char multString[10];
-      sprintf(multString, "%d", mult);
-      symbolicTable[atribuicao->ident_].second = multString;
+      resExpAr *= valor2Numeric;
       break;
     }
     case '/': {
-      
-      int mult = valor1Numeric * valor2Numeric;
-      char multString[10];
-      sprintf(multString, "%d", mult);
-      symbolicTable[atribuicao->ident_].second = multString;
+      resExpAr /= valor2Numeric;
       break;
     }
 
     default:
       break;
     }
+
+    operando1 = operando2;
   }
 
   printSymbolicTable();
@@ -495,10 +489,19 @@ void Skeleton::visitAtribuicao3(Atribuicao3 *atribuicao)
   string ident1 = atribuicao->ident_1;
   string ident2 = atribuicao->ident_2;
 
+  if(symbolicTable.find(ident1) == symbolicTable.end()) {
+    errors.push_back("Variável indefinida - a variável " + atribuicao->ident_1 + " não foi definida no bloco de variáveis.");
+  }
+
+  if(symbolicTable.find(ident2) == symbolicTable.end()) {
+    errors.push_back("Variável indefinida - a variável " + atribuicao->ident_2 + " não foi definida no bloco de variáveis.");
+  }
+
   string tipo1 = symbolicTable[ident1].first;
   string tipo2 = symbolicTable[ident2].first;
 
   if(tipo1 != tipo2) {
+    errors.push_back("Incompatibilidade de tipos - as variáveis " + ident1 + " e " + ident2 + " não são do mesmo tipo.");
     return;
   }
 
@@ -586,8 +589,8 @@ void Skeleton::visitRegraTipoIdent(RegraTipoIdent *regra_tipo_ident)
 void Skeleton::visitTipoPrimitivo_int(TipoPrimitivo_int *tipo_primitivo_int)
 {
   /* Code For TipoPrimitivo_int Goes Here */
-  string ident = piaDeIdent.top();
-  piaDeIdent.pop();
+  string ident = identStack.top();
+  identStack.pop();
 
   pair<string, string> values;
   values.first = "int";
@@ -889,7 +892,7 @@ void Skeleton::visitLNegacao(LNegacao *l_negacao)
 void Skeleton::visitOperadorAritmetico1(OperadorAritmetico1 *operador_aritmetico)
 {
   /* Code For OperadorAritmetico1 Goes Here */
-  piaDeOperadores.push('+');
+  operatorsStack.push('+');
 
 }
 
@@ -1054,10 +1057,11 @@ void Skeleton::visitOperandoIdent(OperandoIdent *operando_ident)
 {
   /* Code For OperandoIdent Goes Here */
   if(symbolicTable.find(operando_ident->ident_) == symbolicTable.end()) {
+    errors.push_back("Variável indefinida - a variável " + operando_ident->ident_ + " não foi definida no bloco de variáveis.");
     return;
   }
   cout << "operando ident " << operando_ident->ident_ << endl;
-  piaDeIdent.push(operando_ident->ident_);
+  identStack.push(operando_ident->ident_);
 
   visitIdent(operando_ident->ident_);
 
@@ -1216,15 +1220,19 @@ void Skeleton::visitRegraLogico2(RegraLogico2 *regra_logico)
 void Skeleton::visitInteger(Integer x)
 {
   /* Code for Integer Goes Here */
-  string ident = piaDeIdent.top();
-  piaDeIdent.pop();
+  string ident = identStack.top();
+  identStack.pop();
 
   string tipo = symbolicTable.find(ident)->second.first;
-  if (tipo == "int") {
-    char valor[10];
-    sprintf(valor, "%d", x);
-    symbolicTable[ident].second = valor;
+
+  if(tipo != "int") {
+    errors.push_back("Incompatibilidade de tipos - a variável " + ident + " não é do tipo Integer.");
+    return;
   }
+
+  char valor[10];
+  sprintf(valor, "%d", x);
+  symbolicTable[ident].second = valor;
 
   printSymbolicTable();
 }
