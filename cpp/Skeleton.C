@@ -22,7 +22,7 @@ string reservedWords[48] = {"ate","caso","char","const","de","enquanto","entao",
 
 stack<string> piaDeIdent;
 
-stack<string> piaDeOperadores;
+stack<char> piaDeOperadores;
 
 void Skeleton::visitEntry(Entry *t) {} //abstract class
 void Skeleton::visitBlocoDefinicoes(BlocoDefinicoes *t) {} //abstract class
@@ -79,6 +79,15 @@ void printSymbolicTable() {
         cout << '\t' << itr->first << '\t' << itr->second.first << '\t' << itr->second.second << '\n';
     }
     cout << endl;
+}
+
+int stringTointeger(string str)
+{
+    int temp = 0;
+    for (int i = 0; i < str.length(); i++) {
+        temp = temp * 10 + (str[i] - '0');
+    }
+    return temp;
 }
 
 void Skeleton::visitLEntry(LEntry *l_entry)
@@ -262,7 +271,6 @@ void Skeleton::visitRegraBlocoVar1(RegraBlocoVar1 *regra_bloco_var)
 {
   /* Code For RegraBlocoVar1 Goes Here */
   string ident = regra_bloco_var->ident_;
-  cout << "Ident " << regra_bloco_var->ident_ << endl;
   piaDeIdent.push(regra_bloco_var->ident_);
 
   visitIdent(regra_bloco_var->ident_);
@@ -276,7 +284,6 @@ void Skeleton::visitRegraBlocoVar2(RegraBlocoVar2 *regra_bloco_var)
 {
   /* Code For RegraBlocoVar2 Goes Here */
   string ident = regra_bloco_var->ident_;
-  cout << "Ident " << regra_bloco_var->ident_ << endl;
   piaDeIdent.push(regra_bloco_var->ident_);
 
   visitIdent(regra_bloco_var->ident_);
@@ -310,6 +317,8 @@ void Skeleton::visitRegraBlocoVar4(RegraBlocoVar4 *regra_bloco_var)
 void Skeleton::visitBlocoComando1(BlocoComando1 *bloco_comando)
 {
   /* Code For BlocoComando1 Goes Here */
+
+  printSymbolicTable();
 
   if (bloco_comando->regracomando_) bloco_comando->regracomando_->accept(this);
 
@@ -398,6 +407,7 @@ void Skeleton::visitComandoChamadaFuncaoEProc(ComandoChamadaFuncaoEProc *comando
 void Skeleton::visitAtribuicao1(Atribuicao1 *atribuicao)
 {
   /* Code For Atribuicao1 Goes Here */
+
   if(symbolicTable.find(atribuicao->ident_) == symbolicTable.end()) {
     return;
   }
@@ -412,10 +422,45 @@ void Skeleton::visitAtribuicao1(Atribuicao1 *atribuicao)
 void Skeleton::visitAtribuicao2(Atribuicao2 *atribuicao)
 {
   /* Code For Atribuicao2 Goes Here */
+  if(symbolicTable.find(atribuicao->ident_) == symbolicTable.end()) {
+    return;
+  }
 
   visitIdent(atribuicao->ident_);
   if (atribuicao->expressaoaritmetica_) atribuicao->expressaoaritmetica_->accept(this);
 
+  printSymbolicTable();
+
+  while(!piaDeOperadores.empty() && !piaDeIdent.empty()) {
+    string operando1 = piaDeIdent.top();
+    piaDeIdent.pop();
+    string operando2 = piaDeIdent.top();
+    piaDeIdent.pop();
+
+    char operador = piaDeOperadores.top();
+    piaDeOperadores.pop();
+
+    string valor1 = symbolicTable.find(operando1)->second.second;
+    int valor1Numeric = stringTointeger(valor1);
+    string valor2 = symbolicTable.find(operando2)->second.second;
+    int valor2Numeric = stringTointeger(valor2);
+
+    switch (operador)
+    {
+    case '+': {
+      int soma = valor1Numeric + valor2Numeric;
+      char somaString[10];
+      sprintf(somaString, "%d", soma);
+      symbolicTable[atribuicao->ident_].second = somaString;
+      break;
+    }
+
+    default:
+      break;
+    }
+  }
+
+  printSymbolicTable();
 }
 
 void Skeleton::visitAtribuicao3(Atribuicao3 *atribuicao)
@@ -809,7 +854,7 @@ void Skeleton::visitLNegacao(LNegacao *l_negacao)
 void Skeleton::visitOperadorAritmetico1(OperadorAritmetico1 *operador_aritmetico)
 {
   /* Code For OperadorAritmetico1 Goes Here */
-  piaDeOperadores.push("+");
+  piaDeOperadores.push('+');
 
 }
 
@@ -976,6 +1021,7 @@ void Skeleton::visitOperandoIdent(OperandoIdent *operando_ident)
   if(symbolicTable.find(operando_ident->ident_) == symbolicTable.end()) {
     return;
   }
+  cout << "operando ident " << operando_ident->ident_ << endl;
   piaDeIdent.push(operando_ident->ident_);
 
   visitIdent(operando_ident->ident_);
@@ -1145,7 +1191,7 @@ void Skeleton::visitInteger(Integer x)
     symbolicTable[ident].second = valor;
   }
 
-  // printSymbolicTable();
+  printSymbolicTable();
 }
 
 void Skeleton::visitChar(Char x)

@@ -14,6 +14,8 @@
 #include "Printer.H"
 #include "Absyn.H"
 #include "ParserError.H"
+#include "Skeleton.H"
+#include "Skeleton.C"
 
 void usage() {
   printf("usage: Call with one of the following argument combinations:\n");
@@ -66,10 +68,13 @@ int main(int argc, char ** argv)
       printf("[Linearized Tree]\n");
       PrintAbsyn *p = new PrintAbsyn();
       printf("%s\n\n", p->print(parse_tree));
+      Skeleton *skel = new Skeleton();
+      skel->visitLEntry((LEntry*) parse_tree);
     }
     delete(parse_tree);
     return 0;
   }
+  cout << "adsfsdffsfj" << endl;
   return 1;
 }
 
