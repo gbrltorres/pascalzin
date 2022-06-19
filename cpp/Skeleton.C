@@ -83,6 +83,42 @@ void printSymbolicTable() {
     cout << endl;
 }
 
+void printStackIdent() {
+  if (identStack.empty())
+    cout << "Pilha vazia!\n";
+  stack<string> new_stack;
+  while (!identStack.empty())
+  {
+    new_stack.push(identStack.top());
+    cout << new_stack.top() << ", ";
+    identStack.pop();
+  }
+  cout << endl;
+  while (!new_stack.empty())
+  {
+    identStack.push(new_stack.top());
+    new_stack.pop();
+  }
+}
+
+void printStackOperator() {
+  if (operatorsStack.empty())
+    cout << "Pilha vazia!\n";
+  stack<char> new_stack;
+  while (!operatorsStack.empty())
+  {
+    new_stack.push(operatorsStack.top());
+    cout << new_stack.top() << ", ";
+    operatorsStack.pop();
+  }
+  cout << endl;
+  while (!new_stack.empty())
+  {
+    operatorsStack.push(new_stack.top());
+    new_stack.pop();
+  }
+}
+
 int stringToInteger(string str)
 {
     int temp = 0;
@@ -100,6 +136,9 @@ void Skeleton::visitLEntry(LEntry *l_entry)
   if (l_entry->blocodefinicoes_) l_entry->blocodefinicoes_->accept(this);
   if (l_entry->blococomando_) l_entry->blococomando_->accept(this);
 
+  cout << "erros: " << endl;
+  for(int i=0; i < errors.size(); i++)
+    cout << errors.at(i) << '\n';
 }
 
 void Skeleton::visitBlocoDefinicoes1(BlocoDefinicoes1 *bloco_definicoes)
@@ -436,10 +475,17 @@ void Skeleton::visitAtribuicao2(Atribuicao2 *atribuicao)
 
   printSymbolicTable();
 
+  cout << "ident stack ";
+  printStackIdent();
+
   string operando1 = identStack.top();
+  cout << "operando1 " << operando1 << " | ";
   identStack.pop();
   string valor1 = symbolicTable.find(operando1)->second.second;
+  cout << "valor1 " << valor1 << endl;
   int resExpAr = stringToInteger(valor1);
+
+  printStackIdent();
   while(!operatorsStack.empty() && !identStack.empty()) {
     string operando2 = identStack.top();
     identStack.pop();
@@ -450,31 +496,35 @@ void Skeleton::visitAtribuicao2(Atribuicao2 *atribuicao)
     string valor2 = symbolicTable.find(operando2)->second.second;
     int valor2Numeric = stringToInteger(valor2);
 
+    cout << "operando2 " << operando2 << " | ";
+    cout << "valor2 " << valor2 << endl;
+
+    cout << "operador " << operador << "\n";
+
     switch (operador)
     {
-    case '+': {
+    case '+':
       resExpAr += valor2Numeric;
       break;
-    }
-    case '-': {
+    case '-':
       resExpAr -= valor2Numeric;
       break;
-    }
-    case '*': {
+    case '*':
       resExpAr *= valor2Numeric;
       break;
-    }
-    case '/': {
+    case '/':
       resExpAr /= valor2Numeric;
       break;
-    }
-
     default:
       break;
     }
 
     operando1 = operando2;
   }
+
+  char resString[10];
+  sprintf(resString, "%d", resExpAr);
+  symbolicTable[atribuicao->ident_].second = resString;
 
   printSymbolicTable();
 }
@@ -495,6 +545,10 @@ void Skeleton::visitAtribuicao3(Atribuicao3 *atribuicao)
 
   if(symbolicTable.find(ident2) == symbolicTable.end()) {
     errors.push_back("Variável indefinida - a variável " + atribuicao->ident_2 + " não foi definida no bloco de variáveis.");
+  }
+
+  if(symbolicTable[ident2].second == "_default") {
+    errors.push_back("Variável não inicializada - a variável " + atribuicao->ident_2 + " não foi inicializada no bloco de comandos.");
   }
 
   string tipo1 = symbolicTable[ident1].first;
@@ -594,7 +648,7 @@ void Skeleton::visitTipoPrimitivo_int(TipoPrimitivo_int *tipo_primitivo_int)
 
   pair<string, string> values;
   values.first = "int";
-  values.second = "-";
+  values.second = "_default";
 
   pair<string, pair<string,string> > key;
   key.first = ident;
@@ -899,21 +953,21 @@ void Skeleton::visitOperadorAritmetico1(OperadorAritmetico1 *operador_aritmetico
 void Skeleton::visitOperadorAritmetico2(OperadorAritmetico2 *operador_aritmetico)
 {
   /* Code For OperadorAritmetico2 Goes Here */
-
+  operatorsStack.push('-');
 
 }
 
 void Skeleton::visitOperadorAritmetico3(OperadorAritmetico3 *operador_aritmetico)
 {
   /* Code For OperadorAritmetico3 Goes Here */
-
+  operatorsStack.push('*');
 
 }
 
 void Skeleton::visitOperadorAritmetico4(OperadorAritmetico4 *operador_aritmetico)
 {
   /* Code For OperadorAritmetico4 Goes Here */
-
+  operatorsStack.push('/');
 
 }
 
@@ -1040,8 +1094,20 @@ void Skeleton::visitExpAr(ExpAr *exp_ar)
 void Skeleton::visitOperandoInteger(OperandoInteger *operando_integer)
 {
   /* Code For OperandoInteger Goes Here */
+  char operandoString[10];
+  sprintf(operandoString, "%d", operando_integer->integer_);
+  identStack.push(operandoString);
 
-  visitInteger(operando_integer->integer_);
+  pair<string, string> values;
+  values.first = "int";
+  values.second = operandoString;
+
+  pair<string, pair<string,string> > key;
+  key.first = identStack.top();
+  key.second = values;
+  symbolicTable.insert(key);
+
+  // visitInteger(operando_integer->integer_);
 
 }
 
@@ -1058,10 +1124,15 @@ void Skeleton::visitOperandoIdent(OperandoIdent *operando_ident)
   /* Code For OperandoIdent Goes Here */
   if(symbolicTable.find(operando_ident->ident_) == symbolicTable.end()) {
     errors.push_back("Variável indefinida - a variável " + operando_ident->ident_ + " não foi definida no bloco de variáveis.");
+  }
+
+  if(symbolicTable[operando_ident->ident_].second == "_default") {
+    errors.push_back("Variável não inicializada - a variável " + operando_ident->ident_ + " não foi inicializada no bloco de comandos.");
     return;
   }
-  cout << "operando ident " << operando_ident->ident_ << endl;
+
   identStack.push(operando_ident->ident_);
+  printStackIdent();
 
   visitIdent(operando_ident->ident_);
 
@@ -1234,6 +1305,7 @@ void Skeleton::visitInteger(Integer x)
   sprintf(valor, "%d", x);
   symbolicTable[ident].second = valor;
 
+  cout << "visit integer\n";
   printSymbolicTable();
 }
 

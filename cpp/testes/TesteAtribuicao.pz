@@ -4,9 +4,11 @@ var
 	B : int;
 	C : int;
 	D : int;
+	F : int;
 inicio
+	F := 2;
 	A := 10;
 	B := 20;
-	C := A + B;
+	C := A + B - 10 * F;
 	D := C;
 fim.

@@ -74,7 +74,7 @@ int main(int argc, char ** argv)
     delete(parse_tree);
     return 0;
   }
-  cout << "adsffssfj" << endl;
+  cout << "asffj" << endl;
   return 1;
 }
 
