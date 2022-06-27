@@ -136,6 +136,8 @@ void Skeleton::visitLEntry(LEntry *l_entry)
   if (l_entry->blocodefinicoes_) l_entry->blocodefinicoes_->accept(this);
   if (l_entry->blococomando_) l_entry->blococomando_->accept(this);
 
+  printSymbolicTable();
+
   cout << "erros: " << endl;
   for(int i=0; i < errors.size(); i++)
     cout << errors.at(i) << '\n';
@@ -317,8 +319,6 @@ void Skeleton::visitRegraBlocoVar1(RegraBlocoVar1 *regra_bloco_var)
   visitIdent(regra_bloco_var->ident_);
   if (regra_bloco_var->regratipo_) regra_bloco_var->regratipo_->accept(this);
 
-  // printSymbolicTable();
-
 }
 
 void Skeleton::visitRegraBlocoVar2(RegraBlocoVar2 *regra_bloco_var)
@@ -329,8 +329,6 @@ void Skeleton::visitRegraBlocoVar2(RegraBlocoVar2 *regra_bloco_var)
 
   visitIdent(regra_bloco_var->ident_);
   if (regra_bloco_var->regratipo_) regra_bloco_var->regratipo_->accept(this);
-
-  // printSymbolicTable();
 
   if (regra_bloco_var->regrablocovar_) regra_bloco_var->regrablocovar_->accept(this);
 
@@ -358,8 +356,6 @@ void Skeleton::visitRegraBlocoVar4(RegraBlocoVar4 *regra_bloco_var)
 void Skeleton::visitBlocoComando1(BlocoComando1 *bloco_comando)
 {
   /* Code For BlocoComando1 Goes Here */
-
-  printSymbolicTable();
 
   if (bloco_comando->regracomando_) bloco_comando->regracomando_->accept(this);
 
@@ -473,19 +469,11 @@ void Skeleton::visitAtribuicao2(Atribuicao2 *atribuicao)
   visitIdent(atribuicao->ident_);
   if (atribuicao->expressaoaritmetica_) atribuicao->expressaoaritmetica_->accept(this);
 
-  printSymbolicTable();
-
-  cout << "ident stack ";
-  printStackIdent();
-
   string operando1 = identStack.top();
-  cout << "operando1 " << operando1 << " | ";
   identStack.pop();
   string valor1 = symbolicTable.find(operando1)->second.second;
-  cout << "valor1 " << valor1 << endl;
   int resExpAr = stringToInteger(valor1);
 
-  printStackIdent();
   while(!operatorsStack.empty() && !identStack.empty()) {
     string operando2 = identStack.top();
     identStack.pop();
@@ -495,11 +483,6 @@ void Skeleton::visitAtribuicao2(Atribuicao2 *atribuicao)
 
     string valor2 = symbolicTable.find(operando2)->second.second;
     int valor2Numeric = stringToInteger(valor2);
-
-    cout << "operando2 " << operando2 << " | ";
-    cout << "valor2 " << valor2 << endl;
-
-    cout << "operador " << operador << "\n";
 
     switch (operador)
     {
@@ -525,8 +508,6 @@ void Skeleton::visitAtribuicao2(Atribuicao2 *atribuicao)
   char resString[10];
   sprintf(resString, "%d", resExpAr);
   symbolicTable[atribuicao->ident_].second = resString;
-
-  printSymbolicTable();
 }
 
 void Skeleton::visitAtribuicao3(Atribuicao3 *atribuicao)
@@ -560,8 +541,6 @@ void Skeleton::visitAtribuicao3(Atribuicao3 *atribuicao)
   }
 
   symbolicTable[ident1].second = symbolicTable[ident2].second;
-
-  printSymbolicTable();
 }
 
 void Skeleton::visitAtribuicao4(Atribuicao4 *atribuicao)
@@ -659,14 +638,34 @@ void Skeleton::visitTipoPrimitivo_int(TipoPrimitivo_int *tipo_primitivo_int)
 void Skeleton::visitTipoPrimitivo_real(TipoPrimitivo_real *tipo_primitivo_real)
 {
   /* Code For TipoPrimitivo_real Goes Here */
+  string ident = identStack.top();
+  identStack.pop();
 
+  pair<string, string> values;
+  values.first = "real";
+  values.second = "_default";
+
+  pair<string, pair<string,string> > key;
+  key.first = ident;
+  key.second = values;
+  symbolicTable.insert(key);
 
 }
 
 void Skeleton::visitTipoPrimitivo_char(TipoPrimitivo_char *tipo_primitivo_char)
 {
   /* Code For TipoPrimitivo_char Goes Here */
+  string ident = identStack.top();
+  identStack.pop();
 
+  pair<string, string> values;
+  values.first = "char";
+  values.second = "_default";
+
+  pair<string, pair<string,string> > key;
+  key.first = ident;
+  key.second = values;
+  symbolicTable.insert(key);
 
 }
 
@@ -1132,7 +1131,6 @@ void Skeleton::visitOperandoIdent(OperandoIdent *operando_ident)
   }
 
   identStack.push(operando_ident->ident_);
-  printStackIdent();
 
   visitIdent(operando_ident->ident_);
 
@@ -1304,19 +1302,42 @@ void Skeleton::visitInteger(Integer x)
   char valor[10];
   sprintf(valor, "%d", x);
   symbolicTable[ident].second = valor;
-
-  cout << "visit integer\n";
-  printSymbolicTable();
 }
 
 void Skeleton::visitChar(Char x)
 {
   /* Code for Char Goes Here */
+  string ident = identStack.top();
+  identStack.pop();
+
+  string tipo = symbolicTable.find(ident)->second.first;
+
+  if(tipo != "char") {
+    errors.push_back("Incompatibilidade de tipos - a variável " + ident + " não é do tipo Char.");
+    return;
+  }
+
+  char valor[10];
+  sprintf(valor, "%d", x);
+  symbolicTable[ident].second = valor;
 }
 
 void Skeleton::visitDouble(Double x)
 {
   /* Code for Double Goes Here */
+  string ident = identStack.top();
+  identStack.pop();
+
+  string tipo = symbolicTable.find(ident)->second.first;
+
+  if(tipo != "real") {
+    errors.push_back("Incompatibilidade de tipos - a variável " + ident + " não é do tipo Real.");
+    return;
+  }
+
+  char valor[10];
+  sprintf(valor, "%d", x);
+  symbolicTable[ident].second = valor;
 }
 
 void Skeleton::visitString(String x)

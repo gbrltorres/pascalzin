@@ -4,9 +4,9 @@ var
 	B : int;
 	C : int;
 	D : int;
-	F : int;
+	F : char;
 inicio
-	F := 2;
+	F := 'a';
 	A := 10;
 	B := 20;
 	C := A + B - 10 * F;
